@@ -17,7 +17,7 @@ class Game {
         let view = new CanvasView('canvas')
         let listGround: Ground[] = view.createListGround()
         let listBackground: Background[] = view.createListBackground()
-        let bird: Bird = new Bird('../../assets/images/yellowbird-downflap.png', new Vector2D(view.getCanvas().width/4, (view.getCanvas().height-24)/2), 100, 0, 0)
+        let bird: Bird = new Bird('../../assets/images/yellowbird-downflap.png', new Vector2D(view.getCanvas().width/4, (view.getCanvas().height-24)/2), 0, 0, 0, 9.8 , 60)
         let pipe: Pipe[] = view.createListPipes(4)
         let message: Message = new Message(
             '../assets/images/message.png',
@@ -87,11 +87,10 @@ class Game {
         pipe: Pipe[],
         deltaTime: number
     ): void => {
-        bird.updateScreen();
+        bird.update(deltaTime);
         if (this.gameState == 'play') {
             view.updateListBackground(listBackground, deltaTime)
             view.updateListGround(listGround, deltaTime)
-            view.updateBirdMove(bird, deltaTime)
             view.updateListPipes(pipe, deltaTime)
         }
     }

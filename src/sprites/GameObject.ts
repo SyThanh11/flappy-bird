@@ -2,14 +2,6 @@ import { GameObjectType } from '../types/general'
 import Vector2D from './Vector2D'
 
 abstract class GameObject {
-    // protected image: HTMLImageElement = new Image()
-    // protected position: Vector2D
-    // protected width: number
-    // protected height: number
-    // protected canvasPosition: Vector2D
-    // protected canvasWidth: number
-    // protected canvasHeight: number
-    // protected speed: number
     protected gameObject: GameObjectType
 
     constructor(
@@ -22,14 +14,6 @@ abstract class GameObject {
         canvasHeight: number,
         speed: number
     ) {
-        // this.image.src = path
-        // this.position = position
-        // this.width = width
-        // this.height = height
-        // this.canvasPosition = canvasPosition
-        // this.canvasWidth = canvasWidth
-        // this.canvasHeight = canvasHeight
-        // this.speed = speed
         const image = new Image();
         image.src = path
         
