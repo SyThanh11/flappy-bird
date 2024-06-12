@@ -3,6 +3,7 @@ class KeyAccess {
     public static readonly ARROW_UP = 38;
     public static readonly ARROW_RIGHT = 39;
     public static readonly ARROW_DOWN = 40;
+    public static readonly SPACE = 32;
 
     public static keys: { [key: number]: boolean } = {};
 

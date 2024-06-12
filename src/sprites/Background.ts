@@ -1,79 +1,36 @@
-import { Vector } from '../types/general'
+import GameObject from './GameObject'
+import Vector2D from './Vector2D'
 
-class Background {
-    private backgroundImage: HTMLImageElement = new Image()
-    private backgroundPosition: Vector
-    private backgroundWidth: number
-    private backgroundHeight: number
-    private canvasPosition: Vector
-    private canvasWidth: number
-    private canvasHeight: number
-
+class Background extends GameObject {
     constructor(
-        imagePath: string,
-        backgroundPosition: Vector,
-        backgroundWidth: number,
-        backgroundHeight: number,
-        canvasPosition: Vector,
+        path: string,
+        position: Vector2D,
+        width: number,
+        height: number,
+        canvasPosition: Vector2D,
         canvasWidth: number,
         canvasHeight: number,
     ) {
-        this.backgroundImage.src = imagePath
-        this.backgroundPosition = backgroundPosition
-        this.backgroundWidth = backgroundWidth
-        this.backgroundHeight = backgroundHeight
-        this.canvasPosition = canvasPosition
-        this.canvasWidth = canvasWidth
-        this.canvasHeight = canvasHeight
+        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight, 0)
     }
 
-    // getter
-    public getPosition(): Vector {
-        return this.backgroundPosition
-    }
-    public getWidth(): number {
-        return this.backgroundWidth
-    }
-    public getHeight(): number {
-        return this.backgroundHeight
-    }
-    public getImage(): HTMLImageElement {
-        return this.backgroundImage
-    }
-    public getCanvasPosition(): Vector {
-        return this.canvasPosition
-    }
-    public getCanvasWidth(): number {
-        return this.canvasWidth
-    }
-    public getCanvasHeight(): number {
-        return this.canvasHeight
+    public draw(context: CanvasRenderingContext2D): void {
+        context.drawImage(
+            this.gameObject.image,
+            this.gameObject.position.getX(),
+            this.gameObject.position.getY(),
+            this.gameObject.width,
+            this.gameObject.height,
+            this.gameObject.canvasPosition.getX(),
+            this.gameObject.canvasPosition.getY(),
+            this.gameObject.canvasWidth,
+            this.gameObject.canvasHeight
+        )
     }
 
-    // secttor
-    public setPosition(backgroundPosition: Vector): void {
-        this.backgroundPosition = backgroundPosition
+    public update(deltaTime: number): void {
+        this.setImage('../../assets/images/background-day.png');
     }
-    public setWidth(backgroundWidth: number): void {
-        this.backgroundWidth = backgroundWidth
-    }
-    public setHeight(backgroundHeight: number): void {
-        this.backgroundHeight = backgroundHeight
-    }
-    public setImage(imgPath: string): void {
-        this.backgroundImage.src = imgPath
-    }
-    public setCanvasPosition(canvasPosition: Vector): void {
-        this.canvasPosition = canvasPosition
-    }
-    public setCanvasWidth(canvasWidth: number): void {
-        this.canvasWidth = canvasWidth
-    }
-    public setCanvasHeight(canvasHeight: number): void {
-        this.canvasHeight = canvasHeight
-    }
-
-
 }
 
 export default Background

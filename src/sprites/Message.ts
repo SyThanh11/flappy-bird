@@ -1,7 +1,7 @@
 import GameObject from './GameObject'
 import Vector2D from './Vector2D'
 
-class Ground extends GameObject {
+class Message extends GameObject {
     constructor(
         path: string,
         position: Vector2D,
@@ -10,9 +10,8 @@ class Ground extends GameObject {
         canvasPosition: Vector2D,
         canvasWidth: number,
         canvasHeight: number,
-        speed: number
     ) {
-        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight, speed)
+        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight, 0)
     }
 
     public draw(context: CanvasRenderingContext2D): void {
@@ -28,12 +27,7 @@ class Ground extends GameObject {
             this.gameObject.canvasHeight
         )
     }
-    public update(deltaTime: number): void {
-        this.setCanvasPosition(new Vector2D(
-            this.gameObject.canvasPosition.getX() - this.gameObject.speed * deltaTime,
-            this.gameObject.canvasPosition.getY()
-        ))
-    }
+    public update(deltaTime: number): void {}
 }
 
-export default Ground
+export default Message

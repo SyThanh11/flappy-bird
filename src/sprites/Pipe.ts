@@ -55,8 +55,6 @@ class Pipe {
 
     // Update method
     public update(deltaTime: number): void {
-        console.log(deltaTime);
-        
         const newX = this.position.getX() - this.speed * deltaTime;
         this.setPosition(new Vector2D(newX, this.position.getY()));
     }

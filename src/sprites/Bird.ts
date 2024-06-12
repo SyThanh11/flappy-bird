@@ -1,86 +1,91 @@
-import KeyAccess from "../input/KeyAccess";
-import Pipe from "./Pipe";
-import Vector2D from "./Vector2D";
+import KeyAccess from '../input/KeyAccess'
+import GameObject from './GameObject'
+import Pipe from './Pipe'
+import Vector2D from './Vector2D'
 
+//     public collidesWith(listOfPipes: Pipe[]): boolean {
+//         let collides = false;
+//         if(
+//             this.position.getX() + this.size.getX() > listOfPipes[0].getPosition().getX() &&
+//             this.position.getX() < listOfPipes[0].getPosition().getX() + listOfPipes[0].getSize().getX() &&
+//             (
+//                 this.position.getY() < listOfPipes[0].getPosition().getY() + listOfPipes[0].getSize().getY() ||
+//                 this.position.getY() + this.size.getY() > listOfPipes[0].getPosition().getY() + listOfPipes[0].getSize().getY() + listOfPipes[0].getSpace()
+//             )
 
-class Bird {
-    private position: Vector2D;
-    private size: Vector2D;
-    private speed: number;
-    
-    constructor(position: Vector2D, size: Vector2D, speed: number) {
-        this.position = position;
-        this.size = size;
-        this.speed = speed;
-    }
+//         ){
+//             collides = true;
+//         }
+//         return collides;
+//     }
 
-    // getter
-    public getPosition(): Vector2D {
-        return this.position;
-    }
-    public getSize(): Vector2D {
-        return this.size;
-    }
-    public getSpeed(): number {
-        return this.speed;
-    }
-
-    // setter
-    public setPosition(position: Vector2D): void {
-        this.position = position;
-    }
-    public setSize(size: Vector2D): void {
-        this.size = size;
-    }
-    public setSpeed(speed: number): void {
-        this.speed = speed;
+class Bird extends GameObject {
+    constructor(
+        path: string,
+        canvasPosition: Vector2D,
+        speed: number,
+        private frame: number,
+        private indexPath: number
+    ) {
+        super(path, new Vector2D(0, 0), 34, 24, canvasPosition, 34, 24, speed);
+        this.frame = 0;
+        this.indexPath = 0;
     }
 
-    // actions
-    public move(deltaTime: number, direction: Vector2D): void {
-        let distance: Vector2D = direction.multiplyScalar(deltaTime*this.speed);
-        this.position = this.position.add(distance);
+    public draw(context: CanvasRenderingContext2D){
+        context.drawImage(
+            this.gameObject.image,
+            this.gameObject.position.getX(),
+            this.gameObject.position.getY(),
+            this.gameObject.width,
+            this.gameObject.height,
+            this.gameObject.canvasPosition.getX(),
+            this.gameObject.canvasPosition.getY(),
+            this.gameObject.canvasWidth,
+            this.gameObject.canvasHeight
+        )
     }
 
-    // collision detection
-    public collidesWith(listOfPipes: Pipe[]): boolean {
-        let collides = false;
-        if(
-            this.position.getX() + this.size.getX() > listOfPipes[0].getPosition().getX() &&
-            this.position.getX() < listOfPipes[0].getPosition().getX() + listOfPipes[0].getSize().getX() &&
-            (
-                this.position.getY() < listOfPipes[0].getPosition().getY() + listOfPipes[0].getSize().getY() ||
-                this.position.getY() + this.size.getY() > listOfPipes[0].getPosition().getY() + listOfPipes[0].getSize().getY() + listOfPipes[0].getSpace() 
-            )
-            
-        ){
-            console.log("collides!");
-            
-            collides = true;
+    public updateScreen()
+    {
+        this.frame++;
+        const path = [
+            '../../assets/images/yellowbird-downflap.png',
+            '../../assets/images/yellowbird-midflap.png',
+            '../../assets/images/yellowbird-upflap.png'
+        ]
+        if(this.frame % 15 == 0){
+            this.indexPath++;
+            if(this.indexPath > 2){
+                this.indexPath = 0;
+            }
+            this.setImage(path[this.indexPath]);
         }
-        return collides;
     }
-
-    updateBird = (deltaTime: number): void => {
+    
+    public update(deltaTime: number): void {
         if (KeyAccess.isKeyPressed(KeyAccess.ARROW_LEFT)) {
-            let direction = this.position.Left();
+            let direction = this.gameObject.position.Left();
             this.move(deltaTime, direction)
         }
         else if (KeyAccess.isKeyPressed(KeyAccess.ARROW_RIGHT)) {
-            let direction = this.position.Right();
+            let direction = this.gameObject.position.Right();
             this.move(deltaTime, direction)
         }
         else if (KeyAccess.isKeyPressed(KeyAccess.ARROW_UP)) {
-            let direction = this.position.Up();
+            let direction = this.gameObject.position.Up();
             this.move(deltaTime, direction)
         }
         else if (KeyAccess.isKeyPressed(KeyAccess.ARROW_DOWN)) {
-            let direction = this.position.Down();
+            let direction = this.gameObject.position.Down();
             this.move(deltaTime, direction)
         }
     }
+
+    public move(deltaTime: number, direction: Vector2D){
+        let distance: Vector2D = direction.multiplyScalar(deltaTime*this.gameObject.speed);
+        this.gameObject.canvasPosition = this.gameObject.canvasPosition.add(distance);
+    }
 }
 
-
-
-export default Bird;
+export default Bird
