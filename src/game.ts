@@ -7,31 +7,33 @@ import Vector2D from './sprites/Vector2D'
 import CanvasView from './view/CanvasView'
 
 class Game {
-    private gameState: string = 'start'
     private lastTime: number = 0
     private deltaTime: number = 0
 
+    private view: CanvasView
+    private listGround: Ground[] = []
+    private listBackground: Background[] = []
+    private bird: Bird
+    private pipe: Pipe[] = []
+    private message: Message
+    private score: number = 0
+    private highScore: number = 0
+    private gameState: string = 'start'
+
     constructor() {
         console.log('Game created')
-        this.createCanvas()
-        let view = new CanvasView('canvas')
-        let listGround: Ground[] = view.createListGround()
-        let listBackground: Background[] = view.createListBackground()
-        let bird: Bird = new Bird('../../assets/images/yellowbird-downflap.png', new Vector2D(view.getCanvas().width/4, (view.getCanvas().height-24)/2), 0, 0, 0, 9.8 , 60)
-        let pipe: Pipe[] = view.createListPipes(4)
-        let message: Message = new Message(
-            '../assets/images/message.png',
-            new Vector2D(0, 0),
-            184,
-            267,
-            new Vector2D((view.getCanvas().width - 184) / 2, (view.getCanvas().height - 350) / 2),
-            184,
-            267
-        )
+        this.initState()
 
         this.lastTime = window.performance.now()
         requestAnimationFrame(() =>
-            this.gameLoop(view, listGround, listBackground, bird, pipe, message)
+            this.gameLoop(
+                this.view,
+                this.listGround,
+                this.listBackground,
+                this.bird,
+                this.pipe,
+                this.message
+            )
         )
     }
 
@@ -47,6 +49,42 @@ class Game {
     // initial State
     public initState = (): void => {
         this.createCanvas()
+        this.view = new CanvasView('canvas')
+        this.listGround = this.view.createListGround()
+        this.listBackground = this.view.createListBackground()
+        this.bird = new Bird(
+            '../../assets/images/yellowbird-downflap.png',
+            new Vector2D(this.view.getCanvas().width / 4, (this.view.getCanvas().height - 24) / 2),
+            0,
+            0,
+            0,
+            9.8,
+            60,
+            this.gameState,
+            this.view,
+            this.pipe,
+            false,
+            0
+        )
+        this.pipe = this.view.createListPipes(4)
+        this.message = new Message(
+            '../assets/images/message.png',
+            new Vector2D(0, 0),
+            184,
+            267,
+            new Vector2D(
+                (this.view.getCanvas().width - 184) / 2,
+                (this.view.getCanvas().height - 350) / 2
+            ),
+            184,
+            267
+        )
+        this.score = 0
+        this.highScore = 0
+        this.gameState = 'start'
+
+        this.bird.setGameState(this.gameState);
+        this.bird.setListOfPipes(this.pipe);
     }
 
     // ProcessInput
@@ -54,7 +92,7 @@ class Game {
         document.addEventListener('click', () => {
             if (this.gameState == 'start') {
                 this.gameState = 'play'
-                console.log('play')
+                this.bird.setGameState(this.gameState)
             }
         })
     }
@@ -70,12 +108,13 @@ class Game {
     ): void => {
         view.clear()
         view.drawListBackground(listBackground)
-        view.drawListGround(listGround)
-        if (this.gameState != 'play') {
+        if(this.gameState == 'start'){
             view.drawMessage(message)
         }
+        view.drawListOfPipes(pipe) 
+        view.drawListGround(listGround)
         view.drawBird(bird)
-        view.drawListOfPipes(pipe)
+        
     }
 
     // Update
@@ -87,11 +126,19 @@ class Game {
         pipe: Pipe[],
         deltaTime: number
     ): void => {
-        bird.update(deltaTime);
+        this.bird.update(deltaTime)
         if (this.gameState == 'play') {
+            if(this.bird.getEnd()){
+                this.gameState = 'end'
+            }
+
             view.updateListBackground(listBackground, deltaTime)
             view.updateListGround(listGround, deltaTime)
             view.updateListPipes(pipe, deltaTime)
+            
+            this.bird.setListOfPipes(this.pipe)
+        } else if(this.gameState == 'end'){
+
         }
     }
 

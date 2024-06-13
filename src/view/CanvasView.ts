@@ -37,7 +37,7 @@ class CanvasView {
                     new Vector2D(0, 0),
                     336,
                     112,
-                    new Vector2D(336 * i, 400),
+                    new Vector2D(336 * i, 510 - 112),
                     336,
                     112,
                     100
@@ -71,10 +71,10 @@ class CanvasView {
                     new Vector2D(0, 0),
                     336,
                     112,
-                    new Vector2D(listGround[2].getCanvasPosition().getX() + 336, 400),
+                    new Vector2D(listGround[2].getCanvasPosition().getX() + 336, 510 - 112),
                     336,
                     112,
-                    100   
+                    100
                 )
             )
         }
@@ -104,16 +104,14 @@ class CanvasView {
         if (!listBackground) return
 
         listBackground.forEach((background) => {
-            background.draw(this.ctx);
+            background.draw(this.ctx)
         })
     }
 
     updateListBackground = (listBackground: Background[], deltaTime: number): void => {
         if (!listBackground) return
 
-        listBackground.forEach((background) =>
-            background.update(deltaTime)
-        )
+        listBackground.forEach((background) => background.update(deltaTime))
     }
 
     // Bird
@@ -136,12 +134,11 @@ class CanvasView {
         let pipes: Pipe[] = []
         for (let i = 1; i < pipeCount; i++) {
             pipes.push(
-                new Pipe({
-                    position: new Vector2D(i * random(800, 850), random(-100, -50)),
-                    size: new Vector2D(50, 200),
-                    speed: 200,
-                    space: 100,
-                })
+                new Pipe(
+                    new Vector2D(i*random(800, 850), random(-200, -100)),
+                    200,
+                    70
+                )
             )
         }
         return pipes
@@ -149,7 +146,10 @@ class CanvasView {
 
     drawListOfPipes(listOfPipes: Pipe[]): void {
         if (!listOfPipes) return
-        listOfPipes.forEach((pipe) => pipe.draw(this.ctx))
+
+        listOfPipes.forEach((pipe) => {
+            pipe.draw(this.ctx)
+        })
     }
 
     updateListPipes = (listOfPipes: Pipe[], deltaTime: number): void => {
@@ -157,25 +157,24 @@ class CanvasView {
         listOfPipes.forEach((pipe) => {
             pipe.update(deltaTime)
         })
-        if (listOfPipes[0].getPosition().getX() < -82) {
+        if (listOfPipes[0].getCanvasPosition().getX() < -52) {
             listOfPipes.splice(0, 1)
             listOfPipes.push(
-                new Pipe({
-                    position: new Vector2D(
-                        listOfPipes[listOfPipes.length - 1].getPosition().getX() + random(600, 700),
-                        random(-100, 10)
+                new Pipe(
+                    new Vector2D(
+                        listOfPipes[listOfPipes.length - 1].getCanvasPosition().getX() + random(600, 700),
+                        random(-200, -100)
                     ),
-                    size: new Vector2D(50, 200),
-                    speed: 200,
-                    space: random(100, 150),
-                })
+                    200,
+                    random(100, 150)
+                )
             )
         }
-    }
+    } 
 
     // Message
-    drawMessage(message: Message){
-        message.draw(this.ctx);
+    drawMessage(message: Message) {
+        message.draw(this.ctx)
     }
 }
 
