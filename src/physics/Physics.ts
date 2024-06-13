@@ -1,8 +1,8 @@
 class Physics {
-    private gravity: number = 0.5;
+    private gravity: number = 0.5
 
     constructor(gravity: number) {
-        this.gravity = gravity;
+        this.gravity = gravity
     }
 
     public applyGravity = (): void => {
@@ -11,13 +11,13 @@ class Physics {
 
     // getter
     public getGravity(): number {
-        return this.gravity;
+        return this.gravity
     }
 
     // setter
     public setGravity(gravity: number): void {
-        this.gravity = gravity;
+        this.gravity = gravity
     }
 }
 
-export default Physics;
+export default Physics

@@ -1,5 +1,5 @@
-import GameObject from './GameObject'
-import Vector2D from './Vector2D'
+import GameObject from '../../abstract/GameObject'
+import Vector2D from '../Vector2D'
 
 class Ground extends GameObject {
     constructor(
@@ -17,7 +17,7 @@ class Ground extends GameObject {
 
     public draw(context: CanvasRenderingContext2D): void {
         context.drawImage(
-            this.gameObject.image,
+            this.getImage(),
             this.gameObject.position.getX(),
             this.gameObject.position.getY(),
             this.gameObject.width,
@@ -29,10 +29,12 @@ class Ground extends GameObject {
         )
     }
     public update(deltaTime: number): void {
-        this.setCanvasPosition(new Vector2D(
-            this.gameObject.canvasPosition.getX() - this.gameObject.speed * deltaTime,
-            this.gameObject.canvasPosition.getY()
-        ))
+        this.setCanvasPosition(
+            new Vector2D(
+                this.gameObject.canvasPosition.getX() - this.gameObject.speed * deltaTime,
+                this.gameObject.canvasPosition.getY()
+            )
+        )
     }
 }
 

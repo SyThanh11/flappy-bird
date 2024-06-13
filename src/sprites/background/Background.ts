@@ -1,5 +1,5 @@
-import GameObject from './GameObject'
-import Vector2D from './Vector2D'
+import GameObject from '../../abstract/GameObject'
+import Vector2D from '../Vector2D'
 
 class Background extends GameObject {
     constructor(
@@ -10,13 +10,14 @@ class Background extends GameObject {
         canvasPosition: Vector2D,
         canvasWidth: number,
         canvasHeight: number,
+        speed: number
     ) {
-        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight, 0)
+        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight, speed)
     }
 
     public draw(context: CanvasRenderingContext2D): void {
         context.drawImage(
-            this.gameObject.image,
+            this.getImage(),
             this.gameObject.position.getX(),
             this.gameObject.position.getY(),
             this.gameObject.width,
@@ -29,7 +30,7 @@ class Background extends GameObject {
     }
 
     public update(deltaTime: number): void {
-        this.setImage('../../assets/images/background-day.png');
+        this.setPath('../../assets/images/background-day.png')
     }
 }
 

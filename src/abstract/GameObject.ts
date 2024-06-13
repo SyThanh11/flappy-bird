@@ -1,5 +1,6 @@
 import { GameObjectType } from '../types/general'
-import Vector2D from './Vector2D'
+import Vector2D from '../sprites/Vector2D'
+import CanvasView from '../view/CanvasView'
 
 abstract class GameObject {
     protected gameObject: GameObjectType
@@ -14,11 +15,8 @@ abstract class GameObject {
         canvasHeight: number,
         speed: number
     ) {
-        const image = new Image();
-        image.src = path
-        
         this.gameObject = {
-            image,
+            path,
             position,
             width,
             height,
@@ -27,12 +25,16 @@ abstract class GameObject {
             canvasHeight,
             speed,
         }
-
     }
 
     // getter
     public getImage(): HTMLImageElement {
-        return this.gameObject.image
+        const image = new Image()
+        image.src = this.gameObject.path
+        return image
+    }
+    public getPath(): string {
+        return this.gameObject.path
     }
     public getPosition(): Vector2D {
         return this.gameObject.position
@@ -57,8 +59,8 @@ abstract class GameObject {
     }
 
     // setter
-    public setImage(path: string) {
-        this.gameObject.image.src = path
+    public setPath(path: string) {
+        this.gameObject.path = path
     }
     public setPosition(position: Vector2D): void {
         this.gameObject.position = position
@@ -84,7 +86,7 @@ abstract class GameObject {
 
     // abstract method
     public abstract draw(context: CanvasRenderingContext2D): void
-    public abstract update(deltaTime: number): void
+    public abstract update(deltaTime: number, gameState?: string, view?: CanvasView): void
 }
 
 export default GameObject

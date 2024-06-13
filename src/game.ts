@@ -1,38 +1,35 @@
-import Background from './sprites/Background'
+import GameManager from './gameManager/GameManager'
+import { random } from './helper/helper'
+import BackgroundManager from './sprites/background/BackgroundManager'
 import Bird from './sprites/Bird'
-import Ground from './sprites/Ground'
+import GroundManager from './sprites/ground/GroundManager'
 import Message from './sprites/Message'
-import Pipe from './sprites/Pipe'
-import Vector2D from './sprites/Vector2D'
+import PipeManager from './sprites/obstacles/PipeManager'
+import Score from './sprites/Score'
 import CanvasView from './view/CanvasView'
 
 class Game {
     private lastTime: number = 0
     private deltaTime: number = 0
 
-    private view: CanvasView
-    private listGround: Ground[] = []
-    private listBackground: Background[] = []
-    private bird: Bird
-    private pipe: Pipe[] = []
-    private message: Message
-    private score: number = 0
-    private highScore: number = 0
-    private gameState: string = 'start'
+    private gameManager: GameManager
 
     constructor() {
         console.log('Game created')
-        this.initState()
+        this.createCanvas()
+        this.gameManager = new GameManager()
+        this.gameManager.init()
 
         this.lastTime = window.performance.now()
         requestAnimationFrame(() =>
             this.gameLoop(
-                this.view,
-                this.listGround,
-                this.listBackground,
-                this.bird,
-                this.pipe,
-                this.message
+                this.gameManager.getView(),
+                this.gameManager.getListOfGrounds(),
+                this.gameManager.getListOfBackgrounds(),
+                this.gameManager.getBird(),
+                this.gameManager.getListOfPipes(),
+                this.gameManager.getMessage(),
+                this.gameManager.getScore()
             )
         )
     }
@@ -46,98 +43,52 @@ class Game {
         document.body.appendChild(canvas)
     }
 
-    // initial State
-    public initState = (): void => {
-        this.createCanvas()
-        this.view = new CanvasView('canvas')
-        this.listGround = this.view.createListGround()
-        this.listBackground = this.view.createListBackground()
-        this.bird = new Bird(
-            '../../assets/images/yellowbird-downflap.png',
-            new Vector2D(this.view.getCanvas().width / 4, (this.view.getCanvas().height - 24) / 2),
-            0,
-            0,
-            0,
-            9.8,
-            60,
-            this.gameState,
-            this.view,
-            this.pipe,
-            false,
-            0
-        )
-        this.pipe = this.view.createListPipes(4)
-        this.message = new Message(
-            '../assets/images/message.png',
-            new Vector2D(0, 0),
-            184,
-            267,
-            new Vector2D(
-                (this.view.getCanvas().width - 184) / 2,
-                (this.view.getCanvas().height - 350) / 2
-            ),
-            184,
-            267
-        )
-        this.score = 0
-        this.highScore = 0
-        this.gameState = 'start'
-
-        this.bird.setGameState(this.gameState);
-        this.bird.setListOfPipes(this.pipe);
-    }
-
     // ProcessInput
     public processInput = (): void => {
         document.addEventListener('click', () => {
-            if (this.gameState == 'start') {
-                this.gameState = 'play'
-                this.bird.setGameState(this.gameState)
+            if (this.gameManager.getGameState() == 'start') {
+                this.gameManager.setGameState('play')
+                this.gameManager.getScore().setGameState(this.gameManager.getGameState())
             }
         })
     }
 
     // Draw
-    public draw = (
-        view: CanvasView,
-        listGround: Ground[],
-        listBackground: Background[],
-        bird: Bird,
-        pipe: Pipe[],
-        message: Message
-    ): void => {
-        view.clear()
-        view.drawListBackground(listBackground)
-        if(this.gameState == 'start'){
-            view.drawMessage(message)
+    public draw = (): void => {
+        this.gameManager.getView().clear()
+        this.gameManager.getListOfBackgrounds().draw(this.gameManager.getView().getCtx())
+        if (this.gameManager.getGameState() == 'start') {
+            this.gameManager.getMessage().draw(this.gameManager.getView().getCtx())
         }
-        view.drawListOfPipes(pipe) 
-        view.drawListGround(listGround)
-        view.drawBird(bird)
-        
+        if (this.gameManager.getGameState() == 'play') {
+            this.gameManager
+                .getScore()
+                .draw(this.gameManager.getView().getCtx(), this.gameManager.getView().getCanvas())
+        }
+        this.gameManager.getListOfPipes().draw(this.gameManager.getView().getCtx())
+        this.gameManager.getListOfGrounds().draw(this.gameManager.getView().getCtx())
+        this.gameManager.getBird().draw(this.gameManager.getView().getCtx())
     }
 
     // Update
-    public update = (
-        view: CanvasView,
-        listGround: Ground[],
-        listBackground: Background[],
-        bird: Bird,
-        pipe: Pipe[],
-        deltaTime: number
-    ): void => {
-        this.bird.update(deltaTime)
-        if (this.gameState == 'play') {
-            if(this.bird.getEnd()){
-                this.gameState = 'end'
-            }
-
-            view.updateListBackground(listBackground, deltaTime)
-            view.updateListGround(listGround, deltaTime)
-            view.updateListPipes(pipe, deltaTime)
-            
-            this.bird.setListOfPipes(this.pipe)
-        } else if(this.gameState == 'end'){
+    public update = (deltaTime: number): void => {
+        this.gameManager.update()
+        this.gameManager
+            .getBird()
+            .update(deltaTime, this.gameManager.getGameState(), this.gameManager.getView())
+        if (this.gameManager.getGameState() == 'play') {
+            // this.gameManager.getListOfBackgrounds().update(deltaTime)
+            this.gameManager.getListOfGrounds().update(deltaTime)
+            this.gameManager
+                .getListOfPipes()
+                .update(
+                    deltaTime,
+                    this.gameManager.getView().getCanvas(),
+                    random(600, 620),
+                    random(-200, -100),
+                    random(60, 80)
+                )
+        } else if (this.gameManager.getGameState() == 'end') {
 
         }
     }
@@ -145,25 +96,26 @@ class Game {
     // Game Loop
     public gameLoop = (
         view: CanvasView,
-        listGround: Ground[],
-        listBackground: Background[],
+        listGround: GroundManager,
+        listBackground: BackgroundManager,
         bird: Bird,
-        pipe: Pipe[],
-        message: Message
+        pipe: PipeManager,
+        message: Message,
+        score: Score
     ): void => {
         let currentTime = window.performance.now()
         this.deltaTime = (currentTime - this.lastTime) / 1000
 
         this.processInput()
 
-        this.update(view, listGround, listBackground, bird, pipe, this.deltaTime)
+        this.update(this.deltaTime)
 
-        this.draw(view, listGround, listBackground, bird, pipe, message)
+        this.draw()
 
         this.lastTime = currentTime
 
         requestAnimationFrame(() =>
-            this.gameLoop(view, listGround, listBackground, bird, pipe, message)
+            this.gameLoop(view, listGround, listBackground, bird, pipe, message, score)
         )
     }
 }

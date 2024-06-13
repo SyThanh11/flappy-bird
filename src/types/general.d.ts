@@ -1,7 +1,7 @@
-import Vector2D from "../sprites/Vector2D"
+import Vector2D from '../sprites/Vector2D'
 
 export type GameObjectType = {
-    image: HTMLImageElement
+    path: string
     position: Vector2D
     width: number
     height: number

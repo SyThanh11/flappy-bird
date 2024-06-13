@@ -1,39 +1,33 @@
 import KeyAccess from '../input/KeyAccess'
-import Physics from '../physics/Physics'
 import CanvasView from '../view/CanvasView'
-import GameObject from './GameObject'
-import Pipe from './Pipe'
+import GameObject from '../abstract/GameObject'
 import Vector2D from './Vector2D'
-
-const DEGREE = Math.PI / 180
-const MAX_ROTATION_SPEED = 120
+import Transform from '../physics/Transform'
 
 class Bird extends GameObject {
     constructor(
         path: string,
+        position: Vector2D,
+        width: number,
+        height: number,
         canvasPosition: Vector2D,
+        canvasWidth: number,
+        canvasHeight: number,
         speed: number,
         private frame: number,
-        private indexPath: number,
         private gravity: number,
         private jumpSpeed: number,
-        private gameState: string,
-        private view: CanvasView,
-        private listOfPipes: Pipe[],
-        private end: boolean,
-        private rotation: number
+        private transform: Transform,
+        
     ) {
-        super(path, new Vector2D(0, 0), 34, 24, canvasPosition, 34, 24, speed)
-        this.frame = 0
-        this.indexPath = 0
+        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight, speed);
+        this.frame = 0;
+        this.transform = this.transform;
     }
 
     // setter
     public setFrame(frame: number): void {
         this.frame = frame
-    }
-    public setIndexPath(indexPath: number): void {
-        this.indexPath = indexPath
     }
     public setGravity(gravity: number): void {
         this.gravity = gravity
@@ -41,28 +35,10 @@ class Bird extends GameObject {
     public setJumpSpeed(jumpSpeed: number): void {
         this.jumpSpeed = jumpSpeed
     }
-    public setGameState(gameState: string): void {
-        this.gameState = gameState
-    }
-    public setView(view: CanvasView): void {
-        this.view = view
-    }
-    public setListOfPipes(listOfPipes: Pipe[]): void {
-        this.listOfPipes = listOfPipes
-    }
-    public setEnd(end: boolean): void {
-        this.end = end
-    }
-    public setRotation(rotation: number): void {
-        this.rotation = rotation
-    }
 
     // getter
     public getFrame(): number {
         return this.frame
-    }
-    public getIndexPath(): number {
-        return this.indexPath
     }
     public getGravity(): number {
         return this.gravity
@@ -70,32 +46,13 @@ class Bird extends GameObject {
     public getJumpSpeed(): number {
         return this.jumpSpeed
     }
-    public getGameState(): string {
-        return this.gameState
-    }
-    public getView(): CanvasView {
-        return this.view
-    }
-    public getListOfPipes(): Pipe[] {
-        return this.listOfPipes
-    }
-    public getEnd(): boolean {
-        return this.end
-    }
-    public getRotation(): number {
-        return this.rotation
-    }
 
     public draw(context: CanvasRenderingContext2D) {
         context.save()
-        context.translate(
-            this.gameObject.canvasPosition.getX(),
-            this.gameObject.canvasPosition.getY()
-        )
-        context.rotate(this.rotation)
+        this.transform.rotateObject(this.gameObject, context)
 
         context.drawImage(
-            this.gameObject.image,
+            this.getImage(),
             this.gameObject.position.getX(),
             this.gameObject.position.getY(),
             this.gameObject.width,
@@ -109,43 +66,32 @@ class Bird extends GameObject {
         context.restore()
     }
 
-    public update(deltaTime: number) {
-        this.frame++
+    public update(deltaTime: number, gameState: string, view: CanvasView) {
         const path = [
             '../../assets/images/yellowbird-downflap.png',
             '../../assets/images/yellowbird-midflap.png',
             '../../assets/images/yellowbird-upflap.png',
         ]
-        if (this.frame % 15 == 0) {
-            this.indexPath++
-            if (this.indexPath > 2) {
-                this.indexPath = 0
-            }
-            this.setImage(path[this.indexPath])
-        }
+        
+        this.frame += deltaTime * 4;
+        const frameIndex = Math.floor(this.frame) % path.length;
+        this.setPath(path[frameIndex]);
 
         // fall down
-
-        if (this.gameState == 'start') {
-            this.gameObject.canvasPosition.setY((this.view.getCanvas().height - 24) / 2)
-            this.rotation = 0 * DEGREE
-        } else if (this.gameState == 'play') {
+        if (gameState == 'start') {
+            this.gameObject.canvasPosition.setY((view.getCanvas().height - 24) / 2)
+            this.transform.setRotation(0 * this.transform.getDegree()); 
+        } else if (gameState == 'play') {
             this.gameObject.speed += this.gravity
             this.gameObject.canvasPosition = this.gameObject.canvasPosition.add(
                 new Vector2D(0, deltaTime * this.gameObject.speed)
             )
 
             if (this.gameObject.speed >= this.jumpSpeed) {
-                const rotationSpeed = MAX_ROTATION_SPEED * deltaTime
-                this.rotation += rotationSpeed * DEGREE
+                const rotationSpeed = this.transform.getMaxRotation() * deltaTime;
+                this.transform.setRotation(this.transform.getRotation() +  rotationSpeed * this.transform.getDegree()); 
             } else {
-                this.rotation = -25 * DEGREE
-            }
-
-            if (this.collidesWith(this.listOfPipes)) {
-                this.end = true
-                this.jumpSpeed = 0
-                this.gameState = 'end'
+                this.transform.setRotation(-25 * this.transform.getDegree()); 
             }
         }
 
@@ -155,7 +101,7 @@ class Bird extends GameObject {
         }
     }
 
-    public flap(deltaTime: number): void {
+    public flap(deltaTime: number): void { 
         const jumpDistance = this.jumpSpeed * deltaTime
         this.gameObject.canvasPosition = this.gameObject.canvasPosition.add(
             new Vector2D(0, -jumpDistance)
@@ -163,39 +109,6 @@ class Bird extends GameObject {
         this.gameObject.speed = -this.jumpSpeed
     }
 
-    // collision
-    public collidesWith(listOfPipes: Pipe[]): boolean {
-        let collides = false
-
-        // collision with pipes
-        if (
-            this.gameObject.canvasPosition.getX() + this.gameObject.canvasWidth / 2 >=
-                listOfPipes[0].getCanvasPosition().getX() &&
-            this.gameObject.canvasPosition.getX() <
-                listOfPipes[0].getCanvasPosition().getX() + listOfPipes[0].getWidth() &&
-            (this.gameObject.canvasPosition.getY() <
-                listOfPipes[0].getCanvasPosition().getY() + listOfPipes[0].getHeight() ||
-                this.gameObject.canvasPosition.getY() + this.gameObject.canvasHeight / 2 >
-                    listOfPipes[0].getCanvasPosition().getY() +
-                        listOfPipes[0].getHeight() +
-                        listOfPipes[0].getSpace())
-        ) {
-            collides = true
-        }
-
-        // collision with base
-        if (
-            this.gameObject.canvasPosition.getY() + this.gameObject.height / 2 >=
-            this.view.getCanvas().height - 112
-        ) {
-            this.gameObject.canvasPosition.setY(
-                this.view.getCanvas().height - 112 - this.gameObject.height / 2
-            )
-            collides = true
-        }
-
-        return collides
-    }
 }
 
 export default Bird
