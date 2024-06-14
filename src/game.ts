@@ -1,5 +1,4 @@
-import GameManager from './gameManager/GameManager'
-import { random } from './helper/helper'
+import GameManager from './game-manager/GameManager'
 import BackgroundManager from './sprites/background/BackgroundManager'
 import Bird from './sprites/Bird'
 import GroundManager from './sprites/ground/GroundManager'
@@ -45,52 +44,23 @@ class Game {
 
     // ProcessInput
     public processInput = (): void => {
-        document.addEventListener('click', () => {
-            if (this.gameManager.getGameState() == 'start') {
-                this.gameManager.setGameState('play')
-                this.gameManager.getScore().setGameState(this.gameManager.getGameState())
-            }
-        })
+        // document.addEventListener('click', () => {
+        //     if (this.gameManager.getGameState() == 'start') {
+        //         this.gameManager.setGameState('play')
+                
+        //     }
+        // })
+        this.gameManager.handleInputEvent()
     }
 
     // Draw
     public draw = (): void => {
-        this.gameManager.getView().clear()
-        this.gameManager.getListOfBackgrounds().draw(this.gameManager.getView().getCtx())
-        if (this.gameManager.getGameState() == 'start') {
-            this.gameManager.getMessage().draw(this.gameManager.getView().getCtx())
-        }
-        if (this.gameManager.getGameState() == 'play') {
-            this.gameManager
-                .getScore()
-                .draw(this.gameManager.getView().getCtx(), this.gameManager.getView().getCanvas())
-        }
-        this.gameManager.getListOfPipes().draw(this.gameManager.getView().getCtx())
-        this.gameManager.getListOfGrounds().draw(this.gameManager.getView().getCtx())
-        this.gameManager.getBird().draw(this.gameManager.getView().getCtx())
+        this.gameManager.draw()
     }
 
     // Update
     public update = (deltaTime: number): void => {
-        this.gameManager.update()
-        this.gameManager
-            .getBird()
-            .update(deltaTime, this.gameManager.getGameState(), this.gameManager.getView())
-        if (this.gameManager.getGameState() == 'play') {
-            // this.gameManager.getListOfBackgrounds().update(deltaTime)
-            this.gameManager.getListOfGrounds().update(deltaTime)
-            this.gameManager
-                .getListOfPipes()
-                .update(
-                    deltaTime,
-                    this.gameManager.getView().getCanvas(),
-                    random(600, 620),
-                    random(-200, -100),
-                    random(60, 80)
-                )
-        } else if (this.gameManager.getGameState() == 'end') {
-
-        }
+        this.gameManager.update(deltaTime);
     }
 
     // Game Loop
@@ -105,6 +75,8 @@ class Game {
     ): void => {
         let currentTime = window.performance.now()
         this.deltaTime = (currentTime - this.lastTime) / 1000
+        this.lastTime = currentTime
+
 
         this.processInput()
 
@@ -112,7 +84,7 @@ class Game {
 
         this.draw()
 
-        this.lastTime = currentTime
+        
 
         requestAnimationFrame(() =>
             this.gameLoop(view, listGround, listBackground, bird, pipe, message, score)

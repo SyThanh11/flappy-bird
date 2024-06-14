@@ -1,7 +1,6 @@
 class Score {
     private score: number = 0
     private bestScore: number
-    private gameState: string
     private isScore: boolean = true;
 
     constructor() {
@@ -20,9 +19,6 @@ class Score {
     public getBestScore(): number {
         return this.bestScore
     }
-    public getGameState(): string {
-        return this.gameState
-    }
     public getIsScore(): boolean {
         return this.isScore
     }
@@ -34,22 +30,31 @@ class Score {
     public setBestScore(bestScore: number): void {
         this.bestScore = bestScore
     }
-    public setGameState(gameState: string): void {
-        this.gameState = gameState
-    }
     public setIsScore(isScore: boolean): void {
         this.isScore = isScore
     }
 
     // draw
-    public draw(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void {
-        if (this.gameState == 'play') {
+    public draw(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, gameState: string): void {
+        if (gameState == 'play') {
             context.lineWidth = 2
             context.font = '40px Teko'
             context.fillStyle = 'white'
             context.fillText(String(this.score), canvas.width / 2, 50)
             context.strokeText(String(this.score), canvas.width / 2, 50)
+        } else if(gameState == 'over') {
+            context.lineWidth = 2
+            context.font = "30px Teko";
+            context.fillText(String(this.score), 225*2.15, 212);
+            // BEST SCORE
+            context.fillText(String(this.bestScore), 225*2.15, 267);
         }
+    }
+
+    // reset
+    public reset(): void {
+        this.score = 0
+        this.isScore = true
     }
 }
 

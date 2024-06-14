@@ -1,7 +1,7 @@
 import GameObject from '../abstract/GameObject'
 import Vector2D from './Vector2D'
 
-class Message extends GameObject {
+class GameOverMessage extends GameObject {
     constructor(
         path: string,
         position: Vector2D,
@@ -18,7 +18,8 @@ class Message extends GameObject {
     public draw(context: CanvasRenderingContext2D): void {
         super.draw(context);
     }
+
     public update(deltaTime: number): void {}
 }
 
-export default Message
+export default GameOverMessage

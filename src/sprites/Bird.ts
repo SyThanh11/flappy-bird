@@ -2,7 +2,7 @@ import KeyAccess from '../input/KeyAccess'
 import CanvasView from '../view/CanvasView'
 import GameObject from '../abstract/GameObject'
 import Vector2D from './Vector2D'
-import Transform from '../physics/Transform'
+import Transform from '../general/Transform'
 
 class Bird extends GameObject {
     constructor(
@@ -51,17 +51,7 @@ class Bird extends GameObject {
         context.save()
         this.transform.rotateObject(this.gameObject, context)
 
-        context.drawImage(
-            this.getImage(),
-            this.gameObject.position.getX(),
-            this.gameObject.position.getY(),
-            this.gameObject.width,
-            this.gameObject.height,
-            -this.gameObject.canvasWidth / 2,
-            -this.gameObject.canvasHeight / 2,
-            this.gameObject.canvasWidth,
-            this.gameObject.canvasHeight
-        )
+        super.draw(context = context,undefined,undefined,undefined,undefined,new Vector2D(-this.gameObject.canvasWidth / 2, -this.gameObject.canvasHeight / 2))
 
         context.restore()
     }
@@ -90,8 +80,10 @@ class Bird extends GameObject {
             if (this.gameObject.speed >= this.jumpSpeed) {
                 const rotationSpeed = this.transform.getMaxRotation() * deltaTime;
                 this.transform.setRotation(this.transform.getRotation() +  rotationSpeed * this.transform.getDegree()); 
+                // this.isFlap = true;
             } else {
-                this.transform.setRotation(-25 * this.transform.getDegree()); 
+                this.transform.setRotation(-25 * this.transform.getDegree());
+                // this.isFlap = false; 
             }
         }
 

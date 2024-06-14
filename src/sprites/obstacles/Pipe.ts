@@ -34,27 +34,17 @@ class Pipe extends GameObject {
         const imgUp: HTMLImageElement = new Image()
         imgUp.src = '../../assets/images/pipe-green.png'
 
-        context.drawImage(
-            imgDown,
-            this.gameObject.position.getX(),
-            this.gameObject.position.getY(),
-            this.gameObject.width,
-            this.gameObject.height,
-            this.gameObject.canvasPosition.getX(),
-            this.gameObject.canvasPosition.getY(),
-            this.gameObject.canvasWidth,
-            this.gameObject.canvasHeight
-        )
-        context.drawImage(
+        super.draw(context, imgDown)
+        super.draw(
+            context,
             imgUp,
-            this.gameObject.position.getX(),
-            this.gameObject.position.getY(),
-            this.gameObject.width,
-            this.gameObject.height,
-            this.gameObject.canvasPosition.getX(),
-            this.gameObject.canvasPosition.getY() + this.gameObject.canvasHeight + this.space,
-            this.gameObject.canvasWidth,
-            this.gameObject.canvasHeight
+            undefined,
+            undefined,
+            undefined,
+            new Vector2D(
+                this.gameObject.canvasPosition.getX(),
+                this.gameObject.canvasPosition.getY() + this.gameObject.canvasHeight + this.space
+            )
         )
     }
     public update(deltaTime: number): void {

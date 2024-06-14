@@ -1,5 +1,5 @@
 import { random } from '../helper/helper'
-import Transform from '../physics/Transform'
+import Transform from '../general/Transform'
 import Bird from '../sprites/Bird'
 import Message from '../sprites/Message'
 import Score from '../sprites/Score'
@@ -11,6 +11,7 @@ import GroundManager from '../sprites/ground/GroundManager'
 import Pipe from '../sprites/obstacles/Pipe'
 import PipeManager from '../sprites/obstacles/PipeManager'
 import CanvasView from '../view/CanvasView'
+import GameOverMessage from '../sprites/GameOverMessage'
 
 class GameManager {
     private gameState: string
@@ -20,6 +21,7 @@ class GameManager {
     private bird: Bird
     private message: Message
     private score: Score
+    private gameOverMessage: GameOverMessage
     private view: CanvasView
 
     constructor() {
@@ -52,6 +54,9 @@ class GameManager {
     public getScore(): Score {
         return this.score
     }
+    public getGameOverMessage(): GameOverMessage {
+        return this.gameOverMessage
+    }
     public getView(): CanvasView {
         return this.view
     }
@@ -78,12 +83,14 @@ class GameManager {
     public setScore(score: Score): void {
         this.score = score
     }
+    public setGameOverMessage(gameOverMessage: GameOverMessage): void {
+        this.gameOverMessage = gameOverMessage
+    }
     public setView(view: CanvasView): void {
         this.view = view
     }
 
     public init = (): void => {
-        this.gameState = 'start'
         this.listOfGrounds.create(
             4,
             new Ground(
@@ -152,10 +159,84 @@ class GameManager {
             0
         )
         this.score = new Score()
+        this.gameOverMessage = new GameOverMessage(
+            '../../assets/images/sprite.png',
+            new Vector2D(175, 228),
+            225,
+            202,
+            new Vector2D(
+                (this.view.getCanvas().width - 225*1.3) / 2,
+                90
+                // (this.view.getCanvas().height - 350) / 2
+            ),
+            225*1.3,
+            202*1.3,
+            0
+        )
+    }
+
+    // handleInputEvent
+    public handleInputEvent = (): void => {
+        document.addEventListener("click", () => {
+            if(this.gameState == 'start'){
+                this.gameState = 'play';
+            }
+            if(this.gameState == 'over'){
+                this.gameState = 'play';
+                this.init();
+                this.score.reset();
+            } 
+        })
+    }
+
+    // draw
+    public draw(): void {
+        this.view.clear()
+        this.listOfBackgrounds.draw(this.view.getCtx())
+        if (this.gameState == 'start') {
+            this.message.draw(this.view.getCtx())
+            this.listOfGrounds.draw(this.view.getCtx())
+            this.bird.draw(this.view.getCtx())
+        } else if (this.gameState == 'play') {
+            this.listOfPipes.draw(this.view.getCtx())
+            this.listOfGrounds.draw(this.view.getCtx())
+            this.bird.draw(this.view.getCtx())
+            this.score.draw(this.view.getCtx(), this.view.getCanvas(), this.gameState)
+        } else {
+            this.listOfPipes.draw(this.view.getCtx())
+            this.listOfGrounds.draw(this.view.getCtx())
+            this.bird.draw(this.view.getCtx())
+            this.gameOverMessage.draw(this.view.getCtx())
+            this.score.draw(this.view.getCtx(), this.view.getCanvas(), this.gameState)
+        }
+    }
+
+    // update
+    public update(deltaTime: number): void {
+        this.bird.update(deltaTime, this.gameState, this.view)
+        if (this.gameState === 'play') {
+            this.listOfGrounds.update(deltaTime)
+            this.listOfPipes.update(
+                deltaTime,
+                this.view.getCanvas(),
+                random(400, 420),
+                random(-200, -100),
+                random(60, 80)
+            )
+            this.increaseScore()
+            if (this.isCollide()) {
+                this.gameState = 'over'
+                // this.bird.setSpeed(0);
+                this.bird.setJumpSpeed(0)
+            }
+        } else if (this.gameState == 'over') {
+            this.bird.update(deltaTime, this.gameState, this.view)
+            this.updateHighScore()
+        }
     }
 
     // logic
-    public collide(): boolean {
+    public isCollide(): boolean {
         let collide = false
 
         // check collision with pipes
@@ -196,45 +277,36 @@ class GameManager {
     }
 
     public increaseScore(): void {
-        if(this.listOfPipes.getIsDestroyed()){
-            this.score.setIsScore(true);
+        if (this.listOfPipes.getIsDestroyed()) {
+            this.score.setIsScore(true)
         }
 
-        if( this.score.getIsScore() &&
-            this.bird.getCanvasPosition().getX() > this.listOfPipes.getListOfGameObjects()[0].getCanvasPosition().getX() + this.listOfPipes.getListOfGameObjects()[0].getWidth() 
-        ){
-            this.score.setScore(this.score.getScore() + 1);
-            this.score.setIsScore(false);
-            this.listOfPipes.setIsDestroyed(false);
-        }
-
-        if(this.gameState == 'over'){
-            this.score.setIsScore(false);
-            this.listOfPipes.setIsDestroyed(false);
-            localStorage.setItem('SCORE', String(this.score.getScore()));
+        if (
+            this.score.getIsScore() &&
+            this.bird.getCanvasPosition().getX() >
+                this.listOfPipes.getListOfGameObjects()[0].getCanvasPosition().getX() +
+                    this.listOfPipes.getListOfGameObjects()[0].getWidth()
+        ) {
+            this.score.setScore(this.score.getScore() + 1)
+            this.score.setIsScore(false)
+            this.listOfPipes.setIsDestroyed(false)
         }
     }
 
     public updateHighScore(): void {
-        if(localStorage.getItem('HIGHSCORE')){
-            let score = localStorage.getItem('SCORE');
-            let highScore = localStorage.getItem('HIGHSCORE');
-            if(Number(score) > Number(highScore)){
-                localStorage.setItem('HIGHSCORE', String(score));
+        this.score.setIsScore(false)
+        this.listOfPipes.setIsDestroyed(false)
+        localStorage.setItem('SCORE', String(this.score.getScore()))
+        if (localStorage.getItem('HIGHSCORE')) {
+            let score = localStorage.getItem('SCORE')
+            let highScore = localStorage.getItem('HIGHSCORE')
+            if (Number(score) > Number(highScore)) {
+                localStorage.setItem('HIGHSCORE', String(score))
             }
         } else {
-            localStorage.setItem('HIGHSCORE', String(this.score.getScore()));
+            localStorage.setItem('HIGHSCORE', String(this.score.getScore()))
         }
-    }
-
-    public update(): void {
-        this.increaseScore();
-        this.updateHighScore();
-        if (this.collide()) {
-            this.gameState = 'over';
-            // this.bird.setSpeed(0);
-            this.bird.setJumpSpeed(0);
-        }
+        this.score.setBestScore(Number(localStorage.getItem('HIGHSCORE')))
     }
 }
 

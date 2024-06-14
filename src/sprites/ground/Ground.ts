@@ -16,17 +16,7 @@ class Ground extends GameObject {
     }
 
     public draw(context: CanvasRenderingContext2D): void {
-        context.drawImage(
-            this.getImage(),
-            this.gameObject.position.getX(),
-            this.gameObject.position.getY(),
-            this.gameObject.width,
-            this.gameObject.height,
-            this.gameObject.canvasPosition.getX(),
-            this.gameObject.canvasPosition.getY(),
-            this.gameObject.canvasWidth,
-            this.gameObject.canvasHeight
-        )
+        super.draw(context)
     }
     public update(deltaTime: number): void {
         this.setCanvasPosition(

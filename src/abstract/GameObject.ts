@@ -85,7 +85,28 @@ abstract class GameObject {
     }
 
     // abstract method
-    public abstract draw(context: CanvasRenderingContext2D): void
+    public draw(
+        context: CanvasRenderingContext2D,
+        image?: HTMLImageElement,
+        position?: Vector2D,
+        width?: number,
+        height?: number,
+        canvasPosition?: Vector2D,
+        canvasWidth?: number,
+        canvasHeight?: number
+    ): void {
+        context.drawImage(
+            image || this.getImage(),
+            position?.getX() || this.gameObject.position.getX(),
+            position?.getY() ||this.gameObject.position.getY(),
+            width || this.gameObject.width,
+            height || this.gameObject.height,
+            canvasPosition?.getX() || this.gameObject.canvasPosition.getX(),
+            canvasPosition?.getY() || this.gameObject.canvasPosition.getY(),
+            canvasWidth || this.gameObject.canvasWidth,
+            canvasHeight || this.gameObject.canvasHeight
+        )
+    }
     public abstract update(deltaTime: number, gameState?: string, view?: CanvasView): void
 }
 
