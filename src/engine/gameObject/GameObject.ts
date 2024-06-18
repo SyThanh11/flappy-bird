@@ -1,4 +1,3 @@
-import Scene from '../Scene'
 import Transform from '../components/Transform'
 import Vector2D from '../components/Vector2D'
 
@@ -6,11 +5,13 @@ abstract class GameObject {
     private isStatic: boolean = false
     private isActive: boolean = false
     private layer: number = 0
+    public image: HTMLImageElement 
+
     constructor(
         private path: string,
         private transform: Transform,
         private width: number,
-        private height: number,
+        private height: number,   
         private canvasTransform: Transform,
         private canvasWidth: number,
         private canvasHeight: number
@@ -67,6 +68,7 @@ abstract class GameObject {
         return this.canvasTransform.getPosition()
     }
 
+
     public setLayer(layer: number): void {
         this.layer = layer
     }
@@ -101,6 +103,9 @@ abstract class GameObject {
     }
     public setCanvasPosition(canvasPosition: Vector2D): void {
         this.canvasTransform.setPosition(canvasPosition)
+    }
+    public setImage(image: HTMLImageElement): void {
+        this.image = image
     }
 
     public abstract start(): void

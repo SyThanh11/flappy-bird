@@ -1,5 +1,5 @@
-import Image from "../../engine/gameObject/Image";
+import GameImage from "../../engine/gameObject/GameImage";
 
-class Board extends Image {}
+class Board extends GameImage {}
 
 export default Board

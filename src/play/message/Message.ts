@@ -1,5 +1,5 @@
-import Image from '../../engine/gameObject/Image'
+import GameImage from '../../engine/gameObject/GameImage'
 
-class Message extends Image {}
+class Message extends GameImage {}
 
 export default Message

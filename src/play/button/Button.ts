@@ -1,7 +1,16 @@
-import Image from "../../engine/gameObject/Image";
+import Transform from "../../engine/components/Transform";
+import MouseEventHandler from "../../engine/controller/MouseEventHandler";
+import GameImage from "../../engine/gameObject/GameImage";
 
-class Button extends Image {
-    private isClicked: boolean;
+class Button extends GameImage implements MouseEventListener {
+    private mouseEventHandler: MouseEventHandler;
+    private isClicked: boolean = false;
+
+    constructor(path: string, position: Transform, width: number, height: number, canvasPosition: Transform, canvasWidth: number, canvasHeight: number) {
+        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight);
+        this.mouseEventHandler = new MouseEventHandler('canvas');
+        this.mouseEventHandler.addObserver(this);
+    }
 
     public getIsClicked(): boolean {
         return this.isClicked;
@@ -11,14 +20,25 @@ class Button extends Image {
         this.isClicked = value;
     }
 
-    public checkClickButton(event: MouseEvent): void {        
-        (
+    public onMouseDown(event: MouseEvent): void {
+        if (this.checkClickButton(event)) {
+            this.isClicked = true;
+            // console.log(`Button clicked at (${event.clientX}, ${event.clientY})`);
+        }
+    }
+
+    public onMouseUp(event: MouseEvent): void {
+        this.isClicked = false;
+    }
+
+    private checkClickButton(event: MouseEvent): boolean {
+        return (
             event.clientX <= this.getCanvasPosition().getX() + this.getCanvasWidth() &&
             event.clientX >= this.getCanvasPosition().getX() &&
             event.clientY <= this.getCanvasPosition().getY() + this.getCanvasHeight() &&
             event.clientY >= this.getCanvasPosition().getY()
-        ) ? this.isClicked = true : this.isClicked = false;
+        );
     }
 }
 
-export default Button
+export default Button;

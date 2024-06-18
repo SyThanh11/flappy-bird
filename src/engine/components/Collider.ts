@@ -33,13 +33,6 @@ class Collider implements Collidable {
     }
 
     public draw(context: CanvasRenderingContext2D){
-        console.log({
-            x: this.position.getX(),
-            y: this.position.getY(),
-            width: this.width,
-            height: this.height,
-        });
-        
         context.strokeStyle = 'black'
         context.strokeRect(this.position.getX(), this.position.getY(), this.width, this.height)
     }

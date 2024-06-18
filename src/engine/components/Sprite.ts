@@ -3,7 +3,7 @@ class Sprite {
     private currentFrameIndex: number = 0
     private lastFrameTime: number = 0
 
-    private listOfPaths: string[] = []
+    private listOfImages: HTMLImageElement[] = []
 
     constructor() {}
 
@@ -17,14 +17,12 @@ class Sprite {
         this.fps = fps
     }
 
-    // Add a path to the list
-    public addPath(path: string): void {
-        this.listOfPaths.push(path)
+    public addImage(img: HTMLImageElement): void {
+        this.listOfImages.push(img)
     }
 
-    // Get the current path (frame) being used
-    public getPath(): string {
-        return this.listOfPaths[this.currentFrameIndex]
+    public getImage(): HTMLImageElement {
+        return this.listOfImages[this.currentFrameIndex]
     }
 
     // Play the animation
@@ -33,7 +31,7 @@ class Sprite {
 
         const animate = (timestamp: number) => {
             if (timestamp - this.lastFrameTime >= interval) {
-                this.currentFrameIndex = (this.currentFrameIndex+1)%this.listOfPaths.length
+                this.currentFrameIndex = (this.currentFrameIndex+1)%this.listOfImages.length
                 this.lastFrameTime = timestamp
             }
 

@@ -244,6 +244,8 @@ class GameManager {
             listOfInputs.buttonInfo.canvasWidth,
             listOfInputs.buttonInfo.canvasHeight
         )
+
+        this.mouseEvent.addObserver(this.button);
     }
 
     public createScore(): void {
@@ -297,7 +299,7 @@ class GameManager {
                 this.board.setLayer(5)
                 this.button.setLayer(5)
 
-                if (isMousePressed) {
+                if (isMousePressed && this.button.getIsClicked()) {
                     this.gameState = gameState.PLAYING
                     this.bird.setGameState(this.gameState)
                     this.init()

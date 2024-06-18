@@ -1,7 +1,7 @@
 import Collider from '../../engine/components/Collider'
-import Image from '../../engine/gameObject/Image'
+import GameImage from '../../engine/gameObject/GameImage'
 
-class Ground extends Image {
+class Ground extends GameImage {
     private speed = 0
     public collider: Collider = new Collider(
         this.getCanvasPosition(),
@@ -15,8 +15,6 @@ class Ground extends Image {
     public getSpeed(): number {
         return this.speed
     }
-
-    public start(): void {}
 
     public update(deltaTime: number): void {
         const direction = this.getCanvasPosition().Left()

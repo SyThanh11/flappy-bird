@@ -20,6 +20,10 @@ class Engine {
         return this.scenes.some((s) => s === scene);
     }
 
+    public start(): void {
+        this.currentScene.start();
+    }
+
     public update(deltaTime: number): void {
         this.currentScene.update(deltaTime);
     }

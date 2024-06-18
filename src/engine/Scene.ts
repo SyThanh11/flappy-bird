@@ -44,6 +44,12 @@ class Scene {
         })
     }
 
+    public start() {
+        this.listOfGameObjects.forEach((gameObject) => {
+            gameObject.start();
+        })
+    }
+
     public draw() {
         this.view.clear();
         this.sortLayer();

@@ -1,15 +1,13 @@
 import Transform from '../engine/components/Transform'
-import Image from '../engine/gameObject/Image'
 import RigidBody from '../engine/components/RigidBody'
 import MouseEventHandler from '../engine/controller/MouseEventHandler'
 import Collider from '../engine/components/Collider'
 import Sprite from '../engine/components/Sprite'
 import { gameState } from '../constant/input'
-import Vector2D from '../engine/components/Vector2D'
+import GameImage from '../engine/gameObject/GameImage'
 
-class Bird extends Image {
-    public rigid: RigidBody | undefined
-    // public collider: Collider
+class Bird extends GameImage {
+    public rigid: RigidBody = RigidBody.getInstance(1, 9.8);
     private mouseEvent: MouseEventHandler = new MouseEventHandler('canvas')
     private sprite: Sprite = new Sprite()
     private gameState: string
@@ -32,6 +30,7 @@ class Bird extends Image {
             this.getCanvasHeight()
         )
         this.initSpriteAnimation()
+        
     }
 
     public setGameState(gameState: string): void {
@@ -45,21 +44,24 @@ class Bird extends Image {
     }
 
     private initSpriteAnimation(): void {
-        this.sprite.addPath('../../assets/images/yellowbird-downflap.png')
-        this.sprite.addPath('../../assets/images/yellowbird-midflap.png')
-        this.sprite.addPath('../../assets/images/yellowbird-upflap.png')
-        this.sprite.setFps(30)
-    }
+        const imagePaths = [
+            '../../assets/images/yellowbird-downflap.png',
+            '../../assets/images/yellowbird-midflap.png',
+            '../../assets/images/yellowbird-upflap.png'
+        ];
 
-    public start(): void {
-        this.rigid = new RigidBody(1, 9.8);
-        this.speed = 0;
+        imagePaths.forEach(path => {
+            const image = new Image();
+            image.src = path;
+            this.sprite.addImage(image);
+        });
+        this.sprite.setFps(30)
     }
 
     public update(deltaTime: number): void { 
            
         this.sprite.playAnimation()
-        this.setPath(this.sprite.getPath())
+        this.setImage(this.sprite.getImage())
 
         if (this.gameState === gameState.PLAYING) {
             if (this.rigid) {
@@ -86,46 +88,46 @@ class Bird extends Image {
             }
 
             // Update rotation based on speed
-            // if (this.speed > this.jumpSpeed) {
-            //     this.rotateImage(90)
-            // } else {
-            //     this.getTransform().setRotation(25)
-            // }
+            if (this.speed > this.jumpSpeed) {
+                this.getTransform().setRotation(25)
+            } else {
+                this.getTransform().setRotation(25)
+            }
         }
     }
 
 
-    public draw(){
-        this.collider.draw(this.view.getCtx())  
-        const ctx = this.view.getCtx();
-        ctx.save();
+    // public draw(){
+    //     this.collider.draw(this.view.getCtx())  
+    //     const ctx = this.view.getCtx();
+    //     ctx.save();
 
-        ctx.translate(
-            this.getCanvasPosition().getX(),
-            this.getCanvasPosition().getY()
-        )
-        // ctx.rotate(this.getCanvasTransform().getRotation())
+    //     ctx.translate(
+    //         this.getCanvasPosition().getX(),
+    //         this.getCanvasPosition().getY()
+    //     )
+    //     ctx.rotate(this.getCanvasTransform().getRotation())
 
-        ctx.drawImage(
-            this.getImage(),
-            this.getPosition().getX(),
-            this.getPosition().getY(),
-            this.getWidth(),
-            this.getHeight(),
-            -this.getCanvasWidth()/2,
-            -this.getCanvasHeight()/2,
-            this.getCanvasWidth(),
-            this.getCanvasHeight()
-        )
+    //     ctx.drawImage(
+    //         this.getImage(),
+    //         this.getPosition().getX(),
+    //         this.getPosition().getY(),
+    //         this.getWidth(),
+    //         this.getHeight(),
+    //         -this.getCanvasWidth()/2,
+    //         -this.getCanvasHeight()/2,
+    //         this.getCanvasWidth(),
+    //         this.getCanvasHeight()
+    //     )
 
-        ctx.restore()
+    //     ctx.restore()
        
-    }
+    // }
 
     public destroy(): void {
         this.speed = 0
         this.jumpSpeed = 0
-        this.rigid = undefined
+        this.rigid.destroy()
     }
 }
 

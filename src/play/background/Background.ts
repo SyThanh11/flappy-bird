@@ -1,5 +1,5 @@
-import Image from '../../engine/gameObject/Image'
+import GameImage from "../../engine/gameObject/GameImage";
 
-class Background extends Image {}
+class Background extends GameImage {}
 
 export default Background
