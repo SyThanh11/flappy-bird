@@ -25,26 +25,21 @@ class GroundManager extends GameObjectManager<Ground> {
             }
         }
         return 0
-    }
-
-    public draw(): void {
-        this.listOfGameObjects.forEach((ground) => {
-            ground.draw()
-        })
-    }
+    } 
 
     public update(deltaTime: number, scene?: Scene): void {
-        if(scene) {
+        if (scene) {
             const lastIndex = this.findLastGround(scene)
             const firstIndex = this.findFirstGround(scene)
 
             const firstGroundObject: Ground = scene.listOfGameObjects[firstIndex] as Ground
             const lastGroundObject: Ground = scene.listOfGameObjects[lastIndex] as Ground
-
+            
             if (
                 firstGroundObject.getCanvasPosition().getX() + firstGroundObject.getCanvasWidth() <=
                 0
             ) {
+                this.listOfGameObjects.splice(0, 1);
                 const newGround = new Ground(
                     firstGroundObject.getPath(),
                     firstGroundObject.getTransform(),
@@ -60,8 +55,8 @@ class GroundManager extends GameObjectManager<Ground> {
                     firstGroundObject.getCanvasWidth(),
                     firstGroundObject.getCanvasHeight()
                 )
-                newGround.setSpeed(200)
-                newGround.setLayer(firstGroundObject.getLayer())
+                newGround.setSpeed(firstGroundObject.getSpeed());
+                newGround.setLayer(firstGroundObject.getLayer());
 
                 scene.addGameObject(newGround)
                 scene.removeGameObject(firstGroundObject)
@@ -71,7 +66,7 @@ class GroundManager extends GameObjectManager<Ground> {
 
     public destroy(): void {
         this.listOfGameObjects.forEach((ground) => ground.destroy())
-        this.listOfGameObjects = []
+        // this.listOfGameObjects = []
     }
 }
 

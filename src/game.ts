@@ -1,4 +1,3 @@
-import RigidBody from './engine/components/RigidBody';
 import GameManager from './game-manager/GameManager'
 
 class Game {
@@ -11,14 +10,11 @@ class Game {
         console.log('Game created')
         this.createCanvas()
         this.gameManager = new GameManager()
-        
-        this.gameManager.init();
-        this.gameManager.handleInputEvent()
 
-        // this.gameManager.getBird().start();
+        this.gameManager.init()
 
-        this.lastTime = window.performance.now();
-        requestAnimationFrame(this.gameLoop);
+        this.lastTime = window.performance.now()
+        requestAnimationFrame(this.gameLoop)
     }
 
     public createCanvas(): void {
@@ -30,22 +26,21 @@ class Game {
         canvas.style.background = 'white'
 
         document.body.appendChild(canvas)
-
     }
 
     // ProcessInput
     public processInput = (): void => {
-        
+        this.gameManager.handleInputEvent()
     }
 
     // Draw
     public draw = (): void => {
-        this.gameManager.draw();
+        this.gameManager.draw()
     }
 
     // Update
     public update = (deltaTime: number): void => {
-        this.gameManager.update(deltaTime);
+        this.gameManager.update(deltaTime)
     }
 
     // Game Loop
@@ -54,10 +49,10 @@ class Game {
         this.deltaTime = (currentTime - this.lastTime) / 1000
         this.processInput()
         this.update(this.deltaTime)
-        
+
         this.draw()
         this.lastTime = currentTime
-        requestAnimationFrame(this.gameLoop.bind(this));
+        requestAnimationFrame(this.gameLoop.bind(this))
     }
 }
 

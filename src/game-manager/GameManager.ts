@@ -1,19 +1,8 @@
-import { random } from '../helper/helper'
 import Bird from '../play/Bird'
-// import Message from '../sprites/message/Message'
-// import Score from '../sprites/Score'
 import Vector2D from '../engine/components/Vector2D'
 import Background from '../play/background/Background'
-// import BackgroundManager from '../sprites/background/BackgroundManager'
-// import Ground from '../sprites/ground/Ground'
-// import GroundManager from '../sprites/ground/GroundManager'
-// import Pipe from '../sprites/obstacles/Pipe'
-// import PipeManager from '../sprites/obstacles/PipeManager'
 import CanvasView from '../engine/view/CanvasView'
-// import GameOverMessage from '../sprites/message/GameOverMessage'
-// import Board from '../sprites/record/Board'
-// import Button from '../button/Button'
-import { listOfInputs } from '../constant/input'
+import { gameState, listOfInputs } from '../constant/input'
 import Transform from '../engine/components/Transform'
 import Engine from '../engine/Engine'
 import Scene from '../engine/Scene'
@@ -22,26 +11,34 @@ import GroundManager from '../play/ground/GroundManager'
 import BackgroundManager from '../play/background/BackgroundManager'
 import Pipe from '../play/obstacles/Pipe'
 import PipeManager from '../play/obstacles/PipeManager'
+import Message from '../play/message/Message'
+import GameOverMessage from '../play/message/GameOverMessage'
+import MouseEventHandler from '../engine/controller/MouseEventHandler'
+import Board from '../play/record/Board'
+import Button from '../play/button/Button'
+import Score from '../play/Score'
 
 class GameManager {
     private view: CanvasView
     private engine: Engine
     private scene: Scene
+    private mouseEvent: MouseEventHandler = new MouseEventHandler('canvas')
 
     private bird: Bird
     private listOfGrounds: GroundManager
     private listOfBackgrounds: BackgroundManager
     private listOfPipes: PipeManager
+    private message: Message
+    private gameOverMessage: GameOverMessage
+    private board: Board
+    private button: Button
+    private score: Score
 
-    // private gameState: string
+    private gameState: string
 
-    // private listOfBackgrounds: Background
-    // private listOfPipes: PipeManager
-    // private message: Message
-    // private score: Score
-    // private gameOverMessage: GameOverMessage
-    // private board: Board
-    // private button: Button
+    constructor(){
+        this.setEvent();
+    }
 
     public getView(): CanvasView {
         return this.view
@@ -51,6 +48,7 @@ class GameManager {
         this.view = new CanvasView('canvas')
         this.engine = new Engine()
         this.scene = new Scene()
+        this.gameState = gameState.START
 
         this.bird = new Bird(
             listOfInputs.birdInfo.path,
@@ -82,9 +80,12 @@ class GameManager {
             ),
             listOfInputs.listOfGroundsInfo.indexStart,
             Ground,
-            new Vector2D(listOfInputs.listOfGroundsInfo.groundInfo.canvasWidth, listOfInputs.listOfGroundsInfo.groundInfo.canvasPosition.getPosition().getY())
+            new Vector2D(
+                listOfInputs.listOfGroundsInfo.groundInfo.canvasWidth,
+                listOfInputs.listOfGroundsInfo.groundInfo.canvasPosition.getPosition().getY()
+            )
         )
-        this.listOfGrounds.setAllSpeed(200)
+        this.listOfGrounds.setAllSpeed(listOfInputs.listOfGroundsInfo.groundInfo.speed)
 
         this.listOfBackgrounds = new BackgroundManager(
             listOfInputs.listOfBackgroundsInfo.numberOfBackgrounds,
@@ -109,235 +110,235 @@ class GameManager {
             ),
             listOfInputs.listOfBackgroundsInfo.indexStart,
             Background,
-            new Vector2D(listOfInputs.listOfBackgroundsInfo.backgroundInfo.canvasWidth, listOfInputs.listOfBackgroundsInfo.backgroundInfo.canvasPosition.getY())
-        ) 
+            new Vector2D(
+                listOfInputs.listOfBackgroundsInfo.backgroundInfo.canvasWidth,
+                listOfInputs.listOfBackgroundsInfo.backgroundInfo.canvasPosition.getY()
+            )
+        )
 
         this.listOfPipes = new PipeManager(
             listOfInputs.listOfPipesInfo.numberOfPipes,
             new Pipe(
-                listOfInputs.listOfPipesInfo.pipeInfo.path,
+                listOfInputs.listOfPipesInfo.pipeInfo.pathUp,
                 listOfInputs.listOfPipesInfo.pipeInfo.position,
                 listOfInputs.listOfPipesInfo.pipeInfo.width,
                 listOfInputs.listOfPipesInfo.pipeInfo.height,
                 listOfInputs.listOfPipesInfo.pipeInfo.canvasPosition,
                 listOfInputs.listOfPipesInfo.pipeInfo.canvasWidth,
-                listOfInputs.listOfPipesInfo.pipeInfo.canvasHeight,
+                listOfInputs.listOfPipesInfo.pipeInfo.canvasHeight
             ),
             listOfInputs.listOfPipesInfo.indexStart,
             Pipe,
             listOfInputs.listOfPipesInfo.pipeInfo.canvasPosition.getPosition()
         )
-       
-        this.listOfPipes.setAllSpeed(listOfInputs.listOfPipesInfo.pipeInfo.speed);
-        
-        // set layer
-        this.bird.setLayer(2);
-        this.listOfGrounds.setAllLayer(2);
-        this.listOfBackgrounds.setAllLayer(0);
-        this.listOfPipes.setAllLayer(1);
-        
+        this.listOfPipes.setAllSpeed(listOfInputs.listOfPipesInfo.pipeInfo.speed)
+
+        this.message = new Message(
+            listOfInputs.messageInfo.path,
+            listOfInputs.messageInfo.position,
+            listOfInputs.messageInfo.width,
+            listOfInputs.messageInfo.height,
+            new Transform(
+                new Vector2D(
+                    (this.view.getCanvas().width - listOfInputs.messageInfo.canvasWidth) / 2,
+                    (this.view.getCanvas().height -
+                        listOfInputs.messageInfo.canvasHeight -
+                        listOfInputs.messageInfo.dY) /
+                        2
+                )
+            ),
+            listOfInputs.messageInfo.canvasWidth,
+            listOfInputs.messageInfo.canvasHeight
+        )
+
+        this.gameOverMessage = new GameOverMessage(
+            listOfInputs.gameOverMessageInfo.path,
+            listOfInputs.gameOverMessageInfo.position,
+            listOfInputs.gameOverMessageInfo.width,
+            listOfInputs.gameOverMessageInfo.height,
+            new Transform(
+                new Vector2D(
+                    (this.view.getCanvas().width - listOfInputs.gameOverMessageInfo.canvasWidth) /
+                        2,
+                    listOfInputs.gameOverMessageInfo.canvasHeight +
+                        listOfInputs.gameOverMessageInfo.dY
+                )
+            ),
+            listOfInputs.gameOverMessageInfo.canvasWidth,
+            listOfInputs.gameOverMessageInfo.canvasHeight
+        )
+
+        this.board = new Board(
+            listOfInputs.boardInfo.path,
+            listOfInputs.boardInfo.position,
+            listOfInputs.boardInfo.width,
+            listOfInputs.boardInfo.height,
+            new Transform(
+                new Vector2D(
+                    (this.view.getCanvas().width - listOfInputs.boardInfo.canvasWidth) / 2,
+                    listOfInputs.boardInfo.canvasHeight + listOfInputs.boardInfo.dY
+                )
+            ),
+            listOfInputs.boardInfo.canvasWidth,
+            listOfInputs.boardInfo.canvasHeight,
+        )
+
+        this.button = new Button(
+            listOfInputs.buttonInfo.path,
+            listOfInputs.buttonInfo.position,
+            listOfInputs.buttonInfo.width,
+            listOfInputs.buttonInfo.height,
+            new Transform(
+                new Vector2D(
+                    (this.view.getCanvas().width - listOfInputs.buttonInfo.canvasWidth) / 2,
+                    (this.view.getCanvas().height +
+                        listOfInputs.buttonInfo.canvasHeight +
+                        listOfInputs.buttonInfo.dY) /
+                        2
+                )
+            ),
+            listOfInputs.buttonInfo.canvasWidth,
+            listOfInputs.buttonInfo.canvasHeight,
+        )
+
+        this.score = new Score()
+
         this.scene.addListOfGameObjects(this.listOfGrounds.getListOfGameObjects())
         this.scene.addGameObject(this.bird)
-        
         this.scene.addListOfGameObjects(this.listOfBackgrounds.getListOfGameObjects())
         this.scene.addListOfGameObjects(this.listOfPipes.getListOfGameObjects())
-        
-        this.engine.addScene(this.scene)
+        this.scene.addGameObject(this.message)
+        this.scene.addGameObject(this.gameOverMessage)
+        this.scene.addGameObject(this.board)
+        this.scene.addGameObject(this.button)
 
-    
+        this.bird.setLayer(2)
+        this.listOfGrounds.setAllLayer(2)
+        this.listOfBackgrounds.setAllLayer(0)
+        this.listOfPipes.setAllLayer(-1)
+        this.message.setLayer(-2)
+        this.gameOverMessage.setLayer(-2)
+        this.board.setLayer(-2)
+        this.button.setLayer(-2)
+
+        this.engine.setCurrentScene(this.scene)
+        this.engine.addScene(this.scene)
         
-        // this.listOfPipes.create(
-        //     listOfInputs.listOfPipesInfo.numberOfPipes,
-        //     new Pipe(
-        //         listOfInputs.listOfPipesInfo.pipeInfo.path,
-        //         listOfInputs.listOfPipesInfo.pipeInfo.position,
-        //         listOfInputs.listOfPipesInfo.pipeInfo.width,
-        //         listOfInputs.listOfPipesInfo.pipeInfo.height,
-        //         listOfInputs.listOfPipesInfo.pipeInfo.canvasPosition,
-        //         listOfInputs.listOfPipesInfo.pipeInfo.canvasWidth,
-        //         listOfInputs.listOfPipesInfo.pipeInfo.canvasHeight,
-        //         listOfInputs.listOfPipesInfo.pipeInfo.speed,
-        //         listOfInputs.listOfPipesInfo.pipeInfo.space
-        //     )
-        // )
-        // this.bird = new Bird(
-        //     listOfInputs.birdInfo.path,
-        //     listOfInputs.birdInfo.position,
-        //     listOfInputs.birdInfo.width,
-        //     listOfInputs.birdInfo.height,
-        //     new Transform(new Vector2D(
-        //         this.view.getCanvas().width / 4,
-        //         (this.view.getCanvas().height - listOfInputs.birdInfo.height) / 2
-        //     )),
-        //     listOfInputs.birdInfo.canvasWidth,
-        //     listOfInputs.birdInfo.canvasHeight,
-        //     listOfInputs.birdInfo.speed,
-        //     listOfInputs.birdInfo.jumpSpeed
-        // )
-        // this.message = new Message(
-        //     listOfInputs.messageInfo.path,
-        //     listOfInputs.messageInfo.position,
-        //     listOfInputs.messageInfo.width,
-        //     listOfInputs.messageInfo.height,
-        //     new Vector2D(
-        //         (this.view.getCanvas().width - listOfInputs.messageInfo.canvasWidth) / 2,
-        //         (this.view.getCanvas().height -
-        //             listOfInputs.messageInfo.canvasHeight -
-        //             listOfInputs.messageInfo.dY) /
-        //             2
-        //     ),
-        //     listOfInputs.messageInfo.canvasWidth,
-        //     listOfInputs.messageInfo.canvasHeight,
-        //     listOfInputs.messageInfo.speed
-        // )
-        // this.score = new Score()
-        // this.gameOverMessage = new GameOverMessage(
-        //     listOfInputs.gameOverMessageInfo.path,
-        //     listOfInputs.gameOverMessageInfo.position,
-        //     listOfInputs.gameOverMessageInfo.width,
-        //     listOfInputs.gameOverMessageInfo.height,
-        //     new Vector2D(
-        //         (this.view.getCanvas().width - listOfInputs.gameOverMessageInfo.canvasWidth) / 2,
-        //         listOfInputs.gameOverMessageInfo.canvasHeight + listOfInputs.gameOverMessageInfo.dY
-        //     ),
-        //     listOfInputs.gameOverMessageInfo.canvasWidth,
-        //     listOfInputs.gameOverMessageInfo.canvasHeight,
-        //     listOfInputs.gameOverMessageInfo.speed
-        // )
-        // this.board = new Board(
-        //     listOfInputs.boardInfo.path,
-        //     listOfInputs.boardInfo.position,
-        //     listOfInputs.boardInfo.width,
-        //     listOfInputs.boardInfo.height,
-        //     new Vector2D(
-        //         (this.view.getCanvas().width - listOfInputs.boardInfo.canvasWidth) / 2,
-        //         listOfInputs.boardInfo.canvasHeight + listOfInputs.boardInfo.dY
-        //     ),
-        //     listOfInputs.boardInfo.canvasWidth,
-        //     listOfInputs.boardInfo.canvasHeight,
-        //     listOfInputs.boardInfo.speed
-        // )
-        // this.button = new Button(
-        //     listOfInputs.buttonInfo.path,
-        //     listOfInputs.buttonInfo.position,
-        //     listOfInputs.buttonInfo.width,
-        //     listOfInputs.buttonInfo.height,
-        //     new Vector2D(
-        //         (this.view.getCanvas().width - listOfInputs.buttonInfo.canvasWidth) / 2,
-        //         (this.view.getCanvas().height +
-        //             listOfInputs.buttonInfo.canvasHeight +
-        //             listOfInputs.buttonInfo.dY) /
-        //             2
-        //     ),
-        //     listOfInputs.buttonInfo.canvasWidth,
-        //     listOfInputs.buttonInfo.canvasHeight,
-        //     listOfInputs.buttonInfo.speed
-        // )
+    }
+
+    public setEvent = (): void => {
+        addEventListener("click", (event: MouseEvent) => { 
+            this.button.checkClickButton(event)
+        })
     }
 
     // handleInputEvent
-    public handleInputEvent = (): void => {}
+    public handleInputEvent = (): void => {
+        const isMousePressed = this.mouseEvent.isMousePressed()
+        switch (this.gameState) {
+            case gameState.START:
+                this.message.setLayer(2)
+                this.listOfGrounds.setAllSpeed(0)
+                this.listOfPipes.setAllSpeed(0)
+                if (isMousePressed) {
+                    this.scene.removeGameObject(this.message)
+                    this.gameState = gameState.PLAYING
+                    this.bird.setGameState(this.gameState)
+                }
+                break
+            case gameState.PLAYING:
+                this.message.setLayer(-2)
+                this.listOfPipes.setAllLayer(1)
+                this.listOfGrounds.setAllSpeed(listOfInputs.listOfGroundsInfo.groundInfo.speed)
+                this.listOfPipes.setAllSpeed(listOfInputs.listOfPipesInfo.pipeInfo.speed)
+                if (isMousePressed) {
+                }
+                break
+            case gameState.GAMEOVER:
+                this.gameOverMessage.setLayer(5)
+                this.board.setLayer(5)
+                this.button.setLayer(5)
+                this.scene.addGameObject(this.gameOverMessage)
+                if (isMousePressed && this.button.getIsClicked()) {
+                    this.gameState = gameState.PLAYING
+                    this.bird.setGameState(this.gameState)
+                    this.init()
+                    this.button.setIsClicked(false);
+                }
+                break
+            default:
+                break
+        }
+    }
 
     // draw
     public draw(): void {
         this.view.clear()
         this.engine.draw()
+        this.score.draw(this.view.getCtx(), this.view.getCanvas(), this.gameState)
     }
 
     // update
     public update(deltaTime: number): void {
-        if (this.checkCollision()) {
-            this.bird.destroy()
-            this.listOfGrounds.destroy()
-        } else {
-            this.engine.update(deltaTime);
-            this.listOfGrounds.update(deltaTime, this.scene)
-            this.listOfPipes.update(deltaTime, this.scene)
+        if (this.gameState === gameState.START) {
+            this.engine.update(deltaTime)
+        } else if (this.gameState === gameState.PLAYING) {
+            if (this.checkCollision()) {
+                this.gameState = gameState.GAMEOVER
+            } else {
+                this.engine.update(deltaTime)
+                this.listOfGrounds.update(deltaTime, this.scene)
+                this.listOfPipes.update(deltaTime, this.scene)
+                this.caculateScore()
+            }
         }
-
-        // if (this.gameState === 'play') {
-        //     this.bird.setIsJumping(false)
-        //     this.listOfGrounds.update(deltaTime)
-        //     this.listOfPipes.update(
-        //         deltaTime,
-        //         this.view.getCanvas(),
-        //         random(400, 420),
-        //         random(-200, -100),
-        //         random(60, 80)
-        //     )
-        //     this.increaseScore()
-        //     if (this.isCollide()) {
-        //         this.gameState = 'over'
-        //         // this.bird.setSpeed(0);
-        //         this.bird.setJumpSpeed(0)
-        //     }
-        // } else if (this.gameState == 'over') {
-        //     this.bird.update(deltaTime, this.gameState, this.view)
-        //     this.updateHighScore()
-        // }
     }
 
     // logic
     private checkCollision(): boolean {
-        const { listOfGameObjects } = this.scene;
-    
+        const { listOfGameObjects } = this.scene
+
         for (let i = 0; i < listOfGameObjects.length - 1; i++) {
-            const obj1 = listOfGameObjects[i];
-    
+            const obj1 = listOfGameObjects[i]
+
             for (let j = i + 1; j < listOfGameObjects.length; j++) {
-                const obj2 = listOfGameObjects[j];
-    
+                const obj2 = listOfGameObjects[j]
+
                 // Check collision between Bird and Ground
                 if (obj1 instanceof Bird && obj2 instanceof Ground) {
-                    if (obj1.collider.isColliding(obj2.collider)) return true;
+                    if (obj1.collider.isColliding(obj2.collider)) return true
                 } else if (obj1 instanceof Ground && obj2 instanceof Bird) {
-                    if (obj1.collider.isColliding(obj2.collider)) return true;
+                    if (obj1.collider.isColliding(obj2.collider)) return true
                 }
-    
+
                 // Check collision between Bird and Pipe
                 if (obj1 instanceof Bird && obj2 instanceof Pipe) {
-                    if (obj1.collider.isColliding(obj2.collider)) return true;
+                    if (obj1.collider.isColliding(obj2.collider)) return true
                 } else if (obj1 instanceof Pipe && obj2 instanceof Bird) {
-                    if (obj1.collider.isColliding(obj2.collider)) return true;
+                    if (obj1.collider.isColliding(obj2.collider)) return true
                 }
             }
         }
-    
-        return false; // No collisions found
+
+        return false
     }
 
-    // public increaseScore(): void {
-    //     if (this.listOfPipes.getIsDestroyed()) {
-    //         this.score.setIsScore(true)
-    //     }
+    // caculate score
+    private caculateScore(): void {
+        if(this.listOfPipes.getIsDestroyed()){
+            this.score.setIsScore(true);
+        }
 
-    //     if (
-    //         this.score.getIsScore() &&
-    //         this.bird.getCanvasPosition().getX() >
-    //             this.listOfPipes.getListOfGameObjects()[0].getCanvasPosition().getX() +
-    //                 this.listOfPipes.getListOfGameObjects()[0].getWidth()
-    //     ) {
-    //         this.score.setScore(this.score.getScore() + 1)
-    //         this.score.setIsScore(false)
-    //         this.listOfPipes.setIsDestroyed(false)
-    //     }
-    // }
+        const firstGroundObject = this.scene.listOfGameObjects[this.listOfPipes.findFirstPipes(this.scene)];
 
-    // public updateHighScore(): void {
-    //     this.score.setIsScore(false)
-    //     this.listOfPipes.setIsDestroyed(false)
-    //     localStorage.setItem('SCORE', String(this.score.getScore()))
-    //     if (localStorage.getItem('HIGHSCORE')) {
-    //         let score = localStorage.getItem('SCORE')
-    //         let highScore = localStorage.getItem('HIGHSCORE')
-    //         if (Number(score) > Number(highScore)) {
-    //             localStorage.setItem('HIGHSCORE', String(score))
-    //         }
-    //     } else {
-    //         localStorage.setItem('HIGHSCORE', String(this.score.getScore()))
-    //     }
-    //     this.score.setBestScore(Number(localStorage.getItem('HIGHSCORE')))
-    // }
+        if(this.score.getIsScore() && 
+            this.bird.getCanvasPosition().getX() > firstGroundObject.getCanvasPosition().getX() + firstGroundObject.getCanvasWidth()
+        ){
+            this.score.setScore(this.score.getScore() + 1)
+            this.score.setIsScore(false)
+            this.listOfPipes.setIsDestroyed(false)
+        }
+    }
 }
 
 export default GameManager

@@ -6,6 +6,15 @@ import { random } from '../../helper/helper'
 import Pipe from './Pipe'
 
 class PipeManager extends GameObjectManager<Pipe> {
+    private isDestroyed: boolean = false;
+
+    public getIsDestroyed(): boolean {
+        return this.isDestroyed
+    }
+    public setIsDestroyed(isDestroyed: boolean): void {
+        this.isDestroyed = isDestroyed
+    }
+
     public setAllSpeed(speed: number): void {
         this.listOfGameObjects.forEach((gameObject) => gameObject.setSpeed(speed))
     }
@@ -28,22 +37,16 @@ class PipeManager extends GameObjectManager<Pipe> {
         return 0
     }
 
-    public draw() {
-        this.listOfGameObjects.forEach((pipe) => {
-            pipe.draw()
-        })
-    }
-
     public update(deltaTime: number, scene?: Scene): void {
-        
         if (scene) {
             const firstIndex = this.findFirstPipes(scene)
             const lastIndex = this.findLastPipes(scene)
 
             const firstPipesObject: Pipe = scene.listOfGameObjects[firstIndex] as Pipe
             const lastPipesObject: Pipe = scene.listOfGameObjects[lastIndex] as Pipe
-            
+
             if (firstPipesObject.getCanvasPosition().getX() <= -firstPipesObject.getCanvasWidth()) {
+                this.isDestroyed = true
                 const newPipe = new Pipe(
                     firstPipesObject.getPath(),
                     firstPipesObject.getTransform(),
@@ -51,19 +54,19 @@ class PipeManager extends GameObjectManager<Pipe> {
                     firstPipesObject.getHeight(),
                     new Transform(
                         new Vector2D(
-                            lastPipesObject.getCanvasPosition().getX() +
-                                random(500, 600),
-                                random(200, 400)
+                            lastPipesObject.getCanvasPosition().getX() + random(500, 600),
+                            random(200, 400)
                         )
                     ),
                     firstPipesObject.getCanvasWidth(),
                     firstPipesObject.getCanvasHeight()
                 )
-                newPipe.setSpeed(200);  
-                newPipe.setLayer(firstPipesObject.getLayer());          
+                newPipe.setSpeed(firstPipesObject.getSpeed())
+                newPipe.setLayer(firstPipesObject.getLayer())
+                newPipe.setActive(firstPipesObject.getIsActive())
 
-                scene.addGameObject(newPipe);
-                scene.removeGameObject(firstPipesObject);
+                scene.addGameObject(newPipe)
+                scene.removeGameObject(firstPipesObject)
             }
         }
     }

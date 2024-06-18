@@ -12,6 +12,9 @@ class Ground extends Image {
     public setSpeed(speed: number): void {
         this.speed = speed
     }
+    public getSpeed(): number {
+        return this.speed
+    }
 
     public start(): void {}
 
