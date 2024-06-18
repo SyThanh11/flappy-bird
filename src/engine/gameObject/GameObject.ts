@@ -1,3 +1,4 @@
+import Scene from '../Scene'
 import Transform from '../components/Transform'
 import Vector2D from '../components/Vector2D'
 

@@ -6,6 +6,52 @@ import { random } from '../../helper/helper'
 import Pipe from './Pipe'
 
 class PipeManager extends GameObjectManager<Pipe> {
+    constructor(
+        numberOfGameObjects: number,
+        gameObject: Pipe,
+        indexStart: number,
+        gameObjectContructor: {
+            new (
+                path: string,
+                position: Transform,
+                width: number,
+                height: number,
+                canvasPosition: Transform,
+                canvasWidth: number,
+                canvasHeight: number
+            ): Pipe
+        },
+        dPosition: Vector2D,
+        space: number,
+        otherPath: string
+    ){
+        super(numberOfGameObjects, gameObject, indexStart, gameObjectContructor, dPosition)
+        for (let i = indexStart; i < numberOfGameObjects; i++) {
+            let newCanvasPosition = new Transform(
+                new Vector2D(i * dPosition.getX(), dPosition.getY() + gameObject.getHeight() + space)
+            )
+
+            let newGameObject = new gameObjectContructor(
+                otherPath,
+                gameObject.getTransform(),
+                gameObject.getWidth(),
+                gameObject.getHeight(),
+                newCanvasPosition,
+                gameObject.getCanvasWidth(),
+                gameObject.getCanvasHeight()
+            )
+            this.listOfGameObjects.push(newGameObject)
+        }
+
+        this.sortCanvasPosition();
+    }
+
+    private sortCanvasPosition(): void {
+        this.listOfGameObjects.sort((a, b) => {
+            return a.getCanvasPosition().getX() - b.getCanvasPosition().getX()
+        })
+    }
+
     private isDestroyed: boolean = false;
 
     public getIsDestroyed(): boolean {
@@ -38,16 +84,20 @@ class PipeManager extends GameObjectManager<Pipe> {
     }
 
     public update(deltaTime: number, scene?: Scene): void {
+        
         if (scene) {
             const firstIndex = this.findFirstPipes(scene)
             const lastIndex = this.findLastPipes(scene)
 
             const firstPipesObject: Pipe = scene.listOfGameObjects[firstIndex] as Pipe
+            const secondPipesObject: Pipe = scene.listOfGameObjects[firstIndex+1] as Pipe
+
+            const secondLastPipesObject: Pipe = scene.listOfGameObjects[lastIndex-1] as Pipe
             const lastPipesObject: Pipe = scene.listOfGameObjects[lastIndex] as Pipe
 
             if (firstPipesObject.getCanvasPosition().getX() <= -firstPipesObject.getCanvasWidth()) {
                 this.isDestroyed = true
-                const newPipe = new Pipe(
+                const newPipeTop = new Pipe(
                     firstPipesObject.getPath(),
                     firstPipesObject.getTransform(),
                     firstPipesObject.getWidth(),
@@ -55,18 +105,38 @@ class PipeManager extends GameObjectManager<Pipe> {
                     new Transform(
                         new Vector2D(
                             lastPipesObject.getCanvasPosition().getX() + random(500, 600),
-                            random(200, 400)
+                            random(-200, -100)
                         )
                     ),
                     firstPipesObject.getCanvasWidth(),
                     firstPipesObject.getCanvasHeight()
                 )
-                newPipe.setSpeed(firstPipesObject.getSpeed())
-                newPipe.setLayer(firstPipesObject.getLayer())
-                newPipe.setActive(firstPipesObject.getIsActive())
+                newPipeTop.setSpeed(firstPipesObject.getSpeed())
+                newPipeTop.setLayer(firstPipesObject.getLayer())
+                newPipeTop.setActive(firstPipesObject.getIsActive())
 
-                scene.addGameObject(newPipe)
+                const newPipeBottom = new Pipe(
+                    secondPipesObject.getPath(),
+                    secondPipesObject.getTransform(),
+                    secondPipesObject.getWidth(),
+                    secondPipesObject.getHeight(),
+                    new Transform(
+                        new Vector2D(
+                            newPipeTop.getCanvasPosition().getX(),
+                            newPipeTop.getCanvasPosition().getY() + newPipeTop.getCanvasHeight() + random(50, 70)
+                        )
+                    ),
+                    secondPipesObject.getCanvasWidth(),
+                    secondPipesObject.getCanvasHeight()
+                )
+                newPipeBottom.setSpeed(secondLastPipesObject.getSpeed())
+                newPipeBottom.setLayer(secondLastPipesObject.getLayer())
+                newPipeBottom.setActive(secondLastPipesObject.getIsActive())
+
+                scene.addGameObject(newPipeTop)
+                scene.addGameObject(newPipeBottom)
                 scene.removeGameObject(firstPipesObject)
+                scene.removeGameObject(secondPipesObject)
             }
         }
     }

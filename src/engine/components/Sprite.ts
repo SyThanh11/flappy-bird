@@ -33,10 +33,7 @@ class Sprite {
 
         const animate = (timestamp: number) => {
             if (timestamp - this.lastFrameTime >= interval) {
-                this.currentFrameIndex++
-                if (this.currentFrameIndex >= this.listOfPaths.length) {
-                    this.currentFrameIndex = 0
-                }
+                this.currentFrameIndex = (this.currentFrameIndex+1)%this.listOfPaths.length
                 this.lastFrameTime = timestamp
             }
 

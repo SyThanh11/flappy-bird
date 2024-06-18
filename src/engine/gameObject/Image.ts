@@ -1,10 +1,15 @@
+import Collider from '../components/Collider'
 import CanvasView from '../view/CanvasView'
 import GameObject from './GameObject'
 
 class Image extends GameObject {
     public view: CanvasView = new CanvasView('canvas')
+    public collider: Collider
 
     public draw(): void {
+        if(this.collider){
+            this.collider.draw(this.view.getCtx())
+        }
         this.view
             .getCtx()
             .drawImage(

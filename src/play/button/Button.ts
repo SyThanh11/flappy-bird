@@ -11,9 +11,7 @@ class Button extends Image {
         this.isClicked = value;
     }
 
-    public checkClickButton(event: MouseEvent): void {
-        console.log(this.getCanvasPosition());
-        
+    public checkClickButton(event: MouseEvent): void {        
         (
             event.clientX <= this.getCanvasPosition().getX() + this.getCanvasWidth() &&
             event.clientX >= this.getCanvasPosition().getX() &&

@@ -16,6 +16,10 @@ class Engine {
         this.scenes.push(scene)
     }
 
+    public findScene(scene: Scene): boolean {
+        return this.scenes.some((s) => s === scene);
+    }
+
     public update(deltaTime: number): void {
         this.currentScene.update(deltaTime);
     }
@@ -24,9 +28,7 @@ class Engine {
         this.currentScene.draw();
     }
 
-    public findScene(scene: Scene): boolean {
-        return this.scenes.some((s) => s === scene);
-    }
+    
 }
 
 export default Engine

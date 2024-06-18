@@ -58,7 +58,7 @@ export const listOfInputs = {
         canvasWidth: 34,
         canvasHeight: 24,
         speed: 0,
-        jumpSpeed: 60,
+        jumpSpeed: 100,
     },
 
     messageInfo: {
