@@ -7,9 +7,9 @@ class GameImage extends GameObject {
     public collider: Collider
 
     public draw(): void {
-        // if(this.collider){
-        //     this.collider.draw(this.view.getCtx())
-        // }
+        if(this.collider){
+            this.collider.draw(this.view.getCtx())
+        }
         this.view
             .getCtx()
             .drawImage(

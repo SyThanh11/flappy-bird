@@ -1,10 +1,11 @@
-import Transform from '../engine/components/Transform'
-import RigidBody from '../engine/components/RigidBody'
-import MouseEventHandler from '../engine/controller/MouseEventHandler'
-import Collider from '../engine/components/Collider'
-import Sprite from '../engine/components/Sprite'
-import { gameState } from '../constant/input'
-import GameImage from '../engine/gameObject/GameImage'
+import { gameState } from "../../constant/input";
+import Collider from "../../engine/components/Collider";
+import RigidBody from "../../engine/components/RigidBody";
+import Sprite from "../../engine/components/Sprite";
+import Transform from "../../engine/components/Transform";
+import MouseEventHandler from "../../engine/controller/MouseEventHandler";
+import GameImage from "../../engine/gameObject/GameImage";
+
 
 class Bird extends GameImage {
     public rigid: RigidBody = RigidBody.getInstance(1, 9.8);
