@@ -2,7 +2,7 @@ import { random } from '../helper/helper'
 import Vector2D from '../engine/components/Vector2D'
 import Transform from '../engine/components/Transform'
 
-export const listOfInputs = {
+const listOfInputs = {
     listOfGroundsInfo: {
         numberOfGrounds: 4,
         groundInfo: {
@@ -112,8 +112,4 @@ export const listOfInputs = {
     },
 }
 
-export const gameState = {
-    START: 'START',
-    PLAYING: 'PLAYING',
-    GAMEOVER: 'GAMEOVER',
-}
+export default listOfInputs;

@@ -1,8 +1,7 @@
-import { listOfInputs } from "../../constant/input";
+import listOfInputs from "../../constant/input";
 import Scene from "../../engine/Scene";
 import Transform from "../../engine/components/Transform";
 import Vector2D from "../../engine/components/Vector2D";
-import GameObject from "../../engine/gameObject/GameObject";
 import CanvasView from "../../engine/view/CanvasView";
 import ObjectBuilder from "../../pattern/builder/ObjectBuilder";
 import Message from "./Message";

@@ -1,4 +1,4 @@
-import { listOfInputs } from '../../constant/input'
+import listOfInputs from '../../constant/input'
 import Scene from '../../engine/Scene'
 import ObjectManagerBuilder from '../../pattern/builder/ObjectManagerBuilder'
 import Pipe from './Pipe'

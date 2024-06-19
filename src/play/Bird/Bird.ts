@@ -1,4 +1,4 @@
-import { gameState } from "../../constant/input";
+import GameState from "../../constant/GameState";
 import Collider from "../../engine/components/Collider";
 import RigidBody from "../../engine/components/RigidBody";
 import Sprite from "../../engine/components/Sprite";
@@ -12,7 +12,8 @@ class Bird extends GameImage {
     private mouseEvent: MouseEventHandler = new MouseEventHandler('canvas')
     private sprite: Sprite = new Sprite()
     private gameState: string
-
+    private rotation: number
+    
     constructor(
         path: string,
         position: Transform,
@@ -64,7 +65,7 @@ class Bird extends GameImage {
         this.sprite.playAnimation()
         this.setImage(this.sprite.getImage())
 
-        if (this.gameState === gameState.PLAYING) {
+        if (this.gameState === GameState.PLAYING) {
             if (this.rigid) {
                 const direction = this.getCanvasPosition().Down()
                 this.speed += this.rigid.getGravity()
@@ -90,9 +91,9 @@ class Bird extends GameImage {
 
             // Update rotation based on speed
             if (this.speed > this.jumpSpeed) {
-                this.getTransform().setRotation(25)
+                this.rotation = 90 * (Math.PI / 180) 
             } else {
-                this.getTransform().setRotation(25)
+                this.rotation = -30 * (Math.PI / 180) 
             }
         }
     }
@@ -107,16 +108,16 @@ class Bird extends GameImage {
     //         this.getCanvasPosition().getX(),
     //         this.getCanvasPosition().getY()
     //     )
-    //     ctx.rotate(this.getCanvasTransform().getRotation())
+    //     ctx.rotate(this.rotation)
 
     //     ctx.drawImage(
-    //         this.getImage(),
+    //         this.image,
     //         this.getPosition().getX(),
     //         this.getPosition().getY(),
     //         this.getWidth(),
     //         this.getHeight(),
-    //         -this.getCanvasWidth()/2,
-    //         -this.getCanvasHeight()/2,
+    //         -this.getWidth()/2,
+    //         -this.getHeight()/2,
     //         this.getCanvasWidth(),
     //         this.getCanvasHeight()
     //     )

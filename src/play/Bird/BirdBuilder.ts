@@ -1,4 +1,4 @@
-import { listOfInputs } from "../../constant/input";
+import listOfInputs from "../../constant/input";
 import Scene from "../../engine/Scene";
 import Transform from "../../engine/components/Transform";
 import Vector2D from "../../engine/components/Vector2D";

@@ -1,13 +1,10 @@
 import GameObject from './gameObject/GameObject'
-import CanvasView from './view/CanvasView'
 
 class Scene {
     public listOfGameObjects: GameObject[];
-    public view: CanvasView
 
     constructor() {
         this.listOfGameObjects = [];
-        this.view = new CanvasView('canvas');
     }
 
     public addGameObject(gameObject: GameObject) {
@@ -50,11 +47,17 @@ class Scene {
         })
     }
 
-    public draw() {
-        this.view.clear();
+    public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.sortLayer();
         this.listOfGameObjects.forEach((gameObject) => {
-            gameObject.draw()
+            gameObject.draw(ctx, canvas);
+        })
+    }
+
+    public destroy() {
+        this.listOfGameObjects.forEach((gameObject) => {
+            gameObject.destroy();
         })
     }
 }

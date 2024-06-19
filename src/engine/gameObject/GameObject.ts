@@ -109,7 +109,7 @@ abstract class GameObject {
     }
 
     public abstract start(): void
-    public abstract draw(): void
+    public abstract draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void
     public abstract update(deltaTime: number): void
     public abstract destroy(): void
 }

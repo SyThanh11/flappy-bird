@@ -24,11 +24,14 @@ class PipeManager extends GameObjectManager<Pipe> {
         dPosition: Vector2D,
         space: number,
         otherPath: string
-    ){
+    ) {
         super(numberOfGameObjects, gameObject, indexStart, gameObjectContructor, dPosition)
         for (let i = indexStart; i < numberOfGameObjects; i++) {
             let newCanvasPosition = new Transform(
-                new Vector2D(i * dPosition.getX(), dPosition.getY() + gameObject.getHeight() + space)
+                new Vector2D(
+                    i * dPosition.getX(),
+                    dPosition.getY() + gameObject.getHeight() + space
+                )
             )
 
             let newGameObject = new gameObjectContructor(
@@ -43,7 +46,7 @@ class PipeManager extends GameObjectManager<Pipe> {
             this.listOfGameObjects.push(newGameObject)
         }
 
-        this.sortCanvasPosition();
+        this.sortCanvasPosition()
     }
 
     private sortCanvasPosition(): void {
@@ -52,7 +55,7 @@ class PipeManager extends GameObjectManager<Pipe> {
         })
     }
 
-    private isDestroyed: boolean = false;
+    private isDestroyed: boolean = false
 
     public getIsDestroyed(): boolean {
         return this.isDestroyed
@@ -84,18 +87,18 @@ class PipeManager extends GameObjectManager<Pipe> {
     }
 
     public update(deltaTime: number, scene?: Scene): void {
-        
         if (scene) {
             const firstIndex = this.findFirstPipes(scene)
             const lastIndex = this.findLastPipes(scene)
 
             const firstPipesObject: Pipe = scene.listOfGameObjects[firstIndex] as Pipe
-            const secondPipesObject: Pipe = scene.listOfGameObjects[firstIndex+1] as Pipe
+            const secondPipesObject: Pipe = scene.listOfGameObjects[firstIndex + 1] as Pipe
 
-            const secondLastPipesObject: Pipe = scene.listOfGameObjects[lastIndex-1] as Pipe
+            const secondLastPipesObject: Pipe = scene.listOfGameObjects[lastIndex - 1] as Pipe
             const lastPipesObject: Pipe = scene.listOfGameObjects[lastIndex] as Pipe
 
             if (firstPipesObject.getCanvasPosition().getX() <= -firstPipesObject.getCanvasWidth()) {
+                this.listOfGameObjects.splice(0, 2)
                 this.isDestroyed = true
                 const newPipeTop = new Pipe(
                     firstPipesObject.getPath(),
@@ -123,7 +126,9 @@ class PipeManager extends GameObjectManager<Pipe> {
                     new Transform(
                         new Vector2D(
                             newPipeTop.getCanvasPosition().getX(),
-                            newPipeTop.getCanvasPosition().getY() + newPipeTop.getCanvasHeight() + random(50, 70)
+                            newPipeTop.getCanvasPosition().getY() +
+                                newPipeTop.getCanvasHeight() +
+                                random(50, 70)
                         )
                     ),
                     secondPipesObject.getCanvasWidth(),
@@ -132,6 +137,9 @@ class PipeManager extends GameObjectManager<Pipe> {
                 newPipeBottom.setSpeed(secondLastPipesObject.getSpeed())
                 newPipeBottom.setLayer(secondLastPipesObject.getLayer())
                 newPipeBottom.setActive(secondLastPipesObject.getIsActive())
+
+                this.listOfGameObjects.push(newPipeTop)
+                this.listOfGameObjects.push(newPipeBottom)
 
                 scene.addGameObject(newPipeTop)
                 scene.addGameObject(newPipeBottom)
