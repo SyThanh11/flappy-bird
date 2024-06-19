@@ -10,7 +10,7 @@ class BoardBuilder implements ObjectBuilder {
     private board: Board;
 
     constructor(view: CanvasView) {
-        this.board = this.board = new Board(
+        this.board = new Board(
             listOfInputs.boardInfo.path,
             listOfInputs.boardInfo.position,
             listOfInputs.boardInfo.width,
@@ -29,10 +29,6 @@ class BoardBuilder implements ObjectBuilder {
 
     public build(): Board {
         return this.board;
-    }
-
-    public addToScene(scene: Scene): void {
-        scene.addGameObject(this.board);
     }
 }
 

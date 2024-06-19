@@ -17,6 +17,7 @@ class PlayingState implements State {
 
     update(deltaTime: number): void {
         this.gameManager.getListOfPipesBuilder().build().setAllLayer(1)
+        this.gameManager.getScoreBuilder().build().setLayer(2)
         this.gameManager
             .getListOfGroundsBuilder()
             .build()
@@ -34,7 +35,7 @@ class PlayingState implements State {
         } else {
             this.gameManager.getListOfGroundsBuilder().build().update(deltaTime)
             this.gameManager.getListOfPipesBuilder().build().update(deltaTime)
-            // this.caculateScore()
+            this.caculateScore()
         }
     }
 
@@ -62,8 +63,26 @@ class PlayingState implements State {
                 }
             }
         }
-
         return false
+    }
+
+    private caculateScore(): void {
+        if (this.gameManager.getListOfPipesBuilder().build().getIsDestroyed()) {
+            this.gameManager.getScoreBuilder().build().setIsScore(true)
+        }
+
+        const firstGroundObject =
+            this.gameManager.getScene().listOfGameObjects[this.gameManager.getListOfPipesBuilder().build().findFirstPipes(this.gameManager.getScene())]
+
+        if (
+            this.gameManager.getScoreBuilder().build().getIsScore() &&
+            this.gameManager.getBirdBuilder().build().getCanvasPosition().getX() >
+                firstGroundObject.getCanvasPosition().getX() + firstGroundObject.getCanvasWidth()
+        ) {
+            this.gameManager.getScoreBuilder().build().setScore(this.gameManager.getScoreBuilder().build().getScore() + 1)
+            this.gameManager.getScoreBuilder().build().setIsScore(false)
+            this.gameManager.getListOfPipesBuilder().build().setIsDestroyed(false)
+        }
     }
 }
 

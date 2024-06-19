@@ -1,7 +1,7 @@
 import GameState from "../../constant/GameState";
 import GameManager from "../../game-manager-handler/GameManager";
 
-class StartState implements State {
+class ReadyState implements State {
     private gameManager: GameManager;
 
     constructor(gameManager: GameManager) {
@@ -12,17 +12,14 @@ class StartState implements State {
 
     update(deltaTime: number): void {
         const isMousePressed = this.gameManager.getMouseEventHandler().isMousePressed();
-        console.log(isMousePressed);
         
-        this.gameManager.getMessageBuilder().build().setLayer(2);
         this.gameManager.getListOfGroundsBuilder().build().setAllSpeed(0)
         this.gameManager.getListOfPipesBuilder().build().setAllSpeed(0)
-        if (isMousePressed ) {
-            this.gameManager.getScene().removeGameObject(this.gameManager.getMessageBuilder().build())
-            this.gameManager.setGameState(GameState.PLAYING)
-            this.gameManager.getBirdBuilder().build().setGameState(GameState.PLAYING)
+        if (isMousePressed && this.gameManager.getButtonBuilder().build().getIsClicked()) {
+            this.gameManager.setGameState(GameState.START)
+            this.gameManager.getBirdBuilder().build().setGameState(GameState.START)
         }
     }
 }
-  
-export default StartState;
+
+export default ReadyState;

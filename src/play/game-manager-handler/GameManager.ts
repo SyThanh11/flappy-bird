@@ -17,6 +17,8 @@ import StartState from '../pattern/state/StartState'
 import GameState from '../constant/GameState'
 import PlayingState from '../pattern/state/PlayingState'
 import GameOverState from '../pattern/state/GameOverState'
+import Score from '../score/Score'
+import ScoreBuilder from '../score/ScoreBuilder'
 
 class GameManager {
     private view: CanvasView = new CanvasView('canvas')
@@ -34,6 +36,7 @@ class GameManager {
     private boardBuilder: BoardBuilder
     private buttonBuilder: ButtonBuilder
     private middleGameObject: MiddleGameObject
+    private scoreBuilder: ScoreBuilder;
 
     constructor(){
         this.engine = new Engine(this.view.getCtx(), this.view.getCanvas())
@@ -46,7 +49,7 @@ class GameManager {
         SceneManager.getInstance().setCurrentScene('game')
 
         this.createObject();
-
+        
         this.currentState = new StartState(this);
     }
 
@@ -58,6 +61,7 @@ class GameManager {
         this.messageBuilder = new MessageBuilder(this.view);
         this.gameOverMessageBuilder = new GameOverMessageBuilder(this.view);
         this.boardBuilder = new BoardBuilder(this.view);
+        this.scoreBuilder = new ScoreBuilder();
         
         // no-auto add to the scene
         this.listOfPipesBuilder = new PipeManagerBuilder();
@@ -76,11 +80,12 @@ class GameManager {
         this.listOfGroundsBuilder.build().setAllLayer(2)
         this.boardBuilder.build().setLayer(-2)
         this.listOfPipesBuilder.build().setAllLayer(-1)
+        this.scoreBuilder.build().setLayer(-2)
     }
 
     public reload() {
         SceneManager.getInstance().getCurrentScene().deleteScene();
-        // automatically add to the scene
+    
         this.createObject();
 
         this.getBirdBuilder().build().setGameState(GameState.PLAYING)
@@ -103,30 +108,9 @@ class GameManager {
         }
     }
 
-    // update
     public update(deltaTime: number): void {
         this.currentState.update(deltaTime)
-    }
-
-    // caculate score
-    // private caculateScore(): void {
-    //     if (this.listOfPipesBuilder.build().getIsDestroyed()) {
-    //         this.score.setIsScore(true)
-    //     }
-
-    //     const firstGroundObject =
-    //         this.scene.listOfGameObjects[this.listOfPipesBuilder.build().findFirstPipes(this.scene)]
-
-    //     if (
-    //         this.score.getIsScore() &&
-    //         this.birdBuilder.build().getCanvasPosition().getX() >
-    //             firstGroundObject.getCanvasPosition().getX() + firstGroundObject.getCanvasWidth()
-    //     ) {
-    //         this.score.setScore(this.score.getScore() + 1)
-    //         this.score.setIsScore(false)
-    //         this.listOfPipesBuilder.build().setIsDestroyed(false)
-    //     }
-    // }
+    }    
 
     public getScene(): Scene {
         return this.scene;
@@ -170,6 +154,14 @@ class GameManager {
 
     public getListOfPipesBuilder(): PipeManagerBuilder {
         return this.listOfPipesBuilder
+    }
+
+    public getMiddleGameObject(): MiddleGameObject {
+        return this.middleGameObject
+    }
+
+    public getScoreBuilder(): ScoreBuilder {
+        return this.scoreBuilder
     }
 }
 

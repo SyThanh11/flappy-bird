@@ -6,7 +6,7 @@ class MouseEventHandler {
 
     constructor(canvasId: string) {
         this.canvas = document.getElementById(canvasId) as HTMLCanvasElement
-
+        
         // Bắt sự kiện nhấn chuột xuống
         this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this))
 

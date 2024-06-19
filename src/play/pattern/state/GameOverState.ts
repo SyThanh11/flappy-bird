@@ -14,6 +14,7 @@ class GameOverState implements State {
 
     update(deltaTime: number): void {
         const isMousePressed = this.gameManager.getMouseEventHandler().isMousePressed()
+        this.gameManager.getScoreBuilder().build().setLayer(-2)
         this.gameManager.getGameOverMessageBuilder().build().setLayer(5)
         this.gameManager.getBoardBuilder().build().setLayer(5)
         this.gameManager.getButtonBuilder().build().setLayer(5)
@@ -22,7 +23,6 @@ class GameOverState implements State {
             this.gameManager.setGameState(GameState.PLAYING)
             this.gameManager.getBirdBuilder().build().setGameState(GameState.PLAYING)
             this.gameManager.reload()
-            // this.gameManager.init()
             this.gameManager.getButtonBuilder().build().setIsClicked(false)
         }
     }

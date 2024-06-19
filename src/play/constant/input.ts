@@ -110,6 +110,16 @@ const listOfInputs = {
         speed: 0,
         dY: 70,
     },
+
+    scoreInfo: {
+        path: '',
+        position: new Transform(),
+        width: 0,
+        height: 0,
+        canvasPosition: new Transform(),
+        canvasWidth: 24,
+        canvasHeight: 36,
+    },
 }
 
 export default listOfInputs;
