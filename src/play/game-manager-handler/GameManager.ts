@@ -1,8 +1,6 @@
 import CanvasView from '../../engine/view/CanvasView'
 import Engine from '../../engine/Engine'
-import Scene from '../../engine/Scene'
 import MouseEventHandler from '../../engine/controller/MouseEventHandler'
-import Score from '../Score'
 import BirdBuilder from '../Bird/BirdBuilder'
 import BackgroundManagerBuilder from '../background/BackgroundManagerBuilder'
 import ButtonBuilder from '../button/ButtonBuilder'
@@ -11,16 +9,18 @@ import GameOverMessageBuilder from '../message/GameOverMessageBuilder'
 import GroundManagerBuilder from '../ground/GroundManagerBuilder'
 import BoardBuilder from '../record/BoardBuilder'
 import PipeManagerBuilder from '../obstacles/PipeManagerBuilder'
-import GameState from '../../constant/GameState'
-import StartState from '../../pattern/state/StartState'
-import PlayingState from '../../pattern/state/PlayingState'
-import GameOverState from '../../pattern/state/GameOverState'
 import MiddleGameObject from './MiddleGameObject'
 import Transform from '../../engine/components/Transform'
+import Scene from '../../engine/scene/Scene'
+import SceneManager from '../../engine/scene/SceneManager'
+import StartState from '../pattern/state/StartState'
+import GameState from '../constant/GameState'
+import PlayingState from '../pattern/state/PlayingState'
+import GameOverState from '../pattern/state/GameOverState'
 
 class GameManager {
     private view: CanvasView = new CanvasView('canvas')
-    private engine: Engine = Engine.getInstance(this.view.getCtx(), this.view.getCanvas());
+    private engine: Engine;
     private scene: Scene
     private mouseEvent: MouseEventHandler = new MouseEventHandler('canvas')
     private currentState: State;
@@ -35,39 +35,38 @@ class GameManager {
     private buttonBuilder: ButtonBuilder
     private middleGameObject: MiddleGameObject
 
-    private score: Score
-
     constructor(){
-        this.scene = new Scene()
+        this.engine = new Engine(this.view.getCtx(), this.view.getCanvas())
         this.init();
     }
 
     public init = (): void => {
-        // this.scene = new Scene()
+        this.scene = new Scene()
+        SceneManager.getInstance().addScene('game', this.scene)
+        SceneManager.getInstance().setCurrentScene('game')
 
+        this.createObject();
+
+        this.currentState = new StartState(this);
+    }
+
+    public createObject(){
+        // automatically add to the scene
         this.birdBuilder = new BirdBuilder(this.view);
         this.listOfBackgroundsBuilder = new BackgroundManagerBuilder();
         this.buttonBuilder = new ButtonBuilder(this.view);
         this.messageBuilder = new MessageBuilder(this.view);
         this.gameOverMessageBuilder = new GameOverMessageBuilder(this.view);
-        this.listOfGroundsBuilder = new GroundManagerBuilder();
         this.boardBuilder = new BoardBuilder(this.view);
+        
+        // no-auto add to the scene
         this.listOfPipesBuilder = new PipeManagerBuilder();
-
+        this.listOfGroundsBuilder = new GroundManagerBuilder();
         this.middleGameObject = new MiddleGameObject('', new Transform(), 0, 0, new Transform(), 0, 0)
         this.middleGameObject.setGameManager(this)
-
-        this.birdBuilder.addToScene(this.scene);
-        this.listOfBackgroundsBuilder.addToScene(this.scene);
-        this.buttonBuilder.addToScene(this.scene);
-        this.messageBuilder.addToScene(this.scene);
-        this.gameOverMessageBuilder.addToScene(this.scene);
         this.listOfGroundsBuilder.addToScene(this.scene);
-        this.boardBuilder.addToScene(this.scene);
         this.listOfPipesBuilder.addToScene(this.scene);
         this.middleGameObject.addToScene(this.scene);
-        
-        this.createScore()
         
         this.birdBuilder.build().setLayer(2)
         this.listOfBackgroundsBuilder.build().setAllLayer(0)
@@ -77,15 +76,15 @@ class GameManager {
         this.listOfGroundsBuilder.build().setAllLayer(2)
         this.boardBuilder.build().setLayer(-2)
         this.listOfPipesBuilder.build().setAllLayer(-1)
-        
-        this.engine.setCurrentScene(this.scene)
-        this.engine.addScene(this.scene)
-
-        this.currentState = new StartState(this);
     }
 
-    public createScore(): void {
-        this.score = new Score()
+    public reload() {
+        SceneManager.getInstance().getCurrentScene().deleteScene();
+        // automatically add to the scene
+        this.createObject();
+
+        this.getBirdBuilder().build().setGameState(GameState.PLAYING)
+        this.currentState = new PlayingState(this);
     }
 
     public setGameState(state: GameState): void {
@@ -139,10 +138,6 @@ class GameManager {
 
     public getCanvasView(): CanvasView {
         return this.view;
-    }
-
-    public getEngine(): Engine {
-        return this.engine;
     }
 
     public getBirdBuilder(): BirdBuilder {

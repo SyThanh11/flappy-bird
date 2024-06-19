@@ -7,7 +7,7 @@ class Button extends GameImage implements MouseEventListener {
     private isClicked: boolean = false;
 
     constructor(path: string, position: Transform, width: number, height: number, canvasPosition: Transform, canvasWidth: number, canvasHeight: number) {
-        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight);
+        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight, true);
         this.mouseEventHandler = new MouseEventHandler('canvas');
         this.mouseEventHandler.addObserver(this);
     }
@@ -23,7 +23,7 @@ class Button extends GameImage implements MouseEventListener {
     public onMouseDown(event: MouseEvent): void {
         if (this.checkClickButton(event)) {
             this.isClicked = true;
-            // console.log(`Button clicked at (${event.clientX}, ${event.clientY})`);
+            console.log(`Button clicked at (${event.clientX}, ${event.clientY})`);
         }
     }
 

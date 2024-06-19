@@ -2,7 +2,8 @@ import GameObjectManager from '../../engine/gameObject/GameObjectManager'
 import Vector2D from '../../engine/components/Vector2D'
 import Ground from './Ground'
 import Transform from '../../engine/components/Transform'
-import Scene from '../../engine/Scene'
+import Scene from '../../engine/scene/Scene'
+import SceneManager from '../../engine/scene/SceneManager'
 
 class GroundManager extends GameObjectManager<Ground> {
     public setAllSpeed(speed: number): void {
@@ -27,41 +28,42 @@ class GroundManager extends GameObjectManager<Ground> {
         return 0
     }
 
-    public update(deltaTime: number, scene?: Scene): void {
-        if (scene) {
-            const lastIndex = this.findLastGround(scene)
-            const firstIndex = this.findFirstGround(scene)
+    public update(deltaTime: number): void {
+        const lastIndex = this.findLastGround(SceneManager.getInstance().getCurrentScene())
+        const firstIndex = this.findFirstGround(SceneManager.getInstance().getCurrentScene())
+        
+        const firstGroundObject: Ground = SceneManager.getInstance().getCurrentScene()
+            .listOfGameObjects[firstIndex] as Ground
+        const lastGroundObject: Ground = SceneManager.getInstance().getCurrentScene()
+            .listOfGameObjects[lastIndex] as Ground
+        
 
-            const firstGroundObject: Ground = scene.listOfGameObjects[firstIndex] as Ground
-            const lastGroundObject: Ground = scene.listOfGameObjects[lastIndex] as Ground
+        if (
+            firstGroundObject.getCanvasPosition().getX() + firstGroundObject.getCanvasWidth() <=
+            0
+        ) {
+            this.listOfGameObjects.splice(0, 1)
+            const newGround = new Ground(
+                firstGroundObject.getPath(),
+                firstGroundObject.getTransform(),
+                firstGroundObject.getWidth(),
+                firstGroundObject.getHeight(),
+                new Transform(
+                    new Vector2D(
+                        lastGroundObject.getCanvasPosition().getX() +
+                            firstGroundObject.getCanvasWidth(),
+                        510 - firstGroundObject.getCanvasHeight()
+                    )
+                ),
+                firstGroundObject.getCanvasWidth(),
+                firstGroundObject.getCanvasHeight()
+            )
+            newGround.setSpeed(firstGroundObject.getSpeed())
+            newGround.setLayer(firstGroundObject.getLayer())
 
-            if (
-                firstGroundObject.getCanvasPosition().getX() + firstGroundObject.getCanvasWidth() <=
-                0
-            ) {
-                this.listOfGameObjects.splice(0, 1)
-                const newGround = new Ground(
-                    firstGroundObject.getPath(),
-                    firstGroundObject.getTransform(),
-                    firstGroundObject.getWidth(),
-                    firstGroundObject.getHeight(),
-                    new Transform(
-                        new Vector2D(
-                            lastGroundObject.getCanvasPosition().getX() +
-                                firstGroundObject.getCanvasWidth(),
-                            510 - firstGroundObject.getCanvasHeight()
-                        )
-                    ),
-                    firstGroundObject.getCanvasWidth(),
-                    firstGroundObject.getCanvasHeight()
-                )
-                newGround.setSpeed(firstGroundObject.getSpeed())
-                newGround.setLayer(firstGroundObject.getLayer())
-
-                this.listOfGameObjects.push(newGround)
-                scene.addGameObject(newGround)
-                scene.removeGameObject(firstGroundObject)
-            }
+            this.listOfGameObjects.push(newGround)
+            SceneManager.getInstance().getCurrentScene().addGameObject(newGround)
+            SceneManager.getInstance().getCurrentScene().removeGameObject(firstGroundObject)
         }
     }
 

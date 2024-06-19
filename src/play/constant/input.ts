@@ -1,6 +1,6 @@
-import { random } from '../helper/helper'
-import Vector2D from '../engine/components/Vector2D'
-import Transform from '../engine/components/Transform'
+import Transform from "../../engine/components/Transform";
+import Vector2D from "../../engine/components/Vector2D";
+import { random } from "../helper/helper";
 
 const listOfInputs = {
     listOfGroundsInfo: {

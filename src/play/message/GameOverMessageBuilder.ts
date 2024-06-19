@@ -1,12 +1,12 @@
-import listOfInputs from "../../constant/input";
-import Scene from "../../engine/Scene";
 import Transform from "../../engine/components/Transform";
 import Vector2D from "../../engine/components/Vector2D";
+import Scene from "../../engine/scene/Scene";
 import CanvasView from "../../engine/view/CanvasView";
-import ObjectBuilder from "../../pattern/builder/ObjectBuilder";
+import listOfInputs from "../constant/input";
+import ObjectBuilder from "../pattern/builder/ObjectBuilder";
 import GameOverMessage from "./GameOverMessage";
 
-class GameOverMessageBuilder implements ObjectBuilder{
+class GameOverMessageBuilder implements ObjectBuilder {
     private gameOverMessage: GameOverMessage;
 
     constructor(view: CanvasView){
@@ -24,7 +24,8 @@ class GameOverMessageBuilder implements ObjectBuilder{
                 )
             ),
             listOfInputs.gameOverMessageInfo.canvasWidth,
-            listOfInputs.gameOverMessageInfo.canvasHeight
+            listOfInputs.gameOverMessageInfo.canvasHeight,
+            true
         )
     }
 

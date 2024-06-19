@@ -1,6 +1,6 @@
-import listOfInputs from '../../constant/input'
-import Scene from '../../engine/Scene'
-import ObjectBuilder from '../../pattern/builder/ObjectBuilder'
+import Scene from '../../engine/scene/Scene'
+import listOfInputs from '../constant/input'
+import ObjectBuilder from '../pattern/builder/ObjectBuilder'
 import Ground from './Ground'
 
 class GroundBuilder implements ObjectBuilder {
@@ -26,3 +26,5 @@ class GroundBuilder implements ObjectBuilder {
         scene.addGameObject(this.ground)
     }
 }
+
+export default GroundBuilder

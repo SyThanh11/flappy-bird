@@ -7,7 +7,7 @@ class GameImage extends GameObject {
     public collider: Collider
 
     public draw(): void {
-        if(this.collider){
+        if (this.collider) {
             this.collider.draw(this.view.getCtx())
         }
         this.view
@@ -26,8 +26,8 @@ class GameImage extends GameObject {
     }
 
     public start(): void {
-        this.image = new Image();
-        this.image.src = this.getPath();
+        this.image = new Image()
+        this.image.src = this.getPath()
     }
     public update(deltaTime: number): void {}
     public destroy(): void {}

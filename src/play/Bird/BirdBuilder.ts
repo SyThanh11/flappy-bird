@@ -1,15 +1,15 @@
-import listOfInputs from "../../constant/input";
-import Scene from "../../engine/Scene";
 import Transform from "../../engine/components/Transform";
 import Vector2D from "../../engine/components/Vector2D";
+import Scene from "../../engine/scene/Scene";
 import CanvasView from "../../engine/view/CanvasView";
-import ObjectBuilder from "../../pattern/builder/ObjectBuilder";
+import listOfInputs from "../constant/input";
+import ObjectBuilder from "../pattern/builder/ObjectBuilder";
 import Bird from "./Bird";
 
 class BirdBuilder implements ObjectBuilder {
     private bird: Bird;
 
-    constructor(view: CanvasView){
+    constructor(view: CanvasView){        
         this.bird = new Bird(
             listOfInputs.birdInfo.path,
             listOfInputs.birdInfo.position,

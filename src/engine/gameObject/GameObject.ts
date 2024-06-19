@@ -1,20 +1,22 @@
 import Transform from '../components/Transform'
 import Vector2D from '../components/Vector2D'
+import SceneManager from '../scene/SceneManager'
 
 abstract class GameObject {
     private isStatic: boolean = false
     private isActive: boolean = false
     private layer: number = 0
-    public image: HTMLImageElement 
+    public image: HTMLImageElement
 
     constructor(
         private path: string,
         private transform: Transform,
         private width: number,
-        private height: number,   
+        private height: number,
         private canvasTransform: Transform,
         private canvasWidth: number,
-        private canvasHeight: number
+        private canvasHeight: number,
+        isStatic: boolean = false
     ) {
         this.path = path
         this.transform = transform
@@ -23,6 +25,15 @@ abstract class GameObject {
         this.canvasTransform = canvasTransform
         this.canvasWidth = canvasWidth * this.transform.getScale().getX()
         this.canvasHeight = canvasHeight * this.transform.getScale().getY()
+        this.isStatic = isStatic
+        if (this.isStatic) {
+            this.addToCurrentScene()
+        }
+    }
+
+    // automatically add the scene
+    public addToCurrentScene(): void {
+        SceneManager.getInstance().getCurrentScene().addGameObject(this)
     }
 
     // getter
@@ -67,7 +78,6 @@ abstract class GameObject {
     public getCanvasPosition(): Vector2D {
         return this.canvasTransform.getPosition()
     }
-
 
     public setLayer(layer: number): void {
         this.layer = layer

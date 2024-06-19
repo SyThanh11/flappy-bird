@@ -1,18 +1,17 @@
-import GameState from "../../constant/GameState";
 import Collider from "../../engine/components/Collider";
 import RigidBody from "../../engine/components/RigidBody";
 import Sprite from "../../engine/components/Sprite";
 import Transform from "../../engine/components/Transform";
 import MouseEventHandler from "../../engine/controller/MouseEventHandler";
 import GameImage from "../../engine/gameObject/GameImage";
+import GameState from "../constant/GameState";
 
 
 class Bird extends GameImage {
-    public rigid: RigidBody = RigidBody.getInstance(1, 9.8);
+    public rigid: RigidBody;
     private mouseEvent: MouseEventHandler = new MouseEventHandler('canvas')
     private sprite: Sprite = new Sprite()
     private gameState: string
-    private rotation: number
     
     constructor(
         path: string,
@@ -25,7 +24,8 @@ class Bird extends GameImage {
         private speed: number,
         private jumpSpeed: number
     ) {
-        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight)
+        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight, true)
+        this.rigid = new RigidBody(1, 9.8)
         this.collider = new Collider(
             this.getCanvasPosition(),
             this.getCanvasWidth(),
@@ -57,7 +57,7 @@ class Bird extends GameImage {
             image.src = path;
             this.sprite.addImage(image);
         });
-        this.sprite.setFps(30)
+        this.sprite.setFps(10)
     }
 
     public update(deltaTime: number): void { 
@@ -90,11 +90,11 @@ class Bird extends GameImage {
             }
 
             // Update rotation based on speed
-            if (this.speed > this.jumpSpeed) {
-                this.rotation = 90 * (Math.PI / 180) 
-            } else {
-                this.rotation = -30 * (Math.PI / 180) 
-            }
+            // if (this.speed > this.jumpSpeed) {
+            //     this.rotation = 90 * (Math.PI / 180) 
+            // } else {
+            //     this.rotation = -30 * (Math.PI / 180) 
+            // }
         }
     }
 

@@ -1,5 +1,5 @@
-import Scene from "../../engine/Scene";
 import GameObject from "../../engine/gameObject/GameObject";
+import Scene from "../../engine/scene/Scene";
 import GameManager from "./GameManager";
 
 

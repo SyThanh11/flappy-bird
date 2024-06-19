@@ -1,65 +1,70 @@
-import GameObject from './gameObject/GameObject'
+import GameObject from '../gameObject/GameObject'
 
 class Scene {
-    public listOfGameObjects: GameObject[];
+    public listOfGameObjects: GameObject[]
 
     constructor() {
-        this.listOfGameObjects = [];
+        this.listOfGameObjects = []
     }
 
     public addGameObject(gameObject: GameObject) {
-        gameObject.start();
+        gameObject.start()
         this.listOfGameObjects.push(gameObject)
     }
-    
+
     public removeGameObject(gameObject: GameObject) {
-        gameObject.destroy();
-        this.listOfGameObjects.splice(this.listOfGameObjects.indexOf(gameObject), 1);
+        gameObject.destroy()
+        this.listOfGameObjects.splice(this.listOfGameObjects.indexOf(gameObject), 1)
     }
 
     public findGameObject(gameObject: GameObject) {
         return this.listOfGameObjects.find((obj) => {
-            return obj === gameObject;
+            return obj === gameObject
         })
     }
-        
+
     public addListOfGameObjects(listOfGameObjects: GameObject[]) {
         listOfGameObjects.forEach((gameObject) => {
-            this.addGameObject(gameObject);
+            this.addGameObject(gameObject)
         })
     }
 
     public update(deltaTime: number) {
         this.listOfGameObjects.forEach((gameObject) => {
-            gameObject.update(deltaTime);
+            gameObject.update(deltaTime)
         })
     }
 
-    public sortLayer(){
+    public sortLayer() {
         this.listOfGameObjects.sort((a, b) => {
-            return a.getLayer() - b.getLayer();
+            return a.getLayer() - b.getLayer()
         })
     }
 
     public start() {
         this.listOfGameObjects.forEach((gameObject) => {
-            gameObject.start();
+            gameObject.start()
         })
     }
 
     public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        this.sortLayer();
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        this.sortLayer()
         this.listOfGameObjects.forEach((gameObject) => {
-            gameObject.draw(ctx, canvas);
+            gameObject.draw(ctx, canvas)
         })
     }
 
     public destroy() {
         this.listOfGameObjects.forEach((gameObject) => {
-            gameObject.destroy();
+            gameObject.destroy()
         })
+    }
+
+    public deleteScene(){
+        this.destroy()
+        this.listOfGameObjects = []
     }
 }
 
-export default Scene;
+export default Scene

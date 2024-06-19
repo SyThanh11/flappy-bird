@@ -1,7 +1,7 @@
-import listOfInputs from '../../constant/input'
-import Scene from '../../engine/Scene'
 import Vector2D from '../../engine/components/Vector2D'
-import ObjectManagerBuilder from '../../pattern/builder/ObjectManagerBuilder'
+import Scene from '../../engine/scene/Scene'
+import listOfInputs from '../constant/input'
+import ObjectManagerBuilder from '../pattern/builder/ObjectManagerBuilder'
 import Ground from './Ground'
 import GroundManager from './GroundManager'
 

@@ -1,4 +1,4 @@
-import { Collidable } from '../../types/collidable'
+import Collidable from '../../types/collidable'
 import Vector2D from './Vector2D'
 
 class Collider implements Collidable {
@@ -32,7 +32,7 @@ class Collider implements Collidable {
         this.height = height
     }
 
-    public draw(context: CanvasRenderingContext2D){
+    public draw(context: CanvasRenderingContext2D) {
         context.strokeStyle = 'black'
         context.strokeRect(this.position.getX(), this.position.getY(), this.width, this.height)
     }

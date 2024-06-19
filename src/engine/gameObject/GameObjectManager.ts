@@ -17,7 +17,8 @@ abstract class GameObjectManager<T extends GameObject> {
                 height: number,
                 canvasPosition: Transform,
                 canvasWidth: number,
-                canvasHeight: number
+                canvasHeight: number,
+                isStatic: boolean
             ): T
         },
         dPosition: Vector2D
@@ -34,7 +35,8 @@ abstract class GameObjectManager<T extends GameObject> {
                 gameObject.getHeight(),
                 newCanvasPosition,
                 gameObject.getCanvasWidth(),
-                gameObject.getCanvasHeight()
+                gameObject.getCanvasHeight(),
+                gameObject.getIsStatic()
             )
             this.listOfGameObjects.push(newGameObject)
         }

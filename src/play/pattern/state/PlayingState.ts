@@ -1,9 +1,10 @@
+import Bird from '../../Bird/Bird'
 import GameState from '../../constant/GameState'
 import listOfInputs from '../../constant/input'
-import GameManager from '../../play/game-manager-handler/GameManager'
-import Bird from '../../play/Bird/Bird'
-import Ground from '../../play/ground/Ground'
-import Pipe from '../../play/obstacles/Pipe'
+import GameManager from '../../game-manager-handler/GameManager'
+import Ground from '../../ground/Ground'
+import Pipe from '../../obstacles/Pipe'
+
 
 class PlayingState implements State {
     private gameManager: GameManager
@@ -31,8 +32,8 @@ class PlayingState implements State {
             this.gameManager.getListOfGroundsBuilder().build().setAllSpeed(0)
             this.gameManager.getListOfPipesBuilder().build().setAllSpeed(0)
         } else {
-            this.gameManager.getListOfGroundsBuilder().build().update(deltaTime, this.gameManager.getScene())
-            this.gameManager.getListOfPipesBuilder().build().update(deltaTime, this.gameManager.getScene())
+            this.gameManager.getListOfGroundsBuilder().build().update(deltaTime)
+            this.gameManager.getListOfPipesBuilder().build().update(deltaTime)
             // this.caculateScore()
         }
     }

@@ -1,8 +1,7 @@
-import listOfInputs from '../../constant/input'
-import Scene from '../../engine/Scene'
 import Transform from '../../engine/components/Transform'
 import Vector2D from '../../engine/components/Vector2D'
-import ObjectBuilder from '../../pattern/builder/ObjectBuilder'
+import listOfInputs from '../constant/input'
+import ObjectBuilder from '../pattern/builder/ObjectBuilder'
 import Background from './Background'
 
 class BackgroundBuilder implements ObjectBuilder {
@@ -26,16 +25,13 @@ class BackgroundBuilder implements ObjectBuilder {
                 )
             ),
             listOfInputs.listOfBackgroundsInfo.backgroundInfo.canvasWidth,
-            listOfInputs.listOfBackgroundsInfo.backgroundInfo.canvasHeight
+            listOfInputs.listOfBackgroundsInfo.backgroundInfo.canvasHeight,
+            true
         )
     }
 
     public build(): Background {
         return this.background
-    }
-
-    public addToScene(scene: Scene): void {
-        scene.addGameObject(this.background)
     }
 }
 

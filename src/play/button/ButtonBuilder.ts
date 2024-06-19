@@ -1,12 +1,12 @@
-import listOfInputs from "../../constant/input";
-import Scene from "../../engine/Scene";
 import Transform from "../../engine/components/Transform";
 import Vector2D from "../../engine/components/Vector2D";
+import Scene from "../../engine/scene/Scene";
 import CanvasView from "../../engine/view/CanvasView";
-import ObjectBuilder from "../../pattern/builder/ObjectBuilder";
+import listOfInputs from "../constant/input";
+import ObjectBuilder from "../pattern/builder/ObjectBuilder";
 import Button from "./Button";
 
-class ButtonBuilder implements ObjectBuilder{
+class ButtonBuilder implements ObjectBuilder {
     private button: Button;
 
     constructor(view: CanvasView){

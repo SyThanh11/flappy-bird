@@ -1,5 +1,5 @@
 import GameState from "../../constant/GameState";
-import GameManager from "../../play/game-manager-handler/GameManager";
+import GameManager from "../../game-manager-handler/GameManager";
 
 class StartState implements State {
     private gameManager: GameManager;

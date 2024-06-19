@@ -1,6 +1,6 @@
-import listOfInputs from "../../constant/input";
-import Scene from "../../engine/Scene";
-import ObjectBuilder from "../../pattern/builder/ObjectBuilder";
+import Scene from "../../engine/scene/Scene";
+import listOfInputs from "../constant/input";
+import ObjectBuilder from "../pattern/builder/ObjectBuilder";
 import Pipe from "./Pipe";
 
 class PipeBuilder implements ObjectBuilder {

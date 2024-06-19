@@ -9,3 +9,5 @@ interface Collidable {
     setHeight(height: number): void;
     isColliding(otherCollider: Collider): boolean
 }
+
+export default Collidable;

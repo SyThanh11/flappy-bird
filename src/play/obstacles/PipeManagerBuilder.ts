@@ -1,6 +1,6 @@
-import listOfInputs from '../../constant/input'
-import Scene from '../../engine/Scene'
-import ObjectManagerBuilder from '../../pattern/builder/ObjectManagerBuilder'
+import Scene from '../../engine/scene/Scene'
+import listOfInputs from '../constant/input'
+import ObjectManagerBuilder from '../pattern/builder/ObjectManagerBuilder'
 import Pipe from './Pipe'
 import PipeManager from './PipeManager'
 

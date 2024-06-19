@@ -1,9 +1,9 @@
-import listOfInputs from "../../constant/input";
-import Scene from "../../engine/Scene";
 import Transform from "../../engine/components/Transform";
 import Vector2D from "../../engine/components/Vector2D";
+import Scene from "../../engine/scene/Scene";
 import CanvasView from "../../engine/view/CanvasView";
-import ObjectBuilder from "../../pattern/builder/ObjectBuilder";
+import listOfInputs from "../constant/input";
+import ObjectBuilder from "../pattern/builder/ObjectBuilder";
 import Board from "./Board";
 
 class BoardBuilder implements ObjectBuilder {
@@ -22,7 +22,8 @@ class BoardBuilder implements ObjectBuilder {
                 )
             ),
             listOfInputs.boardInfo.canvasWidth,
-            listOfInputs.boardInfo.canvasHeight
+            listOfInputs.boardInfo.canvasHeight,
+            true
         );
     }
 

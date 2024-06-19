@@ -1,8 +1,9 @@
-import Scene from '../../engine/Scene'
 import Transform from '../../engine/components/Transform'
 import Vector2D from '../../engine/components/Vector2D'
 import GameObjectManager from '../../engine/gameObject/GameObjectManager'
-import { random } from '../../helper/helper'
+import Scene from '../../engine/scene/Scene'
+import SceneManager from '../../engine/scene/SceneManager'
+import { random } from '../helper/helper'
 import Pipe from './Pipe'
 
 class PipeManager extends GameObjectManager<Pipe> {
@@ -86,16 +87,15 @@ class PipeManager extends GameObjectManager<Pipe> {
         return 0
     }
 
-    public update(deltaTime: number, scene?: Scene): void {
-        if (scene) {
-            const firstIndex = this.findFirstPipes(scene)
-            const lastIndex = this.findLastPipes(scene)
+    public update(deltaTime: number): void {
+        const firstIndex = this.findFirstPipes(SceneManager.getInstance().getCurrentScene())
+            const lastIndex = this.findLastPipes(SceneManager.getInstance().getCurrentScene())
 
-            const firstPipesObject: Pipe = scene.listOfGameObjects[firstIndex] as Pipe
-            const secondPipesObject: Pipe = scene.listOfGameObjects[firstIndex + 1] as Pipe
+            const firstPipesObject: Pipe = SceneManager.getInstance().getCurrentScene().listOfGameObjects[firstIndex] as Pipe
+            const secondPipesObject: Pipe = SceneManager.getInstance().getCurrentScene().listOfGameObjects[firstIndex + 1] as Pipe
 
-            const secondLastPipesObject: Pipe = scene.listOfGameObjects[lastIndex - 1] as Pipe
-            const lastPipesObject: Pipe = scene.listOfGameObjects[lastIndex] as Pipe
+            const secondLastPipesObject: Pipe = SceneManager.getInstance().getCurrentScene().listOfGameObjects[lastIndex - 1] as Pipe
+            const lastPipesObject: Pipe = SceneManager.getInstance().getCurrentScene().listOfGameObjects[lastIndex] as Pipe
 
             if (firstPipesObject.getCanvasPosition().getX() <= -firstPipesObject.getCanvasWidth()) {
                 this.listOfGameObjects.splice(0, 2)
@@ -141,12 +141,11 @@ class PipeManager extends GameObjectManager<Pipe> {
                 this.listOfGameObjects.push(newPipeTop)
                 this.listOfGameObjects.push(newPipeBottom)
 
-                scene.addGameObject(newPipeTop)
-                scene.addGameObject(newPipeBottom)
-                scene.removeGameObject(firstPipesObject)
-                scene.removeGameObject(secondPipesObject)
+                SceneManager.getInstance().getCurrentScene().addGameObject(newPipeTop)
+                SceneManager.getInstance().getCurrentScene().addGameObject(newPipeBottom)
+                SceneManager.getInstance().getCurrentScene().removeGameObject(firstPipesObject)
+                SceneManager.getInstance().getCurrentScene().removeGameObject(secondPipesObject)
             }
-        }
     }
 }
 
