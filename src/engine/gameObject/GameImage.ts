@@ -5,9 +5,6 @@ class GameImage extends GameObject {
     public view: CanvasView = new CanvasView('canvas')
 
     public draw(): void {
-        if (this.getCollider()) {
-            this.getCollider().draw(this.view.getCtx())
-        }
         this.view
             .getCtx()
             .drawImage(
