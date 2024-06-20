@@ -1,20 +1,18 @@
-import Collider from "../../engine/components/Collider";
 import RigidBody from "../../engine/components/RigidBody";
 import Sprite from "../../engine/components/Sprite";
 import Transform from "../../engine/components/Transform";
-import MouseEventHandler from "../../engine/controller/MouseEventHandler";
+import ResourceManager from "../../engine/controller/ResourceManager";
 import GameImage from "../../engine/gameObject/GameImage";
-import GameState from "../constant/GameState";
-
 
 class Bird extends GameImage {
     public rigid: RigidBody;
-    private mouseEvent: MouseEventHandler = new MouseEventHandler('canvas')
     private sprite: Sprite = new Sprite()
-    private gameState: string
+    private isJumping: boolean = false
+    private mouseUp: boolean = false
+    private mouseDown: boolean = false
     
     constructor(
-        path: string,
+        image: HTMLImageElement,
         position: Transform,
         width: number,
         height: number,
@@ -24,20 +22,12 @@ class Bird extends GameImage {
         private speed: number,
         private jumpSpeed: number
     ) {
-        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight, true)
+        super(image, position, width, height, canvasPosition, canvasWidth, canvasHeight)
         this.rigid = new RigidBody(1, 9.8)
-        this.collider = new Collider(
-            this.getCanvasPosition(),
-            this.getCanvasWidth(),
-            this.getCanvasHeight()
-        )
         this.initSpriteAnimation()
         
     }
 
-    public setGameState(gameState: string): void {
-        this.gameState = gameState
-    }
     public setSpeed(speed: number): void {
         this.speed = speed
     }
@@ -46,15 +36,13 @@ class Bird extends GameImage {
     }
 
     private initSpriteAnimation(): void {
-        const imagePaths = [
-            '../../assets/images/yellowbird-downflap.png',
-            '../../assets/images/yellowbird-midflap.png',
-            '../../assets/images/yellowbird-upflap.png'
+        const listOfImages: HTMLImageElement[] = [
+            ResourceManager.getInstance().getImage(18),
+            ResourceManager.getInstance().getImage(19),
+            ResourceManager.getInstance().getImage(20)
         ];
 
-        imagePaths.forEach(path => {
-            const image = new Image();
-            image.src = path;
+        listOfImages.forEach(image => {
             this.sprite.addImage(image);
         });
         this.sprite.setFps(10)
@@ -65,36 +53,37 @@ class Bird extends GameImage {
         this.sprite.playAnimation()
         this.setImage(this.sprite.getImage())
 
-        if (this.gameState === GameState.PLAYING) {
-            if (this.rigid) {
-                const direction = this.getCanvasPosition().Down()
-                this.speed += this.rigid.getGravity()
-                this.setCanvasPosition(
-                    this.getCanvasPosition().add(direction.multiplyScalar(deltaTime * this.speed))
+        if (this.rigid) {
+            const direction = this.getCanvasPosition().Down()
+            this.speed += this.rigid.getGravity()
+            this.setCanvasPosition(
+                this.getCanvasPosition().add(direction.multiplyScalar(deltaTime * this.speed))
+            )
+        }
+
+        if (this.isJumping) {
+            const direction = this.getCanvasPosition().Up()
+            this.setCanvasPosition(
+                this.getCanvasPosition().add(
+                    direction.multiplyScalar(deltaTime * this.jumpSpeed)
                 )
+            )
+            this.speed = -this.jumpSpeed
+            this.isJumping = false
+        }
+    }
 
-                this.collider.setPosition(this.getCanvasPosition())
-            }
-
-            // Handle jumping
-            if (this.mouseEvent.isMousePressed()) {
-                const direction = this.getCanvasPosition().Up()
-                this.setCanvasPosition(
-                    this.getCanvasPosition().add(
-                        direction.multiplyScalar(deltaTime * this.jumpSpeed)
-                    )
-                )
-                this.speed = -this.jumpSpeed
-
-                this.collider.setPosition(this.getCanvasPosition())
-            }
-
-            // Update rotation based on speed
-            // if (this.speed > this.jumpSpeed) {
-            //     this.rotation = 90 * (Math.PI / 180) 
-            // } else {
-            //     this.rotation = -30 * (Math.PI / 180) 
-            // }
+    public handleInput(event: Event): void {
+        if(event.type === "mousedown"){
+            this.mouseDown = true
+        }
+        if(event.type === "mouseup"){
+            this.mouseUp = true
+        }
+        if(this.mouseUp && this.mouseDown){
+            this.isJumping = !this.isJumping
+            this.mouseUp = false
+            this.mouseDown = false
         }
     }
 

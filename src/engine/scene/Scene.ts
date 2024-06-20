@@ -2,6 +2,7 @@ import GameObject from '../gameObject/GameObject'
 
 class Scene {
     public listOfGameObjects: GameObject[]
+    private isActive: boolean = false
 
     constructor() {
         this.listOfGameObjects = []
@@ -21,6 +22,14 @@ class Scene {
         return this.listOfGameObjects.find((obj) => {
             return obj === gameObject
         })
+    }
+
+    public setIsActive(isActive: boolean) {
+        this.isActive = isActive
+    }
+
+    public getIsActive() {
+        return this.isActive
     }
 
     public addListOfGameObjects(listOfGameObjects: GameObject[]) {
@@ -48,7 +57,6 @@ class Scene {
     }
 
     public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
         this.sortLayer()
         this.listOfGameObjects.forEach((gameObject) => {
             gameObject.draw(ctx, canvas)
@@ -65,6 +73,8 @@ class Scene {
         this.destroy()
         this.listOfGameObjects = []
     }
+
+    public handleInput(event: Event){}
 }
 
 export default Scene

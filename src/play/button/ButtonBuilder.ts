@@ -1,7 +1,7 @@
 import Transform from "../../engine/components/Transform";
 import Vector2D from "../../engine/components/Vector2D";
+import ResourceManager from "../../engine/controller/ResourceManager";
 import Scene from "../../engine/scene/Scene";
-import CanvasView from "../../engine/view/CanvasView";
 import listOfInputs from "../constant/input";
 import ObjectBuilder from "../pattern/builder/ObjectBuilder";
 import Button from "./Button";
@@ -9,16 +9,16 @@ import Button from "./Button";
 class ButtonBuilder implements ObjectBuilder {
     private button: Button;
 
-    constructor(view: CanvasView){
+    constructor(){
         this.button = new Button(
-            listOfInputs.buttonInfo.path,
+            ResourceManager.getInstance().getImage(17),
             listOfInputs.buttonInfo.position,
             listOfInputs.buttonInfo.width,
             listOfInputs.buttonInfo.height,
             new Transform(
                 new Vector2D(
-                    (view.getCanvas().width - listOfInputs.buttonInfo.canvasWidth) / 2,
-                    (view.getCanvas().height +
+                    (800 - listOfInputs.buttonInfo.canvasWidth) / 2,
+                    (510 +
                         listOfInputs.buttonInfo.canvasHeight +
                         listOfInputs.buttonInfo.dY) /
                         2

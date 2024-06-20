@@ -1,4 +1,5 @@
 import Vector2D from '../../engine/components/Vector2D'
+import ResourceManager from '../../engine/controller/ResourceManager'
 import Scene from '../../engine/scene/Scene'
 import listOfInputs from '../constant/input'
 import ObjectManagerBuilder from '../pattern/builder/ObjectManagerBuilder'
@@ -12,7 +13,7 @@ class GroundManagerBuilder implements ObjectManagerBuilder<Ground> {
         this.listOfGrounds = new GroundManager(
             listOfInputs.listOfGroundsInfo.numberOfGrounds,
             new Ground(
-                listOfInputs.listOfGroundsInfo.groundInfo.path,
+                ResourceManager.getInstance().getImage(12),
                 listOfInputs.listOfGroundsInfo.groundInfo.position,
                 listOfInputs.listOfGroundsInfo.groundInfo.width,
                 listOfInputs.listOfGroundsInfo.groundInfo.height,

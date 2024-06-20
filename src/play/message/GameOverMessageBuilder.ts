@@ -1,7 +1,7 @@
 import Transform from "../../engine/components/Transform";
 import Vector2D from "../../engine/components/Vector2D";
+import ResourceManager from "../../engine/controller/ResourceManager";
 import Scene from "../../engine/scene/Scene";
-import CanvasView from "../../engine/view/CanvasView";
 import listOfInputs from "../constant/input";
 import ObjectBuilder from "../pattern/builder/ObjectBuilder";
 import GameOverMessage from "./GameOverMessage";
@@ -9,15 +9,15 @@ import GameOverMessage from "./GameOverMessage";
 class GameOverMessageBuilder implements ObjectBuilder {
     private gameOverMessage: GameOverMessage;
 
-    constructor(view: CanvasView){
+    constructor(){
         this.gameOverMessage = new GameOverMessage(
-            listOfInputs.gameOverMessageInfo.path,
+            ResourceManager.getInstance().getImage(17),
             listOfInputs.gameOverMessageInfo.position,
             listOfInputs.gameOverMessageInfo.width,
             listOfInputs.gameOverMessageInfo.height,
             new Transform(
                 new Vector2D(
-                    (view.getCanvas().width - listOfInputs.gameOverMessageInfo.canvasWidth) /
+                    (800 - listOfInputs.gameOverMessageInfo.canvasWidth) /
                         2,
                     listOfInputs.gameOverMessageInfo.canvasHeight +
                         listOfInputs.gameOverMessageInfo.dY
@@ -25,7 +25,6 @@ class GameOverMessageBuilder implements ObjectBuilder {
             ),
             listOfInputs.gameOverMessageInfo.canvasWidth,
             listOfInputs.gameOverMessageInfo.canvasHeight,
-            true
         )
     }
 

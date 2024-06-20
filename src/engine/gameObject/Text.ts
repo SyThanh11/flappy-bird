@@ -1,23 +1,26 @@
 import imageMap from '../../play/constant/image';
 import Transform from '../components/Transform'
+import Vector2D from '../components/Vector2D';
 import GameObject from './GameObject'
 
 class Text extends GameObject {
     private resultImages: Map<string, HTMLImageElement>
     private content: string
+    private positionOffset: Vector2D
 
     constructor(
-        path: string,
+        image: HTMLImageElement,
         transform: Transform,
         width: number,
         height: number,
         canvasTransform: Transform,
         canvasWidth: number,
         canvasHeight: number,
-        isStatic: boolean
+        positionOffset: Vector2D
     ) {
-        super(path, transform, width, height, canvasTransform, canvasWidth, canvasHeight, isStatic);
+        super(image, transform, width, height, canvasTransform, canvasWidth, canvasHeight);
         this.resultImages = new Map()
+        this.positionOffset = positionOffset
     }
 
     public setContent(content: string): void {
@@ -46,15 +49,17 @@ class Text extends GameObject {
         this.resultImages.set(name, image)
     }
 
+    public setPositionOffset(positionOffset: Vector2D): void {
+        this.positionOffset = positionOffset
+    }
+
     public start(): void {}
    
     public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void {
         if (!this.content || this.content.length === 0) return;
 
-        const totalWidth = this.content.length * this.getCanvasWidth();
-
-        let xOffset = (canvas.width - totalWidth) / 2;
-        const yOffset = canvas.height / 20;
+        let xOffset = (this.positionOffset.getX());
+        const yOffset = (this.positionOffset.getY());
 
         for (let i = 0; i < this.content.length; i++) {
             const char = this.content.charAt(i);
@@ -73,12 +78,11 @@ class Text extends GameObject {
                     this.getCanvasWidth(),
                     this.getCanvasHeight()
                 );
-                xOffset += this.getCanvasWidth();
+                xOffset += this.getCanvasWidth()
+                
             }
         }
     }
-    public update(deltaTime: number): void {}
-    public destroy(): void {}
 }
 
 export default Text;

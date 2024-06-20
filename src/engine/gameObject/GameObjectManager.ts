@@ -2,7 +2,7 @@ import Transform from '../components/Transform'
 import Vector2D from '../components/Vector2D'
 import GameObject from './GameObject'
 
-abstract class GameObjectManager<T extends GameObject> {
+class GameObjectManager<T extends GameObject> {
     protected listOfGameObjects: T[] = []
 
     constructor(
@@ -11,7 +11,7 @@ abstract class GameObjectManager<T extends GameObject> {
         indexStart: number,
         gameObjectContructor: {
             new (
-                path: string,
+                image: HTMLImageElement,
                 position: Transform,
                 width: number,
                 height: number,
@@ -29,7 +29,7 @@ abstract class GameObjectManager<T extends GameObject> {
             )
 
             let newGameObject = new gameObjectContructor(
-                gameObject.getPath(),
+                gameObject.getImage(),
                 gameObject.getTransform(),
                 gameObject.getWidth(),
                 gameObject.getHeight(),
@@ -58,9 +58,8 @@ abstract class GameObjectManager<T extends GameObject> {
         this.listOfGameObjects.forEach((gameObject: GameObject) => gameObject.setActive(active))
     }
 
-    // abstract method
     public draw(context: CanvasRenderingContext2D): void {}
-    public abstract update(deltaTime: number): void
+    public update(deltaTime: number): void {}
 }
 
 export default GameObjectManager

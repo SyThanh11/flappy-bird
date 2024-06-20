@@ -1,3 +1,4 @@
+import ResourceManager from "../../engine/controller/ResourceManager";
 import Scene from "../../engine/scene/Scene";
 import listOfInputs from "../constant/input";
 import ObjectBuilder from "../pattern/builder/ObjectBuilder";
@@ -8,7 +9,7 @@ class PipeBuilder implements ObjectBuilder {
 
     constructor(){
         new Pipe(
-            listOfInputs.listOfPipesInfo.pipeInfo.pathDown,
+            ResourceManager.getInstance().getImage(15),
             listOfInputs.listOfPipesInfo.pipeInfo.position,
             listOfInputs.listOfPipesInfo.pipeInfo.width,
             listOfInputs.listOfPipesInfo.pipeInfo.height,

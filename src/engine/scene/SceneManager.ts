@@ -7,7 +7,6 @@ class SceneManager {
 
     constructor() {
         this.listOfScenes = new Map<string, Scene>()
-        this.currentScene = new Scene()
     }
 
     public static getInstance(): SceneManager {
@@ -35,6 +34,35 @@ class SceneManager {
 
     public removeScene(name: string) {
         this.listOfScenes.delete(name)
+    }
+
+    public updateScene(name: string, scene: Scene) {
+        this.listOfScenes.set(name, scene)
+    }
+
+    public update(deltaTime: number) {
+        this.listOfScenes.forEach((scene: Scene, _) => {
+            if(scene.getIsActive()){
+                scene.update(deltaTime)
+            }
+        })
+    }
+
+    public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        this.listOfScenes.forEach((scene: Scene, _) => {
+            if(scene.getIsActive()){
+                scene.draw(ctx, canvas)
+            }
+        })
+    }
+
+    public start(){
+        this.listOfScenes.forEach((scene: Scene, _) => {
+            if(scene.getIsActive()){
+                scene.start()
+            }
+        })
     }
 }
 

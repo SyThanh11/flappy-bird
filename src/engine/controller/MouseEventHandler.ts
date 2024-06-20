@@ -1,62 +1,69 @@
+import GameObject from "../gameObject/GameObject"
+import Scene from "../scene/Scene"
+
 class MouseEventHandler {
-    private canvas: HTMLCanvasElement
+    private static instance: MouseEventHandler = new MouseEventHandler()
     private isMouseDown: boolean = false
-    private observers: MouseEventListener[] = []
-    private timeoutId: NodeJS.Timeout | null = null
+    private listObject: GameObject[] = []
+    private listScene: Scene[] = []
 
-    constructor(canvasId: string) {
-        this.canvas = document.getElementById(canvasId) as HTMLCanvasElement
-        
-        // Bắt sự kiện nhấn chuột xuống
-        this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this))
+    constructor() {}
 
-        // Bắt sự kiện nhả chuột lên
-        this.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this))
+    public static getInstance(): MouseEventHandler {
+        return this.instance
+    }
+
+    public addObject(object: GameObject){
+        this.listObject.push(object)
+    }
+
+    public addScene(scene: Scene){
+        this.listScene.push(scene)
+    }
+
+    public addEvent(name: string){
+        if(name == 'mousedown'){
+            window.addEventListener(name, this.handleMouseDown.bind(this))
+        } else if(name == 'mouseup'){
+            window.addEventListener(name, this.handleMouseUp.bind(this))
+        } else if(name === 'contextmenu'){
+            window.addEventListener(name, this.handleContextMenu.bind(this))
+        }
     }
 
     private handleMouseDown(event: MouseEvent): void {
         this.isMouseDown = true
-        this.notifyObserversMouseDown(event)
+        
+        this.listObject.forEach((object) => { 
+            object.handleInput(event)
+        })
+
+        this.listScene.forEach((scene) => { 
+            scene.handleInput(event)
+        })
     }
 
     private handleMouseUp(event: MouseEvent): void {
         this.isMouseDown = false
-        this.notifyObserversMouseUp(event)
+
+        this.listObject.forEach((object) => { 
+            object.handleInput(event)
+        })
+
+        this.listScene.forEach((scene) => { 
+            scene.handleInput(event)
+        })
+    }
+
+    private handleContextMenu(event: MouseEvent): void {
+        event.preventDefault()
     }
 
     public isMousePressed(): boolean {
         return this.isMouseDown
     }
 
-    public addObserver(observer: MouseEventListener): void {
-        this.observers.push(observer)
-    }
-
-    public removeObserver(observer: MouseEventListener): void {
-        this.observers = this.observers.filter((obs) => obs !== observer)
-    }
-
-    private notifyObserversMouseDown(event: MouseEvent): void {
-        this.observers.forEach((observer) => {
-            observer.onMouseDown(event)
-        })
-        console.log();
-        
-        if(this.timeoutId) {
-            clearTimeout(this.timeoutId);
-        }
-    }
-
-    private notifyObserversMouseUp(event: MouseEvent): void {
-        this.observers.forEach((observer) => {
-            observer.onMouseUp(event)
-        })
-
-        this.timeoutId = setTimeout(() => {
-            this.isMouseDown = false;
-            this.timeoutId = null; // Clear timeoutId after resetting isMouseDown
-        }, 1000);
-    }
+    
 }
 
 export default MouseEventHandler

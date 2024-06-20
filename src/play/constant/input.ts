@@ -2,7 +2,7 @@ import Transform from "../../engine/components/Transform";
 import Vector2D from "../../engine/components/Vector2D";
 import { random } from "../helper/helper";
 
-const listOfInputs = {
+const LIST_OF_INPUTS = {
     listOfGroundsInfo: {
         numberOfGrounds: 4,
         groundInfo: {
@@ -58,7 +58,7 @@ const listOfInputs = {
         canvasWidth: 34,
         canvasHeight: 24,
         speed: 0,
-        jumpSpeed: 100,
+        jumpSpeed: 200,
     },
 
     messageInfo: {
@@ -122,4 +122,4 @@ const listOfInputs = {
     },
 }
 
-export default listOfInputs;
+export default LIST_OF_INPUTS;

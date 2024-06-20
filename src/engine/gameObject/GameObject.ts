@@ -1,46 +1,46 @@
+import Collider from '../components/Collider'
 import Transform from '../components/Transform'
 import Vector2D from '../components/Vector2D'
-import SceneManager from '../scene/SceneManager'
+import PositionChangeEvent from '../controller/PositionChangeEvent';
 
-abstract class GameObject {
+class GameObject {
+    private positionChangeEvent: PositionChangeEvent = new PositionChangeEvent();
     private isStatic: boolean = false
     private isActive: boolean = false
     private layer: number = 0
-    public image: HTMLImageElement
+    private collider: Collider
 
     constructor(
-        private path: string,
+        private image: HTMLImageElement,
         private transform: Transform,
         private width: number,
         private height: number,
         private canvasTransform: Transform,
         private canvasWidth: number,
         private canvasHeight: number,
-        isStatic: boolean = false
     ) {
-        this.path = path
+        this.image = image
         this.transform = transform
         this.width = width * this.transform.getScale().getX()
         this.height = height * this.transform.getScale().getY()
         this.canvasTransform = canvasTransform
         this.canvasWidth = canvasWidth * this.transform.getScale().getX()
         this.canvasHeight = canvasHeight * this.transform.getScale().getY()
-        this.isStatic = isStatic
-        if (this.isStatic) {
-            this.addToCurrentScene()
-        }
-    }
 
-    // automatically add the scene
-    public addToCurrentScene(): void {
-        SceneManager.getInstance().getCurrentScene().addGameObject(this)
+        this.collider = new Collider(
+            this.getCanvasPosition(),
+            this.getCanvasWidth(),
+            this.getCanvasHeight()
+        )
+
+        this.positionChangeEvent.subscribe((position: Vector2D) => {
+            this.collider.setPosition(position);
+        });
     }
 
     // getter
     public getImage(): HTMLImageElement {
-        const image = new Image()
-        image.src = this.path
-        return image
+        return this.image
     }
     public getTransform(): Transform {
         return this.transform
@@ -69,14 +69,14 @@ abstract class GameObject {
     public getIsActive(): boolean {
         return this.isActive
     }
-    public getPath(): string {
-        return this.path
-    }
     public getPosition(): Vector2D {
         return this.transform.getPosition()
     }
     public getCanvasPosition(): Vector2D {
         return this.canvasTransform.getPosition()
+    }
+    public getCollider(): Collider {
+        return this.collider
     }
 
     public setLayer(layer: number): void {
@@ -93,9 +93,7 @@ abstract class GameObject {
         this.width = this.width * this.transform.getScale().getX()
         this.height = this.height * this.transform.getScale().getY()
     }
-    public setPath(path: string): void {
-        this.path = path
-    }
+
     public setWidth(width: number): void {
         this.width = width
     }
@@ -113,15 +111,20 @@ abstract class GameObject {
     }
     public setCanvasPosition(canvasPosition: Vector2D): void {
         this.canvasTransform.setPosition(canvasPosition)
+        this.positionChangeEvent.notify(canvasPosition);
     }
     public setImage(image: HTMLImageElement): void {
         this.image = image
     }
+    public setCollider(position: Vector2D): void {
+        this.collider.setPosition(position)
+    }
 
-    public abstract start(): void
-    public abstract draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void
-    public abstract update(deltaTime: number): void
-    public abstract destroy(): void
+    public start(): void {}
+    public handleInput(event: Event): void {}
+    public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void {}
+    public update(deltaTime: number): void {}
+    public destroy(): void {}
 }
 
 export default GameObject

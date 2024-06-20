@@ -1,5 +1,6 @@
 import Vector2D from "../../engine/components/Vector2D";
 import GameObjectManager from "../../engine/gameObject/GameObjectManager";
+import Scene from "../../engine/scene/Scene";
 import listOfInputs from "../constant/input";
 import ObjectManagerBuilder from "../pattern/builder/ObjectManagerBuilder";
 import Background from "./Background";
@@ -26,6 +27,10 @@ class BackgroundManagerBuilder implements ObjectManagerBuilder<Background> {
 
     public build(): GameObjectManager<Background> {
         return this.listOfBackgrounds
+    }
+
+    public addToScene(scene: Scene): void {
+        scene.addListOfGameObjects(this.listOfBackgrounds.getListOfGameObjects())
     }
 }
 

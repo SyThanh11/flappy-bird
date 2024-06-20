@@ -1,3 +1,4 @@
+import ResourceManager from '../../engine/controller/ResourceManager'
 import Scene from '../../engine/scene/Scene'
 import listOfInputs from '../constant/input'
 import ObjectBuilder from '../pattern/builder/ObjectBuilder'
@@ -8,7 +9,7 @@ class GroundBuilder implements ObjectBuilder {
 
     constructor() {
         this.ground = new Ground(
-            listOfInputs.listOfGroundsInfo.groundInfo.path,
+            ResourceManager.getInstance().getImage(12),
             listOfInputs.listOfGroundsInfo.groundInfo.position,
             listOfInputs.listOfGroundsInfo.groundInfo.width,
             listOfInputs.listOfGroundsInfo.groundInfo.height,

@@ -29,12 +29,12 @@ class GroundManager extends GameObjectManager<Ground> {
     }
 
     public update(deltaTime: number): void {
-        const lastIndex = this.findLastGround(SceneManager.getInstance().getCurrentScene())
-        const firstIndex = this.findFirstGround(SceneManager.getInstance().getCurrentScene())
+        const lastIndex = this.findLastGround(SceneManager.getInstance().getScene('gamePlay'))
+        const firstIndex = this.findFirstGround(SceneManager.getInstance().getScene('gamePlay'))
         
-        const firstGroundObject: Ground = SceneManager.getInstance().getCurrentScene()
+        const firstGroundObject: Ground = SceneManager.getInstance().getScene('gamePlay')
             .listOfGameObjects[firstIndex] as Ground
-        const lastGroundObject: Ground = SceneManager.getInstance().getCurrentScene()
+        const lastGroundObject: Ground = SceneManager.getInstance().getScene('gamePlay')
             .listOfGameObjects[lastIndex] as Ground
         
 
@@ -44,7 +44,7 @@ class GroundManager extends GameObjectManager<Ground> {
         ) {
             this.listOfGameObjects.splice(0, 1)
             const newGround = new Ground(
-                firstGroundObject.getPath(),
+                firstGroundObject.getImage(),
                 firstGroundObject.getTransform(),
                 firstGroundObject.getWidth(),
                 firstGroundObject.getHeight(),
@@ -62,8 +62,8 @@ class GroundManager extends GameObjectManager<Ground> {
             newGround.setLayer(firstGroundObject.getLayer())
 
             this.listOfGameObjects.push(newGround)
-            SceneManager.getInstance().getCurrentScene().addGameObject(newGround)
-            SceneManager.getInstance().getCurrentScene().removeGameObject(firstGroundObject)
+            SceneManager.getInstance().getScene('gamePlay').addGameObject(newGround)
+            SceneManager.getInstance().getScene('gamePlay').removeGameObject(firstGroundObject)
         }
     }
 

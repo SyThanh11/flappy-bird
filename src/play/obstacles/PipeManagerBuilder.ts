@@ -1,3 +1,4 @@
+import ResourceManager from '../../engine/controller/ResourceManager'
 import Scene from '../../engine/scene/Scene'
 import listOfInputs from '../constant/input'
 import ObjectManagerBuilder from '../pattern/builder/ObjectManagerBuilder'
@@ -11,7 +12,7 @@ class PipeManagerBuilder implements ObjectManagerBuilder<Pipe> {
         this.listOfPipes = new PipeManager(
             listOfInputs.listOfPipesInfo.numberOfPipes,
             new Pipe(
-                listOfInputs.listOfPipesInfo.pipeInfo.pathDown,
+                ResourceManager.getInstance().getImage(15),
                 listOfInputs.listOfPipesInfo.pipeInfo.position,
                 listOfInputs.listOfPipesInfo.pipeInfo.width,
                 listOfInputs.listOfPipesInfo.pipeInfo.height,
@@ -23,7 +24,7 @@ class PipeManagerBuilder implements ObjectManagerBuilder<Pipe> {
             Pipe,
             listOfInputs.listOfPipesInfo.pipeInfo.canvasPosition.getPosition(),
             listOfInputs.listOfPipesInfo.pipeInfo.space,
-            listOfInputs.listOfPipesInfo.pipeInfo.pathUp
+            ResourceManager.getInstance().getImage(16)
         )
         this.listOfPipes.setAllSpeed(listOfInputs.listOfPipesInfo.pipeInfo.speed)
     }

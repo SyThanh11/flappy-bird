@@ -5,6 +5,7 @@ class Collider implements Collidable {
     private position: Vector2D
     private width: number
     private height: number
+    private radius: number 
 
     constructor(position: Vector2D, width: number, height: number) {
         this.position = position

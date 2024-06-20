@@ -1,16 +1,7 @@
-import Transform from "../../engine/components/Transform";
-import MouseEventHandler from "../../engine/controller/MouseEventHandler";
 import GameImage from "../../engine/gameObject/GameImage";
 
-class Button extends GameImage implements MouseEventListener {
-    private mouseEventHandler: MouseEventHandler;
+class Button extends GameImage {
     private isClicked: boolean = false;
-
-    constructor(path: string, position: Transform, width: number, height: number, canvasPosition: Transform, canvasWidth: number, canvasHeight: number) {
-        super(path, position, width, height, canvasPosition, canvasWidth, canvasHeight, true);
-        this.mouseEventHandler = new MouseEventHandler('canvas');
-        this.mouseEventHandler.addObserver(this);
-    }
 
     public getIsClicked(): boolean {
         return this.isClicked;
@@ -20,15 +11,15 @@ class Button extends GameImage implements MouseEventListener {
         this.isClicked = value;
     }
 
-    public onMouseDown(event: MouseEvent): void {
-        if (this.checkClickButton(event)) {
-            this.isClicked = true;
-            console.log(`Button clicked at (${event.clientX}, ${event.clientY})`);
+    public handleInput(event: Event): void {
+        
+        if(event.type === 'mousedown'){
+            if(this.checkClickButton(event as MouseEvent)){
+                this.setIsClicked(true);
+            }
+        } else {
+            this.setIsClicked(false);
         }
-    }
-
-    public onMouseUp(event: MouseEvent): void {
-        this.isClicked = false;
     }
 
     private checkClickButton(event: MouseEvent): boolean {

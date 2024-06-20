@@ -13,7 +13,7 @@ class PipeManager extends GameObjectManager<Pipe> {
         indexStart: number,
         gameObjectContructor: {
             new (
-                path: string,
+                image: HTMLImageElement,
                 position: Transform,
                 width: number,
                 height: number,
@@ -24,7 +24,7 @@ class PipeManager extends GameObjectManager<Pipe> {
         },
         dPosition: Vector2D,
         space: number,
-        otherPath: string
+        otherImage: HTMLImageElement
     ) {
         super(numberOfGameObjects, gameObject, indexStart, gameObjectContructor, dPosition)
         for (let i = indexStart; i < numberOfGameObjects; i++) {
@@ -36,7 +36,7 @@ class PipeManager extends GameObjectManager<Pipe> {
             )
 
             let newGameObject = new gameObjectContructor(
-                otherPath,
+                otherImage,
                 gameObject.getTransform(),
                 gameObject.getWidth(),
                 gameObject.getHeight(),
@@ -88,20 +88,20 @@ class PipeManager extends GameObjectManager<Pipe> {
     }
 
     public update(deltaTime: number): void {
-        const firstIndex = this.findFirstPipes(SceneManager.getInstance().getCurrentScene())
-            const lastIndex = this.findLastPipes(SceneManager.getInstance().getCurrentScene())
+        const firstIndex = this.findFirstPipes(SceneManager.getInstance().getScene('gamePlay'))
+            const lastIndex = this.findLastPipes(SceneManager.getInstance().getScene('gamePlay'))
 
-            const firstPipesObject: Pipe = SceneManager.getInstance().getCurrentScene().listOfGameObjects[firstIndex] as Pipe
-            const secondPipesObject: Pipe = SceneManager.getInstance().getCurrentScene().listOfGameObjects[firstIndex + 1] as Pipe
+            const firstPipesObject: Pipe = SceneManager.getInstance().getScene('gamePlay').listOfGameObjects[firstIndex] as Pipe
+            const secondPipesObject: Pipe = SceneManager.getInstance().getScene('gamePlay').listOfGameObjects[firstIndex + 1] as Pipe
 
-            const secondLastPipesObject: Pipe = SceneManager.getInstance().getCurrentScene().listOfGameObjects[lastIndex - 1] as Pipe
-            const lastPipesObject: Pipe = SceneManager.getInstance().getCurrentScene().listOfGameObjects[lastIndex] as Pipe
+            const secondLastPipesObject: Pipe = SceneManager.getInstance().getScene('gamePlay').listOfGameObjects[lastIndex - 1] as Pipe
+            const lastPipesObject: Pipe = SceneManager.getInstance().getScene('gamePlay').listOfGameObjects[lastIndex] as Pipe
 
             if (firstPipesObject.getCanvasPosition().getX() <= -firstPipesObject.getCanvasWidth()) {
                 this.listOfGameObjects.splice(0, 2)
                 this.isDestroyed = true
                 const newPipeTop = new Pipe(
-                    firstPipesObject.getPath(),
+                    firstPipesObject.getImage(),
                     firstPipesObject.getTransform(),
                     firstPipesObject.getWidth(),
                     firstPipesObject.getHeight(),
@@ -119,7 +119,7 @@ class PipeManager extends GameObjectManager<Pipe> {
                 newPipeTop.setActive(firstPipesObject.getIsActive())
 
                 const newPipeBottom = new Pipe(
-                    secondPipesObject.getPath(),
+                    secondPipesObject.getImage(),
                     secondPipesObject.getTransform(),
                     secondPipesObject.getWidth(),
                     secondPipesObject.getHeight(),
@@ -141,10 +141,10 @@ class PipeManager extends GameObjectManager<Pipe> {
                 this.listOfGameObjects.push(newPipeTop)
                 this.listOfGameObjects.push(newPipeBottom)
 
-                SceneManager.getInstance().getCurrentScene().addGameObject(newPipeTop)
-                SceneManager.getInstance().getCurrentScene().addGameObject(newPipeBottom)
-                SceneManager.getInstance().getCurrentScene().removeGameObject(firstPipesObject)
-                SceneManager.getInstance().getCurrentScene().removeGameObject(secondPipesObject)
+                SceneManager.getInstance().getScene('gamePlay').addGameObject(newPipeTop)
+                SceneManager.getInstance().getScene('gamePlay').addGameObject(newPipeBottom)
+                SceneManager.getInstance().getScene('gamePlay').removeGameObject(firstPipesObject)
+                SceneManager.getInstance().getScene('gamePlay').removeGameObject(secondPipesObject)
             }
     }
 }
