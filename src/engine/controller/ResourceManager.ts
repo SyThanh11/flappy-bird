@@ -10,7 +10,7 @@ const LIST_PATHS = [
     '../../../assets/images/8.png',
     '../../../assets/images/9.png',
     '../../../assets/images/background-night.png',
-    '../../../assets/images/background-night.png',
+    '../../../assets/images/background-day.png',
     '../../../assets/images/base.png',
     '../../../assets/images/gameover.png',
     '../../../assets/images/message.png',

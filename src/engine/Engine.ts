@@ -29,6 +29,8 @@ class Engine {
         canvas.height = height 
         canvas.width = width
 
+        canvas.style.background = 'white'
+
         document.body.appendChild(canvas)
     }
 

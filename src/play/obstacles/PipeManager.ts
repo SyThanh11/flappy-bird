@@ -128,7 +128,7 @@ class PipeManager extends GameObjectManager<Pipe> {
                             newPipeTop.getCanvasPosition().getX(),
                             newPipeTop.getCanvasPosition().getY() +
                                 newPipeTop.getCanvasHeight() +
-                                random(50, 70)
+                                random(75, 80)
                         )
                     ),
                     secondPipesObject.getCanvasWidth(),

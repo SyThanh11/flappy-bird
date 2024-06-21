@@ -10,7 +10,7 @@ class BackgroundBuilder implements ObjectBuilder {
 
     constructor() {
         this.background = new Background(
-            ResourceManager.getInstance().getImage(10),
+            ResourceManager.getInstance().getImage(11),
             new Transform(
                 new Vector2D(
                     listOfInputs.listOfBackgroundsInfo.backgroundInfo.position.getX(),

@@ -7,7 +7,11 @@ class MouseEventHandler {
     private listObject: GameObject[] = []
     private listScene: Scene[] = []
 
-    constructor() {}
+    constructor() {
+        window.addEventListener("contextmenu", (ev: MouseEvent) => { 
+            ev.preventDefault()
+        })
+    }
 
     public static getInstance(): MouseEventHandler {
         return this.instance
@@ -26,8 +30,6 @@ class MouseEventHandler {
             window.addEventListener(name, this.handleMouseDown.bind(this))
         } else if(name == 'mouseup'){
             window.addEventListener(name, this.handleMouseUp.bind(this))
-        } else if(name === 'contextmenu'){
-            window.addEventListener(name, this.handleContextMenu.bind(this))
         }
     }
 
@@ -53,10 +55,6 @@ class MouseEventHandler {
         this.listScene.forEach((scene) => { 
             scene.handleInput(event)
         })
-    }
-
-    private handleContextMenu(event: MouseEvent): void {
-        event.preventDefault()
     }
 
     public isMousePressed(): boolean {

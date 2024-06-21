@@ -12,8 +12,9 @@ import PipeManagerBuilder from '../obstacles/PipeManagerBuilder'
 import Score from '../score/Score'
 import ScoreBuilder from '../score/ScoreBuilder'
 
-class PlayScene extends Scene {
+class PlayScene extends Scene    {
     private scoreBuilder: ScoreBuilder
+    private listOfBackgroundsBuilder:BackgroundManagerBuilder;
 
     constructor() {
         super()
@@ -24,7 +25,7 @@ class PlayScene extends Scene {
     public createObjects(): void {
         // Constructor
         const birdBuilder = new BirdBuilder()
-        const listOfBackgroundsBuilder = new BackgroundManagerBuilder()
+        this.listOfBackgroundsBuilder = new BackgroundManagerBuilder()
         const listOfGroundsBuilder = new GroundManagerBuilder()
         const listOfPipesBuilder = new PipeManagerBuilder()
         this.scoreBuilder = new ScoreBuilder()
@@ -34,7 +35,7 @@ class PlayScene extends Scene {
 
         // Add to scene
         birdBuilder.addToScene(this)
-        listOfBackgroundsBuilder.addToScene(this)
+        this.listOfBackgroundsBuilder.addToScene(this)
         listOfGroundsBuilder.addToScene(this)
         listOfPipesBuilder.addToScene(this)
         middleGameObject.addToScene(this)
@@ -42,7 +43,7 @@ class PlayScene extends Scene {
 
         // Set Layer
         birdBuilder.build().setLayer(2)
-        listOfBackgroundsBuilder.build().setAllLayer(0)
+        this.listOfBackgroundsBuilder.build().setAllLayer(0)
         listOfGroundsBuilder.build().setAllLayer(2)
         listOfPipesBuilder.build().setAllLayer(1)
         this.scoreBuilder.build().setLayer(2)
@@ -79,6 +80,10 @@ class PlayScene extends Scene {
                     if (obj1.getCollider().isCollidingWithCircle(obj2.getCollider())) return true
                 } else if (obj1 instanceof Pipe && obj2 instanceof Bird) {
                     if (obj2.getCollider().isCollidingWithCircle(obj1.getCollider())) return true
+                }
+
+                if (obj1 instanceof Bird) {  
+                    if (obj1.getCollider().getPosition().getY() < - obj1.getCanvasHeight()) return true
                 }
             }
         }

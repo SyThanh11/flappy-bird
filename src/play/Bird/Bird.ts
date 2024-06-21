@@ -15,7 +15,6 @@ class Bird extends GameImage {
     private mouseDown: boolean = false
     public view: CanvasView = new CanvasView('canvas')
 
-    
     constructor(
         image: HTMLImageElement,
         position: Transform,
@@ -78,12 +77,15 @@ class Bird extends GameImage {
             this.speed = -this.jumpSpeed
             this.isJumping = false
         }
-        console.log(this.speed);
-        console.log(this.jumpSpeed);
+
         
 
         if(this.speed > this.jumpSpeed){
-            this.getCanvasTransform().setRotation(90*DEGREE)
+            if(this.getCanvasTransform().getRotation() >= 90*DEGREE){
+                this.getCanvasTransform().setRotation(90*DEGREE)
+            } else {
+                this.getCanvasTransform().setRotation(this.getCanvasTransform().getRotation() + DEGREE*deltaTime*400)                
+            }
         } else {
             if(this.speed && this.jumpSpeed)
             this.getCanvasTransform().setRotation(-30*DEGREE)
@@ -104,9 +106,7 @@ class Bird extends GameImage {
         }
     }
 
-
     public draw(){
-        this.getCollider().draw(this.view.getCtx())  
         const ctx = this.view.getCtx();
         ctx.save();
 

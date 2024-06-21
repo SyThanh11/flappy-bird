@@ -62,11 +62,6 @@ class OverScene extends Scene {
         MouseEventHandler.getInstance().addObject(buttonBuilder.build())
     }
 
-    public start(): void {
-        console.log('Hi');
-            
-    }
-
     public update(deltaTime: number): void {
         super.update(deltaTime)
         
