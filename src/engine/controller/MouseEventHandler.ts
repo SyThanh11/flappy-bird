@@ -62,8 +62,6 @@ class MouseEventHandler {
     public isMousePressed(): boolean {
         return this.isMouseDown
     }
-
-    
 }
 
 export default MouseEventHandler

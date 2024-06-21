@@ -25,7 +25,13 @@ class Bird extends GameImage {
         super(image, position, width, height, canvasPosition, canvasWidth, canvasHeight)
         this.rigid = new RigidBody(1, 9.8)
         this.initSpriteAnimation()
-        
+    }
+
+    public draw(): void {
+        super.draw()
+        if (this.getCollider()) {
+            this.getCollider().draw(this.view.getCtx())
+        }
     }
 
     public setSpeed(speed: number): void {

@@ -11,7 +11,7 @@ class PipeManager extends GameObjectManager<Pipe> {
         numberOfGameObjects: number,
         gameObject: Pipe,
         indexStart: number,
-        gameObjectContructor: {
+        gameObjectConstructor: {
             new (
                 image: HTMLImageElement,
                 position: Transform,
@@ -26,7 +26,7 @@ class PipeManager extends GameObjectManager<Pipe> {
         space: number,
         otherImage: HTMLImageElement
     ) {
-        super(numberOfGameObjects, gameObject, indexStart, gameObjectContructor, dPosition)
+        super(numberOfGameObjects, gameObject, indexStart, gameObjectConstructor, dPosition)
         for (let i = indexStart; i < numberOfGameObjects; i++) {
             let newCanvasPosition = new Transform(
                 new Vector2D(
@@ -35,7 +35,7 @@ class PipeManager extends GameObjectManager<Pipe> {
                 )
             )
 
-            let newGameObject = new gameObjectContructor(
+            let newGameObject = new gameObjectConstructor(
                 otherImage,
                 gameObject.getTransform(),
                 gameObject.getWidth(),

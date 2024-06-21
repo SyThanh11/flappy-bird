@@ -1,5 +1,4 @@
 import Transform from "../../engine/components/Transform";
-import ResourceManager from "../../engine/controller/ResourceManager";
 import GameObject from "../../engine/gameObject/GameObject";
 import Scene from "../../engine/scene/Scene";
 import GroundManager from "../ground/GroundManager";
@@ -32,8 +31,8 @@ class MiddleGameObject extends GameObject {
         return this.listOfPipes;
     }
 
-    public addToScene(scence: Scene): void {
-        scence.addGameObject(this)
+    public addToScene(scene: Scene): void {
+        scene.addGameObject(this)
     }
 
 }

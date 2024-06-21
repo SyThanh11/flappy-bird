@@ -54,7 +54,7 @@ class PlayScene extends Scene {
     public update(deltaTime: number): void {
         if (!this.checkCollision()) {
             super.update(deltaTime)
-            this.caculateScore()
+            this.calculateScore()
         } else {
             localStorage.setItem("SCORE", String(this.scoreBuilder.build().getScore()))
             SceneManager.getInstance().getScene('gameOver').setIsActive(true)
@@ -85,7 +85,7 @@ class PlayScene extends Scene {
         return false
     }
 
-    private caculateScore(): void {
+    private calculateScore(): void {
         let middleGameObject: MiddleGameObject | undefined
         let score: Score | undefined
         let bird: Bird | undefined

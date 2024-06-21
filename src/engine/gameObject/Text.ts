@@ -1,6 +1,6 @@
-import imageMap from '../../play/constant/image';
 import Transform from '../components/Transform'
 import Vector2D from '../components/Vector2D';
+import ResourceManager from '../controller/ResourceManager';
 import GameObject from './GameObject'
 
 class Text extends GameObject {
@@ -34,8 +34,8 @@ class Text extends GameObject {
         for (let i = 0; i < this.content.length; i++) {
             const char = this.content.charAt(i);
 
-            if (!this.resultImages.has(char) && imageMap.has(char)) {
-                const image = imageMap.get(char);
+            if (!this.resultImages.has(char) && ResourceManager.getInstance().getNumberImage().has(char)) {
+                const image = ResourceManager.getInstance().getNumberImage().get(char);
                 if (image instanceof HTMLImageElement) {
                     this.resultImages.set(char, image); 
                 } else {

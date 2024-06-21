@@ -1,12 +1,11 @@
-import Engine from '../../engine/Engine'
-import MouseEventHandler from '../../engine/controller/MouseEventHandler'
-import SceneManager from '../../engine/scene/SceneManager'
-import OverScene from '../scene/OverScene';
-import PlayScene from '../scene/PlayScene';
-import ReadyScene from '../scene/ReadyScene';
+import Engine from "../engine/Engine";
+import MouseEventHandler from "../engine/controller/MouseEventHandler";
+import SceneManager from "../engine/scene/SceneManager";
+import OverScene from "./scene/OverScene";
+import PlayScene from "./scene/PlayScene";
+import ReadyScene from "./scene/ReadyScene";
 
-
-class GamePlayManager extends Engine {
+class FlappyBirdManager extends Engine {
 
     public setUp(): void {    
         MouseEventHandler.getInstance().addEvent('mousedown');
@@ -25,8 +24,6 @@ class GamePlayManager extends Engine {
 
         SceneManager.getInstance().getScene('ready').setIsActive(true); 
     }
-
-
 }
 
-export default GamePlayManager
+export default FlappyBirdManager

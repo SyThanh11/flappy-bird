@@ -9,7 +9,7 @@ class GameObjectManager<T extends GameObject> {
         numberOfGameObjects: number,
         gameObject: T,
         indexStart: number,
-        gameObjectContructor: {
+        gameObjectConstructor: {
             new (
                 image: HTMLImageElement,
                 position: Transform,
@@ -28,7 +28,7 @@ class GameObjectManager<T extends GameObject> {
                 new Vector2D(i * dPosition.getX(), dPosition.getY())
             )
 
-            let newGameObject = new gameObjectContructor(
+            let newGameObject = new gameObjectConstructor(
                 gameObject.getImage(),
                 gameObject.getTransform(),
                 gameObject.getWidth(),

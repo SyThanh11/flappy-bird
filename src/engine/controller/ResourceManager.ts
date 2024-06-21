@@ -22,15 +22,21 @@ const LIST_PATHS = [
     '../../../assets/images/yellowbird-upflap.png',
 ];
 
+
 class ResourceManager {
     private static instance: ResourceManager = new ResourceManager();
     private listImage: HTMLImageElement[] = [];
+    private numberImage: Map<string, HTMLImageElement>;
 
     constructor(){
         this.listImage = [];
+        this.numberImage = new Map<string, HTMLImageElement>();
         LIST_PATHS.forEach((path) => {
             this.loadImage(path);
         });
+        for(let i = 0; i < 10; i++){
+            this.numberImage.set(`${i}`, this.listImage[i]);
+        }
     }
 
     public static getInstance(): ResourceManager {
@@ -49,6 +55,10 @@ class ResourceManager {
 
     public get length(): number {
         return this.listImage.length;
+    }
+
+    public getNumberImage(): Map<string, HTMLImageElement> {
+        return this.numberImage;
     }
 }
 
