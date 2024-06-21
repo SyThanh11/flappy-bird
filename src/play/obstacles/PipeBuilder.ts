@@ -1,13 +1,13 @@
-import ResourceManager from "../../engine/controller/ResourceManager";
-import Scene from "../../engine/scene/Scene";
-import listOfInputs from "../constant/input";
-import ObjectBuilder from "../pattern/builder/ObjectBuilder";
-import Pipe from "./Pipe";
+import ResourceManager from '../../engine/controller/ResourceManager'
+import Scene from '../../engine/scene/Scene'
+import listOfInputs from '../constant/input'
+import ObjectBuilder from '../pattern/builder/ObjectBuilder'
+import Pipe from './Pipe'
 
 class PipeBuilder implements ObjectBuilder {
-    private pipe: Pipe;
+    private pipe: Pipe
 
-    constructor(){
+    constructor() {
         new Pipe(
             ResourceManager.getInstance().getImage(15),
             listOfInputs.listOfPipesInfo.pipeInfo.position,
@@ -20,12 +20,12 @@ class PipeBuilder implements ObjectBuilder {
     }
 
     public build(): Pipe {
-        return this.pipe;
+        return this.pipe
     }
 
     public addToScene(scene: Scene): void {
-        scene.addGameObject(this.pipe);
+        scene.addGameObject(this.pipe)
     }
 }
 
-export default PipeBuilder;
+export default PipeBuilder

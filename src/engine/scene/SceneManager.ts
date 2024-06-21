@@ -42,7 +42,7 @@ class SceneManager {
 
     public update(deltaTime: number) {
         this.listOfScenes.forEach((scene: Scene, _) => {
-            if(scene.getIsActive()){
+            if (scene.getIsActive()) {
                 scene.update(deltaTime)
             }
         })
@@ -51,15 +51,15 @@ class SceneManager {
     public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         this.listOfScenes.forEach((scene: Scene, _) => {
-            if(scene.getIsActive()){
+            if (scene.getIsActive()) {
                 scene.draw(ctx, canvas)
             }
         })
     }
 
-    public start(){
+    public start() {
         this.listOfScenes.forEach((scene: Scene, _) => {
-            if(scene.getIsActive()){
+            if (scene.getIsActive()) {
                 scene.start()
             }
         })

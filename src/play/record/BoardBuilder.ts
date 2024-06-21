@@ -1,13 +1,13 @@
-import Transform from "../../engine/components/Transform";
-import Vector2D from "../../engine/components/Vector2D";
-import ResourceManager from "../../engine/controller/ResourceManager";
-import Scene from "../../engine/scene/Scene";
-import listOfInputs from "../constant/input";
-import ObjectBuilder from "../pattern/builder/ObjectBuilder";
-import Board from "./Board";
+import Transform from '../../engine/components/Transform'
+import Vector2D from '../../engine/components/Vector2D'
+import ResourceManager from '../../engine/controller/ResourceManager'
+import Scene from '../../engine/scene/Scene'
+import listOfInputs from '../constant/input'
+import ObjectBuilder from '../pattern/builder/ObjectBuilder'
+import Board from './Board'
 
 class BoardBuilder implements ObjectBuilder {
-    private board: Board;
+    private board: Board
 
     constructor() {
         this.board = new Board(
@@ -22,17 +22,17 @@ class BoardBuilder implements ObjectBuilder {
                 )
             ),
             listOfInputs.boardInfo.canvasWidth,
-            listOfInputs.boardInfo.canvasHeight,
-        );
+            listOfInputs.boardInfo.canvasHeight
+        )
     }
 
     public build(): Board {
-        return this.board;
+        return this.board
     }
 
-    public addToScene(scene: Scene): void{
-        scene.addGameObject(this.board);
+    public addToScene(scene: Scene): void {
+        scene.addGameObject(this.board)
     }
 }
 
-export default BoardBuilder;
+export default BoardBuilder

@@ -1,6 +1,6 @@
 import Transform from '../components/Transform'
-import Vector2D from '../components/Vector2D';
-import ResourceManager from '../controller/ResourceManager';
+import Vector2D from '../components/Vector2D'
+import ResourceManager from '../controller/ResourceManager'
 import GameObject from './GameObject'
 
 class Text extends GameObject {
@@ -18,28 +18,33 @@ class Text extends GameObject {
         canvasHeight: number,
         positionOffset: Vector2D
     ) {
-        super(image, transform, width, height, canvasTransform, canvasWidth, canvasHeight);
+        super(image, transform, width, height, canvasTransform, canvasWidth, canvasHeight)
         this.resultImages = new Map()
         this.positionOffset = positionOffset
     }
 
     public setContent(content: string): void {
-        this.content = content;
-        this.loadImage();
+        this.content = content
+        this.loadImage()
     }
 
-    public loadImage(){
-        if (!this.content || this.content.length === 0) return;
+    public loadImage() {
+        if (!this.content || this.content.length === 0) return
 
         for (let i = 0; i < this.content.length; i++) {
-            const char = this.content.charAt(i);
+            const char = this.content.charAt(i)
 
-            if (!this.resultImages.has(char) && ResourceManager.getInstance().getNumberImage().has(char)) {
-                const image = ResourceManager.getInstance().getNumberImage().get(char);
+            if (
+                !this.resultImages.has(char) &&
+                ResourceManager.getInstance().getNumberImage().has(char)
+            ) {
+                const image = ResourceManager.getInstance().getNumberImage().get(char)
                 if (image instanceof HTMLImageElement) {
-                    this.resultImages.set(char, image); 
+                    this.resultImages.set(char, image)
                 } else {
-                    console.warn(`Image for character '${char}' is not an instance of HTMLImageElement.`);
+                    console.warn(
+                        `Image for character '${char}' is not an instance of HTMLImageElement.`
+                    )
                 }
             }
         }
@@ -54,17 +59,17 @@ class Text extends GameObject {
     }
 
     public start(): void {}
-   
-    public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void {
-        if (!this.content || this.content.length === 0) return;
 
-        let xOffset = (this.positionOffset.getX());
-        const yOffset = (this.positionOffset.getY());
+    public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void {
+        if (!this.content || this.content.length === 0) return
+
+        let xOffset = this.positionOffset.getX()
+        const yOffset = this.positionOffset.getY()
 
         for (let i = 0; i < this.content.length; i++) {
-            const char = this.content.charAt(i);
+            const char = this.content.charAt(i)
 
-            const image = this.resultImages.get(char);
+            const image = this.resultImages.get(char)
 
             if (image) {
                 ctx.drawImage(
@@ -77,12 +82,11 @@ class Text extends GameObject {
                     yOffset,
                     this.getCanvasWidth(),
                     this.getCanvasHeight()
-                );
+                )
                 xOffset += this.getCanvasWidth()
-                
             }
         }
     }
 }
 
-export default Text;
+export default Text

@@ -2,7 +2,7 @@ import GameObject from '../gameObject/GameObject'
 
 class Scene {
     public listOfGameObjects: GameObject[]
-    private isActive: boolean = false
+    private isActive = false
 
     constructor() {
         this.listOfGameObjects = []
@@ -69,12 +69,12 @@ class Scene {
         })
     }
 
-    public deleteScene(){
+    public deleteScene() {
         this.destroy()
         this.listOfGameObjects = []
     }
 
-    public handleInput(event: Event){}
+    public handleInput(event: Event) {}
 }
 
 export default Scene

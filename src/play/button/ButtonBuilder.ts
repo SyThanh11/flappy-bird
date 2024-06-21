@@ -1,15 +1,15 @@
-import Transform from "../../engine/components/Transform";
-import Vector2D from "../../engine/components/Vector2D";
-import ResourceManager from "../../engine/controller/ResourceManager";
-import Scene from "../../engine/scene/Scene";
-import listOfInputs from "../constant/input";
-import ObjectBuilder from "../pattern/builder/ObjectBuilder";
-import Button from "./Button";
+import Transform from '../../engine/components/Transform'
+import Vector2D from '../../engine/components/Vector2D'
+import ResourceManager from '../../engine/controller/ResourceManager'
+import Scene from '../../engine/scene/Scene'
+import listOfInputs from '../constant/input'
+import ObjectBuilder from '../pattern/builder/ObjectBuilder'
+import Button from './Button'
 
 class ButtonBuilder implements ObjectBuilder {
-    private button: Button;
+    private button: Button
 
-    constructor(){
+    constructor() {
         this.button = new Button(
             ResourceManager.getInstance().getImage(17),
             listOfInputs.buttonInfo.position,
@@ -18,10 +18,7 @@ class ButtonBuilder implements ObjectBuilder {
             new Transform(
                 new Vector2D(
                     (800 - listOfInputs.buttonInfo.canvasWidth) / 2,
-                    (510 +
-                        listOfInputs.buttonInfo.canvasHeight +
-                        listOfInputs.buttonInfo.dY) /
-                        2
+                    (510 + listOfInputs.buttonInfo.canvasHeight + listOfInputs.buttonInfo.dY) / 2
                 )
             ),
             listOfInputs.buttonInfo.canvasWidth,
@@ -30,12 +27,12 @@ class ButtonBuilder implements ObjectBuilder {
     }
 
     public build(): Button {
-        return this.button;
+        return this.button
     }
-    
+
     public addToScene(scene: Scene): void {
-        scene.addGameObject(this.button);
+        scene.addGameObject(this.button)
     }
 }
 
-export default ButtonBuilder;
+export default ButtonBuilder

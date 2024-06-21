@@ -1,14 +1,14 @@
 import MouseEventHandler from './controller/MouseEventHandler'
-import ResourceManager from './controller/ResourceManager';
-import SceneManager from './scene/SceneManager';
+import ResourceManager from './controller/ResourceManager'
+import SceneManager from './scene/SceneManager'
 import CanvasView from './view/CanvasView'
 
 class Engine {
-    private lastTime: number = 0;
-    private deltaTime: number = 0
+    private lastTime = 0
+    private deltaTime = 0
     private view: CanvasView
 
-    private mouseEventHandler: MouseEventHandler 
+    private mouseEventHandler: MouseEventHandler
     private sceneManager: SceneManager = SceneManager.getInstance()
     private resourceManager: ResourceManager = ResourceManager.getInstance()
 
@@ -19,14 +19,14 @@ class Engine {
         this.mouseEventHandler = MouseEventHandler.getInstance()
         this.sceneManager = SceneManager.getInstance()
         this.resourceManager = ResourceManager.getInstance()
-        
+
         this.start()
     }
 
     public createCanvas(width: number, height: number): void {
         const canvas = <HTMLCanvasElement>document.createElement('canvas')
         canvas.setAttribute('id', 'canvas')
-        canvas.height = height 
+        canvas.height = height
         canvas.width = width
 
         canvas.style.background = 'white'
@@ -39,7 +39,7 @@ class Engine {
         SceneManager.getInstance().start()
 
         this.lastTime = window.performance.now()
-        
+
         window.requestAnimationFrame(this.gameLoop)
     }
 
@@ -52,14 +52,14 @@ class Engine {
     }
 
     public gameLoop = (): void => {
-        let currentTime = performance.now()
+        const currentTime = performance.now()
         this.deltaTime = (currentTime - this.lastTime) / 1000
         this.lastTime = currentTime
-        
+
         this.update(this.deltaTime)
 
         this.draw()
-        
+
         window.requestAnimationFrame(this.gameLoop)
     }
 

@@ -1,7 +1,7 @@
 class Sprite {
-    private fps: number = 60
-    private currentFrameIndex: number = 0
-    private lastFrameTime: number = 0
+    private fps = 60
+    private currentFrameIndex = 0
+    private lastFrameTime = 0
 
     private listOfImages: HTMLImageElement[] = []
 

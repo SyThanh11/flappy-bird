@@ -5,7 +5,7 @@ class Transform {
     private rotation: number
     private scale: Vector2D
 
-    private maxRotation: number = 120
+    private maxRotation = 120
 
     constructor(position?: Vector2D, rotation?: number, scale?: Vector2D) {
         this.position = position || new Vector2D(0, 0)

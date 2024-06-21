@@ -24,11 +24,11 @@ class GameObjectManager<T extends GameObject> {
         dPosition: Vector2D
     ) {
         for (let i = indexStart; i < numberOfGameObjects; i++) {
-            let newCanvasPosition = new Transform(
+            const newCanvasPosition = new Transform(
                 new Vector2D(i * dPosition.getX(), dPosition.getY())
             )
 
-            let newGameObject = new gameObjectConstructor(
+            const newGameObject = new gameObjectConstructor(
                 gameObject.getImage(),
                 gameObject.getTransform(),
                 gameObject.getWidth(),

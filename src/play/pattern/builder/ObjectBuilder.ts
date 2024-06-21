@@ -1,7 +1,7 @@
-import GameObject from "../../../engine/gameObject/GameObject";
+import GameObject from '../../../engine/gameObject/GameObject'
 
 interface ObjectBuilder {
-    build(): GameObject; 
+    build(): GameObject
 }
 
-export default ObjectBuilder;
+export default ObjectBuilder

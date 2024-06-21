@@ -1,18 +1,18 @@
-import RigidBody from "../../engine/components/RigidBody";
-import Sprite from "../../engine/components/Sprite";
-import Transform from "../../engine/components/Transform";
-import ResourceManager from "../../engine/controller/ResourceManager";
-import GameImage from "../../engine/gameObject/GameImage";
-import CanvasView from "../../engine/view/CanvasView";
+import RigidBody from '../../engine/components/RigidBody'
+import Sprite from '../../engine/components/Sprite'
+import Transform from '../../engine/components/Transform'
+import ResourceManager from '../../engine/controller/ResourceManager'
+import GameImage from '../../engine/gameObject/GameImage'
+import CanvasView from '../../engine/view/CanvasView'
 
 const DEGREE = Math.PI / 180
 
 class Bird extends GameImage {
-    public rigid: RigidBody;
+    public rigid: RigidBody
     private sprite: Sprite = new Sprite()
-    private isJumping: boolean = false
-    private mouseUp: boolean = false
-    private mouseDown: boolean = false
+    private isJumping = false
+    private mouseUp = false
+    private mouseDown = false
     public view: CanvasView = new CanvasView('canvas')
 
     constructor(
@@ -30,7 +30,7 @@ class Bird extends GameImage {
         this.rigid = new RigidBody(1, 9.8)
         this.initSpriteAnimation()
 
-        this.getCollider().setRadius(15);
+        this.getCollider().setRadius(15)
     }
 
     public setSpeed(speed: number): void {
@@ -45,17 +45,16 @@ class Bird extends GameImage {
         const listOfImages: HTMLImageElement[] = [
             ResourceManager.getInstance().getImage(18),
             ResourceManager.getInstance().getImage(19),
-            ResourceManager.getInstance().getImage(20)
-        ];
+            ResourceManager.getInstance().getImage(20),
+        ]
 
-        listOfImages.forEach(image => {
-            this.sprite.addImage(image);
-        });
+        listOfImages.forEach((image) => {
+            this.sprite.addImage(image)
+        })
         this.sprite.setFps(10)
     }
 
-    public update(deltaTime: number): void { 
-           
+    public update(deltaTime: number): void {
         this.sprite.playAnimation()
         this.setImage(this.sprite.getImage())
 
@@ -70,49 +69,46 @@ class Bird extends GameImage {
         if (this.isJumping) {
             const direction = this.getCanvasPosition().Up()
             this.setCanvasPosition(
-                this.getCanvasPosition().add(
-                    direction.multiplyScalar(deltaTime * this.jumpSpeed)
-                )
+                this.getCanvasPosition().add(direction.multiplyScalar(deltaTime * this.jumpSpeed))
             )
             this.speed = -this.jumpSpeed
             this.isJumping = false
         }
 
-        
-
-        if(this.speed > this.jumpSpeed){
-            if(this.getCanvasTransform().getRotation() >= 90*DEGREE){
-                this.getCanvasTransform().setRotation(90*DEGREE)
+        if (this.speed > this.jumpSpeed) {
+            if (this.getCanvasTransform().getRotation() >= 90 * DEGREE) {
+                this.getCanvasTransform().setRotation(90 * DEGREE)
             } else {
-                this.getCanvasTransform().setRotation(this.getCanvasTransform().getRotation() + DEGREE*deltaTime*400)                
+                this.getCanvasTransform().setRotation(
+                    this.getCanvasTransform().getRotation() + DEGREE * deltaTime * 400
+                )
             }
         } else {
-            if(this.speed && this.jumpSpeed)
-            this.getCanvasTransform().setRotation(-30*DEGREE)
+            if (this.speed && this.jumpSpeed) this.getCanvasTransform().setRotation(-30 * DEGREE)
         }
     }
 
     public handleInput(event: Event): void {
-        if(event.type === "mousedown"){
+        if (event.type === 'mousedown') {
             this.mouseDown = true
         }
-        if(event.type === "mouseup"){
+        if (event.type === 'mouseup') {
             this.mouseUp = true
         }
-        if(this.mouseUp && this.mouseDown){
+        if (this.mouseUp && this.mouseDown) {
             this.isJumping = !this.isJumping
             this.mouseUp = false
             this.mouseDown = false
         }
     }
 
-    public draw(){
-        const ctx = this.view.getCtx();
-        ctx.save();
+    public draw() {
+        const ctx = this.view.getCtx()
+        ctx.save()
 
         ctx.translate(
-            this.getCanvasPosition().getX() + this.getCanvasWidth()/2,
-            this.getCanvasPosition().getY() + this.getCanvasHeight()/2
+            this.getCanvasPosition().getX() + this.getCanvasWidth() / 2,
+            this.getCanvasPosition().getY() + this.getCanvasHeight() / 2
         )
 
         ctx.rotate(this.getCanvasTransform().getRotation())
@@ -123,14 +119,13 @@ class Bird extends GameImage {
             this.getPosition().getY(),
             this.getWidth(),
             this.getHeight(),
-            -this.getWidth()/2,
-            -this.getHeight()/2,
+            -this.getWidth() / 2,
+            -this.getHeight() / 2,
             this.getCanvasWidth(),
             this.getCanvasHeight()
         )
 
         ctx.restore()
-       
     }
 
     public destroy(): void {

@@ -1,10 +1,9 @@
-import Scene from "../../engine/scene/Scene";
-import SceneManager from "../../engine/scene/SceneManager";
-import BirdBuilder from "../Bird/BirdBuilder";
-import BackgroundManagerBuilder from "../background/BackgroundManagerBuilder";
-import GroundManagerBuilder from "../ground/GroundManagerBuilder";
-import MessageBuilder from "../message/MessageBuilder";
-
+import Scene from '../../engine/scene/Scene'
+import SceneManager from '../../engine/scene/SceneManager'
+import BirdBuilder from '../Bird/BirdBuilder'
+import BackgroundManagerBuilder from '../background/BackgroundManagerBuilder'
+import GroundManagerBuilder from '../ground/GroundManagerBuilder'
+import MessageBuilder from '../message/MessageBuilder'
 
 class ReadyScene extends Scene {
     constructor() {
@@ -39,13 +38,12 @@ class ReadyScene extends Scene {
 
     public update(deltaTime: number): void {
         super.update(deltaTime)
-
     }
 
     public handleInput(event: Event): void {
-        SceneManager.getInstance().getScene('gamePlay').setIsActive(true);
-        SceneManager.getInstance().getScene('ready').setIsActive(false);
+        SceneManager.getInstance().getScene('gamePlay').setIsActive(true)
+        SceneManager.getInstance().getScene('ready').setIsActive(false)
     }
 }
 
-export default ReadyScene;
+export default ReadyScene

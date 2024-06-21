@@ -44,22 +44,21 @@ class Collider implements Collidable {
     public setRadius(radius: number): void {
         this.radius = radius
     }
-    
 
     public draw(context: CanvasRenderingContext2D) {
         context.strokeStyle = 'black'
         if (this.radius > 0) {
-            context.beginPath();
+            context.beginPath()
             context.arc(
                 this.position.getX() + this.radius,
                 this.position.getY() + this.radius,
                 this.radius,
                 0,
                 2 * Math.PI
-            );
-            context.stroke();
+            )
+            context.stroke()
         } else {
-            context.strokeRect(this.position.getX(), this.position.getY(), this.width, this.height);
+            context.strokeRect(this.position.getX(), this.position.getY(), this.width, this.height)
         }
     }
 
@@ -86,7 +85,7 @@ class Collider implements Collidable {
     }
 
     public clamp(value: number, min: number, max: number): number {
-        return Math.max(min, Math.min(max, value));
+        return Math.max(min, Math.min(max, value))
     }
 
     public isCollidingWithCircle(otherCollision: Collider): boolean {
@@ -95,21 +94,29 @@ class Collider implements Collidable {
         const otherTop = otherCollision.getPosition().getY()
         const otherBottom = otherCollision.getPosition().getY() + otherCollision.getHeight()
 
-        const center = new Vector2D(this.position.getX() + this.radius, this.position.getY() + this.radius);
-        const otherCenter = new Vector2D(otherLeft + (otherRight - otherLeft) / 2, otherTop + (otherBottom - otherTop) / 2);
+        const center = new Vector2D(
+            this.position.getX() + this.radius,
+            this.position.getY() + this.radius
+        )
+        const otherCenter = new Vector2D(
+            otherLeft + (otherRight - otherLeft) / 2,
+            otherTop + (otherBottom - otherTop) / 2
+        )
 
-        let distanceX = Math.abs(center.getX() - otherCenter.getX());
-        let distanceY = Math.abs(center.getY() - otherCenter.getY());
+        const distanceX = Math.abs(center.getX() - otherCenter.getX())
+        const distanceY = Math.abs(center.getY() - otherCenter.getY())
 
-        if(distanceX > (otherCollision.getWidth()/2 + this.radius)) return false;
-        if(distanceY > (otherCollision.getHeight()/2 + this.radius)) return false;
+        if (distanceX > otherCollision.getWidth() / 2 + this.radius) return false
+        if (distanceY > otherCollision.getHeight() / 2 + this.radius) return false
 
-        if(distanceX <= otherCollision.getWidth()/2) return true;
-        if(distanceY <= otherCollision.getHeight()/2) return true;
+        if (distanceX <= otherCollision.getWidth() / 2) return true
+        if (distanceY <= otherCollision.getHeight() / 2) return true
 
-        let distance = Math.pow((distanceX - otherCollision.getWidth()/2), 2) + Math.pow((distanceY - otherCollision.getHeight()), 2)
-        
-        return (distance <= Math.pow(this.radius, 2));
+        const distance =
+            Math.pow(distanceX - otherCollision.getWidth() / 2, 2) +
+            Math.pow(distanceY - otherCollision.getHeight(), 2)
+
+        return distance <= Math.pow(this.radius, 2)
     }
 }
 

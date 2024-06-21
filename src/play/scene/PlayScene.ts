@@ -12,9 +12,9 @@ import PipeManagerBuilder from '../obstacles/PipeManagerBuilder'
 import Score from '../score/Score'
 import ScoreBuilder from '../score/ScoreBuilder'
 
-class PlayScene extends Scene    {
+class PlayScene extends Scene {
     private scoreBuilder: ScoreBuilder
-    private listOfBackgroundsBuilder:BackgroundManagerBuilder;
+    private listOfBackgroundsBuilder: BackgroundManagerBuilder
 
     constructor() {
         super()
@@ -57,7 +57,7 @@ class PlayScene extends Scene    {
             super.update(deltaTime)
             this.calculateScore()
         } else {
-            localStorage.setItem("SCORE", String(this.scoreBuilder.build().getScore()))
+            localStorage.setItem('SCORE', String(this.scoreBuilder.build().getScore()))
             SceneManager.getInstance().getScene('gameOver').setIsActive(true)
             this.removeScore()
         }
@@ -82,8 +82,9 @@ class PlayScene extends Scene    {
                     if (obj2.getCollider().isCollidingWithCircle(obj1.getCollider())) return true
                 }
 
-                if (obj1 instanceof Bird) {  
-                    if (obj1.getCollider().getPosition().getY() < - obj1.getCanvasHeight()) return true
+                if (obj1 instanceof Bird) {
+                    if (obj1.getCollider().getPosition().getY() < -obj1.getCanvasHeight())
+                        return true
                 }
             }
         }
@@ -129,10 +130,10 @@ class PlayScene extends Scene    {
         }
     }
 
-    private removeScore(){
-        for(let i = 0; i < this.listOfGameObjects.length; i++){
+    private removeScore() {
+        for (let i = 0; i < this.listOfGameObjects.length; i++) {
             const obj = this.listOfGameObjects[i]
-            if(obj instanceof Score){
+            if (obj instanceof Score) {
                 this.listOfGameObjects.splice(i, 1)
             }
         }

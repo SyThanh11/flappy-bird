@@ -1,13 +1,13 @@
 import Collider from '../components/Collider'
 import Transform from '../components/Transform'
 import Vector2D from '../components/Vector2D'
-import PositionChangeEvent from '../controller/PositionChangeEvent';
+import PositionChangeEvent from '../controller/PositionChangeEvent'
 
 class GameObject {
-    private positionChangeEvent: PositionChangeEvent = new PositionChangeEvent();
-    private isStatic: boolean = false
-    private isActive: boolean = false
-    private layer: number = 0
+    private positionChangeEvent: PositionChangeEvent = new PositionChangeEvent()
+    private isStatic = false
+    private isActive = false
+    private layer = 0
     private collider: Collider
 
     constructor(
@@ -17,7 +17,7 @@ class GameObject {
         private height: number,
         private canvasTransform: Transform,
         private canvasWidth: number,
-        private canvasHeight: number,
+        private canvasHeight: number
     ) {
         this.image = image
         this.transform = transform
@@ -34,8 +34,8 @@ class GameObject {
         )
 
         this.positionChangeEvent.subscribe((position: Vector2D) => {
-            this.collider.setPosition(position);
-        });
+            this.collider.setPosition(position)
+        })
     }
 
     // getter
@@ -111,7 +111,7 @@ class GameObject {
     }
     public setCanvasPosition(canvasPosition: Vector2D): void {
         this.canvasTransform.setPosition(canvasPosition)
-        this.positionChangeEvent.notify(canvasPosition);
+        this.positionChangeEvent.notify(canvasPosition)
     }
     public setImage(image: HTMLImageElement): void {
         this.image = image

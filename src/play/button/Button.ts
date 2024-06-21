@@ -1,24 +1,23 @@
-import GameImage from "../../engine/gameObject/GameImage";
+import GameImage from '../../engine/gameObject/GameImage'
 
 class Button extends GameImage {
-    private isClicked: boolean = false;
+    private isClicked = false
 
     public getIsClicked(): boolean {
-        return this.isClicked;
+        return this.isClicked
     }
 
     public setIsClicked(value: boolean): void {
-        this.isClicked = value;
+        this.isClicked = value
     }
 
     public handleInput(event: Event): void {
-        
-        if(event.type === 'mousedown'){
-            if(this.checkClickButton(event as MouseEvent)){
-                this.setIsClicked(true);
+        if (event.type === 'mousedown') {
+            if (this.checkClickButton(event as MouseEvent)) {
+                this.setIsClicked(true)
             }
         } else {
-            this.setIsClicked(false);
+            this.setIsClicked(false)
         }
     }
 
@@ -28,8 +27,8 @@ class Button extends GameImage {
             event.clientX >= this.getCanvasPosition().getX() &&
             event.clientY <= this.getCanvasPosition().getY() + this.getCanvasHeight() &&
             event.clientY >= this.getCanvasPosition().getY()
-        );
+        )
     }
 }
 
-export default Button;
+export default Button

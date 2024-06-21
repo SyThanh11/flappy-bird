@@ -1,17 +1,17 @@
-import Vector2D from "../../engine/components/Vector2D";
-import GameObjectManager from "../../engine/gameObject/GameObjectManager";
-import Scene from "../../engine/scene/Scene";
-import listOfInputs from "../constant/input";
-import ObjectManagerBuilder from "../pattern/builder/ObjectManagerBuilder";
-import Background from "./Background";
-import BackgroundBuilder from "./BackgroundBuilder";
-import BackgroundManager from "./BackgroundManager";
+import Vector2D from '../../engine/components/Vector2D'
+import GameObjectManager from '../../engine/gameObject/GameObjectManager'
+import Scene from '../../engine/scene/Scene'
+import listOfInputs from '../constant/input'
+import ObjectManagerBuilder from '../pattern/builder/ObjectManagerBuilder'
+import Background from './Background'
+import BackgroundBuilder from './BackgroundBuilder'
+import BackgroundManager from './BackgroundManager'
 
 class BackgroundManagerBuilder implements ObjectManagerBuilder<Background> {
     private listOfBackgrounds: BackgroundManager
 
-    constructor(){
-        const backgroundBuilder = new BackgroundBuilder();
+    constructor() {
+        const backgroundBuilder = new BackgroundBuilder()
 
         this.listOfBackgrounds = new BackgroundManager(
             listOfInputs.listOfBackgroundsInfo.numberOfBackgrounds,
@@ -34,4 +34,4 @@ class BackgroundManagerBuilder implements ObjectManagerBuilder<Background> {
     }
 }
 
-export default BackgroundManagerBuilder;
+export default BackgroundManagerBuilder

@@ -20,46 +20,45 @@ const LIST_PATHS = [
     '../../../assets/images/yellowbird-downflap.png',
     '../../../assets/images/yellowbird-midflap.png',
     '../../../assets/images/yellowbird-upflap.png',
-];
-
+]
 
 class ResourceManager {
-    private static instance: ResourceManager = new ResourceManager();
-    private listImage: HTMLImageElement[] = [];
-    private numberImage: Map<string, HTMLImageElement>;
+    private static instance: ResourceManager = new ResourceManager()
+    private listImage: HTMLImageElement[] = []
+    private numberImage: Map<string, HTMLImageElement>
 
-    constructor(){
-        this.listImage = [];
-        this.numberImage = new Map<string, HTMLImageElement>();
+    constructor() {
+        this.listImage = []
+        this.numberImage = new Map<string, HTMLImageElement>()
         LIST_PATHS.forEach((path) => {
-            this.loadImage(path);
-        });
-        for(let i = 0; i < 10; i++){
-            this.numberImage.set(`${i}`, this.listImage[i]);
+            this.loadImage(path)
+        })
+        for (let i = 0; i < 10; i++) {
+            this.numberImage.set(`${i}`, this.listImage[i])
         }
     }
 
     public static getInstance(): ResourceManager {
-        return this.instance;
+        return this.instance
     }
 
     public loadImage(url: string): void {
-        const image = new Image();
-        image.src = url;
-        this.listImage.push(image);
+        const image = new Image()
+        image.src = url
+        this.listImage.push(image)
     }
 
     public getImage(index: number): HTMLImageElement {
-        return this.listImage[index];
+        return this.listImage[index]
     }
 
     public get length(): number {
-        return this.listImage.length;
+        return this.listImage.length
     }
 
     public getNumberImage(): Map<string, HTMLImageElement> {
-        return this.numberImage;
+        return this.numberImage
     }
 }
 
-export default ResourceManager;
+export default ResourceManager

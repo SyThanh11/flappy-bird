@@ -30,7 +30,7 @@ class PipeManagerBuilder implements ObjectManagerBuilder<Pipe> {
     }
 
     public build(): PipeManager {
-        return this.listOfPipes;
+        return this.listOfPipes
     }
 
     public addToScene(scene: Scene): void {
@@ -38,4 +38,4 @@ class PipeManagerBuilder implements ObjectManagerBuilder<Pipe> {
     }
 }
 
-export default PipeManagerBuilder;
+export default PipeManagerBuilder

@@ -31,12 +31,11 @@ class GroundManager extends GameObjectManager<Ground> {
     public update(deltaTime: number): void {
         const lastIndex = this.findLastGround(SceneManager.getInstance().getScene('gamePlay'))
         const firstIndex = this.findFirstGround(SceneManager.getInstance().getScene('gamePlay'))
-        
+
         const firstGroundObject: Ground = SceneManager.getInstance().getScene('gamePlay')
             .listOfGameObjects[firstIndex] as Ground
         const lastGroundObject: Ground = SceneManager.getInstance().getScene('gamePlay')
             .listOfGameObjects[lastIndex] as Ground
-        
 
         if (
             firstGroundObject.getCanvasPosition().getX() + firstGroundObject.getCanvasWidth() <=

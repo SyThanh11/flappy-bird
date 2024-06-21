@@ -1,14 +1,14 @@
-import GameObject from "../gameObject/GameObject"
-import Scene from "../scene/Scene"
+import GameObject from '../gameObject/GameObject'
+import Scene from '../scene/Scene'
 
 class MouseEventHandler {
     private static instance: MouseEventHandler = new MouseEventHandler()
-    private isMouseDown: boolean = false
+    private isMouseDown = false
     private listObject: GameObject[] = []
     private listScene: Scene[] = []
 
     constructor() {
-        window.addEventListener("contextmenu", (ev: MouseEvent) => { 
+        window.addEventListener('contextmenu', (ev: MouseEvent) => {
             ev.preventDefault()
         })
     }
@@ -17,30 +17,30 @@ class MouseEventHandler {
         return this.instance
     }
 
-    public addObject(object: GameObject){
+    public addObject(object: GameObject) {
         this.listObject.push(object)
     }
 
-    public addScene(scene: Scene){
+    public addScene(scene: Scene) {
         this.listScene.push(scene)
     }
 
-    public addEvent(name: string){
-        if(name == 'mousedown'){
+    public addEvent(name: string) {
+        if (name == 'mousedown') {
             window.addEventListener(name, this.handleMouseDown.bind(this))
-        } else if(name == 'mouseup'){
+        } else if (name == 'mouseup') {
             window.addEventListener(name, this.handleMouseUp.bind(this))
         }
     }
 
     private handleMouseDown(event: MouseEvent): void {
         this.isMouseDown = true
-        
-        this.listObject.forEach((object) => { 
+
+        this.listObject.forEach((object) => {
             object.handleInput(event)
         })
 
-        this.listScene.forEach((scene) => { 
+        this.listScene.forEach((scene) => {
             scene.handleInput(event)
         })
     }
@@ -48,11 +48,11 @@ class MouseEventHandler {
     private handleMouseUp(event: MouseEvent): void {
         this.isMouseDown = false
 
-        this.listObject.forEach((object) => { 
+        this.listObject.forEach((object) => {
             object.handleInput(event)
         })
 
-        this.listScene.forEach((scene) => { 
+        this.listScene.forEach((scene) => {
             scene.handleInput(event)
         })
     }

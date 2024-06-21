@@ -26,7 +26,7 @@ class BackgroundBuilder implements ObjectBuilder {
                 )
             ),
             listOfInputs.listOfBackgroundsInfo.backgroundInfo.canvasWidth,
-            listOfInputs.listOfBackgroundsInfo.backgroundInfo.canvasHeight,
+            listOfInputs.listOfBackgroundsInfo.backgroundInfo.canvasHeight
         )
     }
 
@@ -35,4 +35,4 @@ class BackgroundBuilder implements ObjectBuilder {
     }
 }
 
-export default BackgroundBuilder;
+export default BackgroundBuilder

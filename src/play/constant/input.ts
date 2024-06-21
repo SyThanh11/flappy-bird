@@ -1,6 +1,6 @@
-import Transform from "../../engine/components/Transform";
-import Vector2D from "../../engine/components/Vector2D";
-import { random } from "../helper/helper";
+import Transform from '../../engine/components/Transform'
+import Vector2D from '../../engine/components/Vector2D'
+import { random } from '../helper/helper'
 
 const LIST_OF_INPUTS = {
     listOfGroundsInfo: {
@@ -74,9 +74,7 @@ const LIST_OF_INPUTS = {
 
     gameOverMessageInfo: {
         path: '../../assets/images/sprite.png',
-        position: new Transform(
-            new Vector2D(194, 231)
-        ),
+        position: new Transform(new Vector2D(194, 231)),
         width: 184,
         height: 33,
         canvasWidth: 187 * 1.3,
@@ -87,9 +85,7 @@ const LIST_OF_INPUTS = {
 
     boardInfo: {
         path: '../../assets/images/sprite.png',
-        position: new Transform(
-            new Vector2D(175, 272)
-        ),
+        position: new Transform(new Vector2D(175, 272)),
         width: 225,
         height: 116,
         canvasWidth: 225 * 1.3,
@@ -100,9 +96,7 @@ const LIST_OF_INPUTS = {
 
     buttonInfo: {
         path: '../../assets/images/sprite.png',
-        position: new Transform(
-            new Vector2D(246, 400)
-        ),
+        position: new Transform(new Vector2D(246, 400)),
         width: 82,
         height: 28,
         canvasWidth: 82 * 1.5,
@@ -122,4 +116,4 @@ const LIST_OF_INPUTS = {
     },
 }
 
-export default LIST_OF_INPUTS;
+export default LIST_OF_INPUTS

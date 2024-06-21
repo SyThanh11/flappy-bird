@@ -11,8 +11,8 @@ import Score from '../score/Score'
 import PlayScene from './PlayScene'
 
 class OverScene extends Scene {
-    private score: Score;   
-    private highScore: Score;
+    private score: Score
+    private highScore: Score
 
     constructor() {
         super()
@@ -48,7 +48,9 @@ class OverScene extends Scene {
             new Vector2D(482, 245)
         )
 
-        localStorage.getItem('HIGH_SCORE') ? this.highScore.setScore(Number(localStorage.getItem('HIGH_SCORE'))) : 0
+        localStorage.getItem('HIGH_SCORE')
+            ? this.highScore.setScore(Number(localStorage.getItem('HIGH_SCORE')))
+            : 0
 
         gamOverMessageBuilder.addToScene(this)
         boardBuilder.addToScene(this)
@@ -64,11 +66,11 @@ class OverScene extends Scene {
 
     public update(deltaTime: number): void {
         super.update(deltaTime)
-        
-        if(localStorage.getItem('SCORE')){
+
+        if (localStorage.getItem('SCORE')) {
             this.score.setScore(Number(localStorage.getItem('SCORE')))
         }
-        
+
         if (localStorage.getItem('HIGH_SCORE') != null) {
             if (Number(localStorage.getItem('HIGH_SCORE')) < this.score.getScore()) {
                 localStorage.setItem('HIGH_SCORE', this.score.getScore().toString())
@@ -103,7 +105,6 @@ class OverScene extends Scene {
         }
         return false
     }
-
 }
 
 export default OverScene

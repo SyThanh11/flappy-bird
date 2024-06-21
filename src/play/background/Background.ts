@@ -1,4 +1,4 @@
-import GameImage from "../../engine/gameObject/GameImage";
+import GameImage from '../../engine/gameObject/GameImage'
 
 class Background extends GameImage {}
 
