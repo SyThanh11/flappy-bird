@@ -1,10 +1,11 @@
 import RigidBody from "../../engine/components/RigidBody";
 import Sprite from "../../engine/components/Sprite";
 import Transform from "../../engine/components/Transform";
-import Vector2D from "../../engine/components/Vector2D";
 import ResourceManager from "../../engine/controller/ResourceManager";
 import GameImage from "../../engine/gameObject/GameImage";
 import CanvasView from "../../engine/view/CanvasView";
+
+const DEGREE = Math.PI / 180
 
 class Bird extends GameImage {
     public rigid: RigidBody;
@@ -13,6 +14,7 @@ class Bird extends GameImage {
     private mouseUp: boolean = false
     private mouseDown: boolean = false
     public view: CanvasView = new CanvasView('canvas')
+
     
     constructor(
         image: HTMLImageElement,
@@ -30,13 +32,6 @@ class Bird extends GameImage {
         this.initSpriteAnimation()
 
         this.getCollider().setRadius(15);
-    }
-
-    public draw(): void {
-        super.draw()
-        if (this.getCollider()) {
-            this.getCollider().draw(this.view.getCtx())
-        }
     }
 
     public setSpeed(speed: number): void {
@@ -83,6 +78,16 @@ class Bird extends GameImage {
             this.speed = -this.jumpSpeed
             this.isJumping = false
         }
+        console.log(this.speed);
+        console.log(this.jumpSpeed);
+        
+
+        if(this.speed > this.jumpSpeed){
+            this.getCanvasTransform().setRotation(90*DEGREE)
+        } else {
+            if(this.speed && this.jumpSpeed)
+            this.getCanvasTransform().setRotation(-30*DEGREE)
+        }
     }
 
     public handleInput(event: Event): void {
@@ -100,32 +105,33 @@ class Bird extends GameImage {
     }
 
 
-    // public draw(){
-    //     this.collider.draw(this.view.getCtx())  
-    //     const ctx = this.view.getCtx();
-    //     ctx.save();
+    public draw(){
+        this.getCollider().draw(this.view.getCtx())  
+        const ctx = this.view.getCtx();
+        ctx.save();
 
-    //     ctx.translate(
-    //         this.getCanvasPosition().getX(),
-    //         this.getCanvasPosition().getY()
-    //     )
-    //     ctx.rotate(this.rotation)
+        ctx.translate(
+            this.getCanvasPosition().getX() + this.getCanvasWidth()/2,
+            this.getCanvasPosition().getY() + this.getCanvasHeight()/2
+        )
 
-    //     ctx.drawImage(
-    //         this.image,
-    //         this.getPosition().getX(),
-    //         this.getPosition().getY(),
-    //         this.getWidth(),
-    //         this.getHeight(),
-    //         -this.getWidth()/2,
-    //         -this.getHeight()/2,
-    //         this.getCanvasWidth(),
-    //         this.getCanvasHeight()
-    //     )
+        ctx.rotate(this.getCanvasTransform().getRotation())
 
-    //     ctx.restore()
+        ctx.drawImage(
+            this.getImage(),
+            this.getPosition().getX(),
+            this.getPosition().getY(),
+            this.getWidth(),
+            this.getHeight(),
+            -this.getWidth()/2,
+            -this.getHeight()/2,
+            this.getCanvasWidth(),
+            this.getCanvasHeight()
+        )
+
+        ctx.restore()
        
-    // }
+    }
 
     public destroy(): void {
         this.speed = 0

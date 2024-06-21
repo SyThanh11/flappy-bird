@@ -44,6 +44,7 @@ class Collider implements Collidable {
     public setRadius(radius: number): void {
         this.radius = radius
     }
+    
 
     public draw(context: CanvasRenderingContext2D) {
         context.strokeStyle = 'black'

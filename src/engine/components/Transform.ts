@@ -5,8 +5,7 @@ class Transform {
     private rotation: number
     private scale: Vector2D
 
-    private readonly degree: number = Math.PI / 180
-    private maxRotation: number
+    private maxRotation: number = 120
 
     constructor(position?: Vector2D, rotation?: number, scale?: Vector2D) {
         this.position = position || new Vector2D(0, 0)
@@ -24,17 +23,9 @@ class Transform {
     getScale(): Vector2D {
         return this.scale
     }
-    public getDegree(): number {
-        return this.degree
-    }
+
     public getMaxRotation(): number {
         return this.maxRotation
-    }
-    public getRadian(): number {
-        return this.rotation * this.degree
-    }
-    public getRadianMax(): number {
-        return this.maxRotation * this.degree
     }
     public getRotationMax(): number {
         return this.maxRotation
