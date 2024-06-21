@@ -23,6 +23,7 @@ class FlappyBirdManager extends Engine {
         MouseEventHandler.getInstance().addScene(gameOverScene);
 
         SceneManager.getInstance().getScene('ready').setIsActive(true); 
+        
     }
 }
 

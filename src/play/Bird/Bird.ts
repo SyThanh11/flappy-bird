@@ -1,8 +1,10 @@
 import RigidBody from "../../engine/components/RigidBody";
 import Sprite from "../../engine/components/Sprite";
 import Transform from "../../engine/components/Transform";
+import Vector2D from "../../engine/components/Vector2D";
 import ResourceManager from "../../engine/controller/ResourceManager";
 import GameImage from "../../engine/gameObject/GameImage";
+import CanvasView from "../../engine/view/CanvasView";
 
 class Bird extends GameImage {
     public rigid: RigidBody;
@@ -10,6 +12,7 @@ class Bird extends GameImage {
     private isJumping: boolean = false
     private mouseUp: boolean = false
     private mouseDown: boolean = false
+    public view: CanvasView = new CanvasView('canvas')
     
     constructor(
         image: HTMLImageElement,
@@ -25,6 +28,8 @@ class Bird extends GameImage {
         super(image, position, width, height, canvasPosition, canvasWidth, canvasHeight)
         this.rigid = new RigidBody(1, 9.8)
         this.initSpriteAnimation()
+
+        this.getCollider().setRadius(15);
     }
 
     public draw(): void {
@@ -37,6 +42,7 @@ class Bird extends GameImage {
     public setSpeed(speed: number): void {
         this.speed = speed
     }
+
     public setJumpSpeed(jumpSpeed: number): void {
         this.jumpSpeed = jumpSpeed
     }

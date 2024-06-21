@@ -70,15 +70,15 @@ class PlayScene extends Scene {
                 const obj2 = this.listOfGameObjects[j]
 
                 if (obj1 instanceof Bird && obj2 instanceof Ground) {
-                    if (obj1.getCollider().isColliding(obj2.getCollider())) return true
+                    if (obj1.getCollider().isCollidingWithCircle(obj2.getCollider())) return true
                 } else if (obj1 instanceof Ground && obj2 instanceof Bird) {
-                    if (obj1.getCollider().isColliding(obj2.getCollider())) return true
+                    if (obj2.getCollider().isCollidingWithCircle(obj1.getCollider())) return true
                 }
 
                 if (obj1 instanceof Bird && obj2 instanceof Pipe) {
-                    if (obj1.getCollider().isColliding(obj2.getCollider())) return true
+                    if (obj1.getCollider().isCollidingWithCircle(obj2.getCollider())) return true
                 } else if (obj1 instanceof Pipe && obj2 instanceof Bird) {
-                    if (obj1.getCollider().isColliding(obj2.getCollider())) return true
+                    if (obj2.getCollider().isCollidingWithCircle(obj1.getCollider())) return true
                 }
             }
         }
