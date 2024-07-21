@@ -7,22 +7,22 @@ class RigidBody {
         this.gravity = gravity
     }
 
-    getMass = (): number => {
+    public getMass = (): number => {
         return this.mass
     }
-    getGravity = (): number => {
+    public getGravity = (): number => {
         return this.gravity
     }
 
-    getForce = (): number => {
+    public getForce = (): number => {
         return this.getMass() * this.getGravity()
     }
 
-    getAcceleration = (): number => {
+    public getAcceleration = (): number => {
         return this.getForce() / this.getMass()
     }
 
-    destroy = (): void => {
+    public destroy = (): void => {
         this.mass = 0
         this.gravity = 0
     }

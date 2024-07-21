@@ -3,7 +3,6 @@ import Sprite from '../../engine/components/Sprite'
 import Transform from '../../engine/components/Transform'
 import ResourceManager from '../../engine/controller/ResourceManager'
 import GameImage from '../../engine/gameObject/GameImage'
-import CanvasView from '../../engine/view/CanvasView'
 
 const DEGREE = Math.PI / 180
 
@@ -13,7 +12,6 @@ class Bird extends GameImage {
     private isJumping = false
     private mouseUp = false
     private mouseDown = false
-    public view: CanvasView = new CanvasView('canvas')
 
     constructor(
         image: HTMLImageElement,
@@ -26,11 +24,9 @@ class Bird extends GameImage {
         private speed: number,
         private jumpSpeed: number
     ) {
-        super(image, position, width, height, canvasPosition, canvasWidth, canvasHeight)
+        super(image, position, width, height, canvasPosition, canvasWidth, canvasHeight, true, 15)
         this.rigid = new RigidBody(1, 9.8)
         this.initSpriteAnimation()
-
-        this.getCollider().setRadius(15)
     }
 
     public setSpeed(speed: number): void {
@@ -80,7 +76,7 @@ class Bird extends GameImage {
                 this.getCanvasTransform().setRotation(90 * DEGREE)
             } else {
                 this.getCanvasTransform().setRotation(
-                    this.getCanvasTransform().getRotation() + DEGREE * deltaTime * 400
+                    this.getCanvasTransform().getRotation() + DEGREE * deltaTime * 500
                 )
             }
         } else {
@@ -103,7 +99,7 @@ class Bird extends GameImage {
     }
 
     public draw() {
-        const ctx = this.view.getCtx()
+        const ctx = this.getView().getCtx()
         ctx.save()
 
         ctx.translate(

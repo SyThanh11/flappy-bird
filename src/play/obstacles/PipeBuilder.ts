@@ -10,12 +10,12 @@ class PipeBuilder implements ObjectBuilder {
     constructor() {
         new Pipe(
             ResourceManager.getInstance().getImage(15),
-            listOfInputs.listOfPipesInfo.pipeInfo.position,
-            listOfInputs.listOfPipesInfo.pipeInfo.width,
-            listOfInputs.listOfPipesInfo.pipeInfo.height,
-            listOfInputs.listOfPipesInfo.pipeInfo.canvasPosition,
-            listOfInputs.listOfPipesInfo.pipeInfo.canvasWidth,
-            listOfInputs.listOfPipesInfo.pipeInfo.canvasHeight
+            listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.POSITION,
+            listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.WIDTH,
+            listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.HEIGHT,
+            listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.CANVAS_POSITION,
+            listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.CANVAS_WIDTH,
+            listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.CANVAS_HEIGHT
         )
     }
 

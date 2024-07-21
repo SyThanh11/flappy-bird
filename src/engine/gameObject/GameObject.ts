@@ -1,4 +1,5 @@
-import Collider from '../components/Collider'
+import Collider from '../components/collider/Collider'
+import ColliderCircle from '../components/collider/ColliderCircle'
 import Transform from '../components/Transform'
 import Vector2D from '../components/Vector2D'
 import PositionChangeEvent from '../controller/PositionChangeEvent'
@@ -17,7 +18,9 @@ class GameObject {
         private height: number,
         private canvasTransform: Transform,
         private canvasWidth: number,
-        private canvasHeight: number
+        private canvasHeight: number,
+        private isColliderCircle: boolean = false,
+        private radius = 0
     ) {
         this.image = image
         this.transform = transform
@@ -27,12 +30,15 @@ class GameObject {
         this.canvasWidth = canvasWidth * this.transform.getScale().getX()
         this.canvasHeight = canvasHeight * this.transform.getScale().getY()
 
-        this.collider = new Collider(
-            this.getCanvasPosition(),
-            this.getCanvasWidth(),
-            this.getCanvasHeight()
-        )
-
+        if (!isColliderCircle) {
+            this.collider = new Collider(
+                this.getCanvasPosition(),
+                this.getCanvasWidth(),
+                this.getCanvasHeight()
+            )
+        } else {
+            this.collider = new ColliderCircle(this.getCanvasPosition(), this.radius)
+        }
         this.positionChangeEvent.subscribe((position: Vector2D) => {
             this.collider.setPosition(position)
         })
@@ -78,6 +84,9 @@ class GameObject {
     public getCollider(): Collider {
         return this.collider
     }
+    public getRadius(): number {
+        return this.radius
+    }
 
     public setLayer(layer: number): void {
         this.layer = layer
@@ -93,7 +102,6 @@ class GameObject {
         this.width = this.width * this.transform.getScale().getX()
         this.height = this.height * this.transform.getScale().getY()
     }
-
     public setWidth(width: number): void {
         this.width = width
     }
@@ -119,10 +127,15 @@ class GameObject {
     public setCollider(position: Vector2D): void {
         this.collider.setPosition(position)
     }
+    public setRadius(radius: number): void {
+        this.radius = radius
+    }
 
     public start(): void {}
     public handleInput(event: Event): void {}
-    public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void {}
+    public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void {
+        this.collider.draw(ctx)
+    }
     public update(deltaTime: number): void {}
     public destroy(): void {}
 }

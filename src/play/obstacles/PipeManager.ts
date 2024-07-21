@@ -3,10 +3,14 @@ import Vector2D from '../../engine/components/Vector2D'
 import GameObjectManager from '../../engine/gameObject/GameObjectManager'
 import Scene from '../../engine/scene/Scene'
 import SceneManager from '../../engine/scene/SceneManager'
-import { random } from '../helper/helper'
+import LIST_OF_INPUTS from '../constant/input'
+import HELPER from '../helper/helper'
 import Pipe from './Pipe'
 
 class PipeManager extends GameObjectManager<Pipe> {
+    private internalTimer = 0
+    private speed = 0
+
     constructor(
         numberOfGameObjects: number,
         gameObject: Pipe,
@@ -44,14 +48,15 @@ class PipeManager extends GameObjectManager<Pipe> {
                 gameObject.getCanvasWidth(),
                 gameObject.getCanvasHeight()
             )
-            this.listOfGameObjects.push(newGameObject)
+            this.getListOfGameObjects().push(newGameObject)
         }
 
+        this.speed = LIST_OF_INPUTS.LIST_OF_PIPES_INFO.PIPE_INFO.SPEED
         this.sortCanvasPosition()
     }
 
     private sortCanvasPosition(): void {
-        this.listOfGameObjects.sort((a, b) => {
+        this.getListOfGameObjects().sort((a, b) => {
             return a.getCanvasPosition().getX() - b.getCanvasPosition().getX()
         })
     }
@@ -66,12 +71,12 @@ class PipeManager extends GameObjectManager<Pipe> {
     }
 
     public setAllSpeed(speed: number): void {
-        this.listOfGameObjects.forEach((gameObject) => gameObject.setSpeed(speed))
+        this.getListOfGameObjects().forEach((gameObject) => gameObject.setSpeed(speed))
     }
 
     public findFirstPipes(scene: Scene): number {
-        for (let i = 0; i < scene.listOfGameObjects.length; i++) {
-            if (scene.listOfGameObjects[i] instanceof Pipe) {
+        for (let i = 0; i < scene.getListOfGameObjects().length; i++) {
+            if (scene.getListOfGameObjects()[i] instanceof Pipe) {
                 return i
             }
         }
@@ -79,8 +84,8 @@ class PipeManager extends GameObjectManager<Pipe> {
     }
 
     public findLastPipes(scene: Scene): number {
-        for (let i = scene.listOfGameObjects.length - 1; i >= 0; i--) {
-            if (scene.listOfGameObjects[i] instanceof Pipe) {
+        for (let i = scene.getListOfGameObjects().length - 1; i >= 0; i--) {
+            if (scene.getListOfGameObjects()[i] instanceof Pipe) {
                 return i
             }
         }
@@ -88,21 +93,31 @@ class PipeManager extends GameObjectManager<Pipe> {
     }
 
     public update(deltaTime: number): void {
+        this.internalTimer += deltaTime
+        if (this.internalTimer == 2.0) {
+            this.speed += 50
+            this.internalTimer = 0
+        }
+
         const firstIndex = this.findFirstPipes(SceneManager.getInstance().getScene('gamePlay'))
         const lastIndex = this.findLastPipes(SceneManager.getInstance().getScene('gamePlay'))
 
-        const firstPipesObject: Pipe = SceneManager.getInstance().getScene('gamePlay')
-            .listOfGameObjects[firstIndex] as Pipe
-        const secondPipesObject: Pipe = SceneManager.getInstance().getScene('gamePlay')
-            .listOfGameObjects[firstIndex + 1] as Pipe
+        const firstPipesObject: Pipe = SceneManager.getInstance()
+            .getScene('gamePlay')
+            .getListOfGameObjects()[firstIndex] as Pipe
+        const secondPipesObject: Pipe = SceneManager.getInstance()
+            .getScene('gamePlay')
+            .getListOfGameObjects()[firstIndex + 1] as Pipe
 
-        const secondLastPipesObject: Pipe = SceneManager.getInstance().getScene('gamePlay')
-            .listOfGameObjects[lastIndex - 1] as Pipe
-        const lastPipesObject: Pipe = SceneManager.getInstance().getScene('gamePlay')
-            .listOfGameObjects[lastIndex] as Pipe
+        const secondLastPipesObject: Pipe = SceneManager.getInstance()
+            .getScene('gamePlay')
+            .getListOfGameObjects()[lastIndex - 1] as Pipe
+        const lastPipesObject: Pipe = SceneManager.getInstance()
+            .getScene('gamePlay')
+            .getListOfGameObjects()[lastIndex] as Pipe
 
         if (firstPipesObject.getCanvasPosition().getX() <= -firstPipesObject.getCanvasWidth()) {
-            this.listOfGameObjects.splice(0, 2)
+            this.getListOfGameObjects().splice(0, 2)
             this.isDestroyed = true
             const newPipeTop = new Pipe(
                 firstPipesObject.getImage(),
@@ -111,14 +126,14 @@ class PipeManager extends GameObjectManager<Pipe> {
                 firstPipesObject.getHeight(),
                 new Transform(
                     new Vector2D(
-                        lastPipesObject.getCanvasPosition().getX() + random(500, 600),
-                        random(-200, -100)
+                        lastPipesObject.getCanvasPosition().getX() + HELPER.random(500, 600),
+                        HELPER.random(-200, -100)
                     )
                 ),
                 firstPipesObject.getCanvasWidth(),
                 firstPipesObject.getCanvasHeight()
             )
-            newPipeTop.setSpeed(firstPipesObject.getSpeed())
+            newPipeTop.setSpeed(this.speed)
             newPipeTop.setLayer(firstPipesObject.getLayer())
             newPipeTop.setActive(firstPipesObject.getIsActive())
 
@@ -132,18 +147,18 @@ class PipeManager extends GameObjectManager<Pipe> {
                         newPipeTop.getCanvasPosition().getX(),
                         newPipeTop.getCanvasPosition().getY() +
                             newPipeTop.getCanvasHeight() +
-                            random(75, 80)
+                            HELPER.random(75, 80)
                     )
                 ),
                 secondPipesObject.getCanvasWidth(),
                 secondPipesObject.getCanvasHeight()
             )
-            newPipeBottom.setSpeed(secondLastPipesObject.getSpeed())
+            newPipeBottom.setSpeed(this.speed)
             newPipeBottom.setLayer(secondLastPipesObject.getLayer())
             newPipeBottom.setActive(secondLastPipesObject.getIsActive())
 
-            this.listOfGameObjects.push(newPipeTop)
-            this.listOfGameObjects.push(newPipeBottom)
+            this.getListOfGameObjects().push(newPipeTop)
+            this.getListOfGameObjects().push(newPipeBottom)
 
             SceneManager.getInstance().getScene('gamePlay').addGameObject(newPipeTop)
             SceneManager.getInstance().getScene('gamePlay').addGameObject(newPipeBottom)

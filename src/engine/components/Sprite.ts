@@ -7,12 +7,10 @@ class Sprite {
 
     constructor() {}
 
-    // Getter for fps
     public getFps(): number {
         return this.fps
     }
 
-    // Setter for fps
     public setFps(fps: number): void {
         this.fps = fps
     }
@@ -25,7 +23,6 @@ class Sprite {
         return this.listOfImages[this.currentFrameIndex]
     }
 
-    // Play the animation
     public playAnimation(): void {
         const interval = 1000 / this.fps
 

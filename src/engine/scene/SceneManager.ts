@@ -48,6 +48,20 @@ class SceneManager {
         })
     }
 
+    public pauseScene(sceneName: string) {
+        const scene = this.listOfScenes.get(sceneName)
+        if (scene) {
+            scene.setIsActive(false)
+        }
+    }
+
+    public resumeScene(sceneName: string) {
+        const scene = this.listOfScenes.get(sceneName)
+        if (scene) {
+            scene.setIsActive(true)
+        }
+    }
+
     public draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         this.listOfScenes.forEach((scene: Scene, _) => {

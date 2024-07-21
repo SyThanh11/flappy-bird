@@ -10,12 +10,12 @@ class ScoreBuilder implements ObjectBuilder {
     constructor() {
         this.score = new Score(
             new Image(),
-            listOfInputs.scoreInfo.position,
-            listOfInputs.scoreInfo.width,
-            listOfInputs.scoreInfo.height,
-            listOfInputs.scoreInfo.canvasPosition,
-            listOfInputs.scoreInfo.canvasWidth,
-            listOfInputs.scoreInfo.canvasHeight,
+            listOfInputs.SCORE_INFO.POSITION,
+            listOfInputs.SCORE_INFO.WIDTH,
+            listOfInputs.SCORE_INFO.HEIGHT,
+            listOfInputs.SCORE_INFO.CANVAS_POSITION,
+            listOfInputs.SCORE_INFO.CANVAS_WIDTH,
+            listOfInputs.SCORE_INFO.CANVAS_HEIGHT,
             new Vector2D(800 / 2, 510 / 20)
         )
     }

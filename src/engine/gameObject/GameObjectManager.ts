@@ -58,8 +58,8 @@ class GameObjectManager<T extends GameObject> {
         this.listOfGameObjects.forEach((gameObject: GameObject) => gameObject.setActive(active))
     }
 
-    public draw(context: CanvasRenderingContext2D): void {}
-    public update(deltaTime: number): void {}
+    public draw(_context: CanvasRenderingContext2D): void {}
+    public update(_deltaTime: number): void {}
 }
 
 export default GameObjectManager

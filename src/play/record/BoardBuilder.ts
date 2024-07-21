@@ -1,32 +1,32 @@
 import Transform from '../../engine/components/Transform'
 import Vector2D from '../../engine/components/Vector2D'
 import ResourceManager from '../../engine/controller/ResourceManager'
+import GameImage from '../../engine/gameObject/GameImage'
 import Scene from '../../engine/scene/Scene'
 import listOfInputs from '../constant/input'
 import ObjectBuilder from '../pattern/builder/ObjectBuilder'
-import Board from './Board'
 
 class BoardBuilder implements ObjectBuilder {
-    private board: Board
+    private board: GameImage
 
     constructor() {
-        this.board = new Board(
+        this.board = new GameImage(
             ResourceManager.getInstance().getImage(17),
-            listOfInputs.boardInfo.position,
-            listOfInputs.boardInfo.width,
-            listOfInputs.boardInfo.height,
+            listOfInputs.BOARD_INFO.POSITION,
+            listOfInputs.BOARD_INFO.WIDTH,
+            listOfInputs.BOARD_INFO.HEIGHT,
             new Transform(
                 new Vector2D(
-                    (800 - listOfInputs.boardInfo.canvasWidth) / 2,
-                    listOfInputs.boardInfo.canvasHeight + listOfInputs.boardInfo.dY
+                    (800 - listOfInputs.BOARD_INFO.CANVAS_WIDTH) / 2,
+                    listOfInputs.BOARD_INFO.CANVAS_HEIGHT + listOfInputs.BOARD_INFO.DY
                 )
             ),
-            listOfInputs.boardInfo.canvasWidth,
-            listOfInputs.boardInfo.canvasHeight
+            listOfInputs.BOARD_INFO.CANVAS_WIDTH,
+            listOfInputs.BOARD_INFO.CANVAS_HEIGHT
         )
     }
 
-    public build(): Board {
+    public build(): GameImage {
         return this.board
     }
 

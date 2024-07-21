@@ -1,32 +1,33 @@
 import Transform from '../../engine/components/Transform'
 import Vector2D from '../../engine/components/Vector2D'
 import ResourceManager from '../../engine/controller/ResourceManager'
+import GameImage from '../../engine/gameObject/GameImage'
 import Scene from '../../engine/scene/Scene'
 import listOfInputs from '../constant/input'
 import ObjectBuilder from '../pattern/builder/ObjectBuilder'
-import Message from './Message'
 
 class MessageBuilder implements ObjectBuilder {
-    private message: Message
+    private message: GameImage
 
     constructor() {
-        this.message = new Message(
+        this.message = new GameImage(
             ResourceManager.getInstance().getImage(14),
-            listOfInputs.messageInfo.position,
-            listOfInputs.messageInfo.width,
-            listOfInputs.messageInfo.height,
+            listOfInputs.MESSAGE_INFO.POSITION,
+            listOfInputs.MESSAGE_INFO.WIDTH,
+            listOfInputs.MESSAGE_INFO.HEIGHT,
             new Transform(
                 new Vector2D(
-                    (800 - listOfInputs.messageInfo.canvasWidth) / 2,
-                    (510 - listOfInputs.messageInfo.canvasHeight - listOfInputs.messageInfo.dY) / 2
+                    (800 - listOfInputs.MESSAGE_INFO.CANVAS_WIDTH) / 2,
+                    (510 - listOfInputs.MESSAGE_INFO.CANVAS_HEIGHT - listOfInputs.MESSAGE_INFO.DY) /
+                        2
                 )
             ),
-            listOfInputs.messageInfo.canvasWidth,
-            listOfInputs.messageInfo.canvasHeight
+            listOfInputs.MESSAGE_INFO.CANVAS_WIDTH,
+            listOfInputs.MESSAGE_INFO.CANVAS_HEIGHT
         )
     }
 
-    public build(): Message {
+    public build(): GameImage {
         return this.message
     }
 

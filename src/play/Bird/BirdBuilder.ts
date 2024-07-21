@@ -12,14 +12,14 @@ class BirdBuilder implements ObjectBuilder {
     constructor() {
         this.bird = new Bird(
             ResourceManager.getInstance().getImage(18),
-            listOfInputs.birdInfo.position,
-            listOfInputs.birdInfo.width,
-            listOfInputs.birdInfo.height,
-            new Transform(new Vector2D(800 / 4, (510 - listOfInputs.birdInfo.height) / 2)),
-            listOfInputs.birdInfo.canvasWidth,
-            listOfInputs.birdInfo.canvasHeight,
-            listOfInputs.birdInfo.speed,
-            listOfInputs.birdInfo.jumpSpeed
+            listOfInputs.BIRD_INFO.POSITION,
+            listOfInputs.BIRD_INFO.WIDTH,
+            listOfInputs.BIRD_INFO.HEIGHT,
+            new Transform(new Vector2D(800 / 4, (510 - listOfInputs.BIRD_INFO.HEIGHT) / 2)),
+            listOfInputs.BIRD_INFO.CANVAS_WIDTH,
+            listOfInputs.BIRD_INFO.CANVAS_HEIGHT,
+            listOfInputs.BIRD_INFO.SPEED,
+            listOfInputs.BIRD_INFO.JUMP_SPEED
         )
     }
 

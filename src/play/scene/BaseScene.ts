@@ -3,12 +3,12 @@ import Scene from '../../engine/scene/Scene'
 class BaseScene extends Scene {
     constructor() {
         super()
-        this.setUp()
+        this.init()
     }
 
-    public setUp(): void {}
-    public update(deltaTime: number): void {}
-    public reload(): void {}
+    public init(): void {}
+    public create(): void {}
+    public update(_deltaTime: number): void {}
 }
 
 export default BaseScene

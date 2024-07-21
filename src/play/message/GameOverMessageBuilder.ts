@@ -1,33 +1,33 @@
 import Transform from '../../engine/components/Transform'
 import Vector2D from '../../engine/components/Vector2D'
 import ResourceManager from '../../engine/controller/ResourceManager'
+import GameImage from '../../engine/gameObject/GameImage'
 import Scene from '../../engine/scene/Scene'
 import listOfInputs from '../constant/input'
 import ObjectBuilder from '../pattern/builder/ObjectBuilder'
-import GameOverMessage from './GameOverMessage'
 
 class GameOverMessageBuilder implements ObjectBuilder {
-    private gameOverMessage: GameOverMessage
+    private gameOverMessage: GameImage
 
     constructor() {
-        this.gameOverMessage = new GameOverMessage(
+        this.gameOverMessage = new GameImage(
             ResourceManager.getInstance().getImage(17),
-            listOfInputs.gameOverMessageInfo.position,
-            listOfInputs.gameOverMessageInfo.width,
-            listOfInputs.gameOverMessageInfo.height,
+            listOfInputs.GAME_OVER_MESSAGE_INFO.POSITION,
+            listOfInputs.GAME_OVER_MESSAGE_INFO.WIDTH,
+            listOfInputs.GAME_OVER_MESSAGE_INFO.HEIGHT,
             new Transform(
                 new Vector2D(
-                    (800 - listOfInputs.gameOverMessageInfo.canvasWidth) / 2,
-                    listOfInputs.gameOverMessageInfo.canvasHeight +
-                        listOfInputs.gameOverMessageInfo.dY
+                    (800 - listOfInputs.GAME_OVER_MESSAGE_INFO.CANVAS_WIDTH) / 2,
+                    listOfInputs.GAME_OVER_MESSAGE_INFO.CANVAS_HEIGHT +
+                        listOfInputs.GAME_OVER_MESSAGE_INFO.DY
                 )
             ),
-            listOfInputs.gameOverMessageInfo.canvasWidth,
-            listOfInputs.gameOverMessageInfo.canvasHeight
+            listOfInputs.GAME_OVER_MESSAGE_INFO.CANVAS_WIDTH,
+            listOfInputs.GAME_OVER_MESSAGE_INFO.CANVAS_HEIGHT
         )
     }
 
-    build(): GameOverMessage {
+    build(): GameImage {
         return this.gameOverMessage
     }
 

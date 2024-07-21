@@ -13,6 +13,7 @@ import PlayScene from './PlayScene'
 class OverScene extends Scene {
     private score: Score
     private highScore: Score
+    private button: Button | undefined
 
     constructor() {
         super()
@@ -21,8 +22,7 @@ class OverScene extends Scene {
     }
 
     public createObjects(): void {
-        // Constructor
-        const gamOverMessageBuilder = new GameOverMessageBuilder()
+        const gameOverMessageBuilder = new GameOverMessageBuilder()
         const boardBuilder = new BoardBuilder()
         const buttonBuilder = new ButtonBuilder()
 
@@ -52,16 +52,18 @@ class OverScene extends Scene {
             ? this.highScore.setScore(Number(localStorage.getItem('HIGH_SCORE')))
             : 0
 
-        gamOverMessageBuilder.addToScene(this)
+        gameOverMessageBuilder.addToScene(this)
         boardBuilder.addToScene(this)
         buttonBuilder.addToScene(this)
+
         this.score.addToScene(this)
         this.highScore.addToScene(this)
 
         this.score.setLayer(1)
         this.highScore.setLayer(1)
 
-        MouseEventHandler.getInstance().addObject(buttonBuilder.build())
+        this.button = buttonBuilder.build() as Button
+        MouseEventHandler.getInstance().addObject(this.button)
     }
 
     public update(deltaTime: number): void {
@@ -83,23 +85,14 @@ class OverScene extends Scene {
 
         if (this.checkIsClicked()) {
             SceneManager.getInstance().getScene('gameOver').setIsActive(false)
-
             SceneManager.getInstance().updateScene('gamePlay', new PlayScene())
             SceneManager.getInstance().getScene('gamePlay').setIsActive(true)
         }
     }
 
     public checkIsClicked(): boolean {
-        let button: Button | undefined
-        for (let i = 0; i < this.listOfGameObjects.length; i++) {
-            if (this.listOfGameObjects[i] instanceof Button) {
-                button = this.listOfGameObjects[i] as Button
-                break
-            }
-        }
-
-        if (button) {
-            if (button.getIsClicked()) {
+        if (this.button) {
+            if (this.button.getIsClicked()) {
                 return true
             }
         }

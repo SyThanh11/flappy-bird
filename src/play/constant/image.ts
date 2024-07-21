@@ -1,0 +1,25 @@
+const LIST_PATHS = {
+    // '0': '../../../assets/images/0.png',
+    // '1': '../../../assets/images/1.png',
+    // '2': '../../../assets/images/2.png',
+    // '3': '../../../assets/images/3.png',
+    // '4': '../../../assets/images/4.png',
+    // '5': '../../../assets/images/5.png',
+    // '6': '../../../assets/images/6.png',
+    // '7': '../../../assets/images/7.png',
+    // '8': '../../../assets/images/8.png',
+    // '9': '../../../assets/images/9.png',
+    backgroundNight: '../../../assets/images/background-night.png',
+    backgroundDay: '../../../assets/images/background-day.png',
+    base: '../../../assets/images/base.png',
+    gameover: '../../../assets/images/gameover.png',
+    message: '../../../assets/images/message.png',
+    pipeGreenDown: '../../../assets/images/pipe-green-down.png',
+    pipeGreen: '../../../assets/images/pipe-green.png',
+    sprite: '../../../assets/images/sprite.png',
+    yellowbirdDownflap: '../../../assets/images/yellowbird-downflap.png',
+    yellowbirdMidflap: '../../../assets/images/yellowbird-midflap.png',
+    yellowbirdUpflap: '../../../assets/images/yellowbird-upflap.png',
+}
+
+export default LIST_PATHS

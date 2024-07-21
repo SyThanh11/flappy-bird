@@ -14,13 +14,13 @@ class Transform {
     }
 
     // getter
-    getPosition(): Vector2D {
+    public getPosition(): Vector2D {
         return this.position
     }
-    getRotation(): number {
+    public getRotation(): number {
         return this.rotation
     }
-    getScale(): Vector2D {
+    public getScale(): Vector2D {
         return this.scale
     }
 
@@ -32,13 +32,13 @@ class Transform {
     }
 
     // setter
-    setPosition(position: Vector2D): void {
+    public setPosition(position: Vector2D): void {
         this.position = position
     }
-    setRotation(rotation: number): void {
+    public setRotation(rotation: number): void {
         this.rotation = rotation
     }
-    setScale(scale: Vector2D): void {
+    public setScale(scale: Vector2D): void {
         this.scale = scale
     }
     public setMaxRotation(maxRotation: number): void {
@@ -58,7 +58,7 @@ class Transform {
     }
 
     // reset
-    reset(): void {
+    public reset(): void {
         this.position = new Vector2D(0, 0)
         this.rotation = 0
         this.scale = new Vector2D(1, 1)

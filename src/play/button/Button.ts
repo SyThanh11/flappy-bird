@@ -1,6 +1,7 @@
 import GameImage from '../../engine/gameObject/GameImage'
 
 class Button extends GameImage {
+    private isMouseDown = false
     private isClicked = false
 
     public getIsClicked(): boolean {
@@ -12,12 +13,18 @@ class Button extends GameImage {
     }
 
     public handleInput(event: Event): void {
+        this.setIsClicked(false)
         if (event.type === 'mousedown') {
             if (this.checkClickButton(event as MouseEvent)) {
-                this.setIsClicked(true)
+                this.isMouseDown = true
             }
-        } else {
-            this.setIsClicked(false)
+        } else if (event.type === 'mouseup') {
+            if (this.checkClickButton(event as MouseEvent)) {
+                if (this.isMouseDown) {
+                    this.isMouseDown = false
+                    this.setIsClicked(true)
+                }
+            }
         }
     }
 

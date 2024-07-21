@@ -1,118 +1,120 @@
 import Transform from '../../engine/components/Transform'
 import Vector2D from '../../engine/components/Vector2D'
-import { random } from '../helper/helper'
+import HELPER from '../helper/helper'
 
 const LIST_OF_INPUTS = {
-    listOfGroundsInfo: {
-        numberOfGrounds: 4,
-        groundInfo: {
-            path: '../assets/images/base.png',
-            position: new Transform(),
-            width: 336,
-            height: 112,
-            canvasPosition: new Transform(new Vector2D(200, 510 - 112)),
-            canvasWidth: 336,
-            canvasHeight: 112,
-            speed: 100,
+    LIST_OF_GROUNDS_INFO: {
+        NUMBER_OF_GROUNDS: 4,
+        GROUND_INFO: {
+            PATH: '../assets/images/base.png',
+            POSITION: new Transform(),
+            WIDTH: 336,
+            HEIGHT: 112,
+            CANVAS_POSITION: new Transform(new Vector2D(200, 510 - 112)),
+            CANVAS_WIDTH: 336,
+            CANVAS_HEIGHT: 112,
+            SPEED: 100,
         },
-        indexStart: 0,
+        INDEX_START: 0,
     },
 
-    listOfBackgroundsInfo: {
-        numberOfBackgrounds: 3,
-        backgroundInfo: {
-            path: '../assets/images/background-night.png',
-            position: new Vector2D(0, 0),
-            width: 288,
-            height: 512,
-            canvasPosition: new Vector2D(288, 0),
-            canvasWidth: 288,
-            canvasHeight: 512,
-            speed: 0,
+    LIST_OF_BACKGROUNDS_INFO: {
+        NUMBER_OF_BACKGROUNDS: 3,
+        BACKGROUND_INFO: {
+            PATH: '../assets/images/background-night.png',
+            POSITION: new Vector2D(0, 0),
+            WIDTH: 288,
+            HEIGHT: 512,
+            CANVAS_POSITION: new Vector2D(288, 0),
+            CANVAS_WIDTH: 288,
+            CANVAS_HEIGHT: 512,
+            SPEED: 0,
         },
-        indexStart: 0,
+        INDEX_START: 0,
     },
 
-    listOfPipesInfo: {
-        numberOfPipes: 4,
-        pipeInfo: {
-            pathUp: '../../assets/images/pipe-green.png',
-            pathDown: '../../assets/images/pipe-green-down.png',
-            position: new Transform(),
-            width: 52,
-            height: 320,
-            canvasPosition: new Transform(new Vector2D(random(800, 820), random(-100, -200))),
-            canvasWidth: 52,
-            canvasHeight: 320,
-            speed: 200,
-            space: 80,
+    LIST_OF_PIPES_INFO: {
+        NUMBER_OF_PIPES: 4,
+        PIPE_INFO: {
+            PATH_UP: '../../assets/images/pipe-green.png',
+            PATH_DOWN: '../../assets/images/pipe-green-down.png',
+            POSITION: new Transform(),
+            WIDTH: 52,
+            HEIGHT: 320,
+            CANVAS_POSITION: new Transform(
+                new Vector2D(HELPER.random(800, 820), HELPER.random(-100, -200))
+            ),
+            CANVAS_WIDTH: 52,
+            CANVAS_HEIGHT: 320,
+            SPEED: 200,
+            SPACE: 80,
         },
-        indexStart: 1,
+        INDEX_START: 1,
     },
 
-    birdInfo: {
-        path: '../../assets/images/yellowbird-midflap.png',
-        position: new Transform(),
-        width: 34,
-        height: 24,
-        canvasWidth: 33,
-        canvasHeight: 30,
-        speed: 0,
-        jumpSpeed: 200,
+    BIRD_INFO: {
+        PATH: '../../assets/images/yellowbird-midflap.png',
+        POSITION: new Transform(),
+        WIDTH: 34,
+        HEIGHT: 24,
+        CANVAS_WIDTH: 33,
+        CANVAS_HEIGHT: 30,
+        SPEED: 0,
+        JUMP_SPEED: 250,
     },
 
-    messageInfo: {
-        path: '../assets/images/message.png',
-        position: new Transform(),
-        width: 184,
-        height: 267,
-        canvasWidth: 184,
-        canvasHeight: 267,
-        speed: 0,
-        dY: 80,
+    MESSAGE_INFO: {
+        PATH: '../assets/images/message.png',
+        POSITION: new Transform(),
+        WIDTH: 184,
+        HEIGHT: 267,
+        CANVAS_WIDTH: 184,
+        CANVAS_HEIGHT: 267,
+        SPEED: 0,
+        DY: 80,
     },
 
-    gameOverMessageInfo: {
-        path: '../../assets/images/sprite.png',
-        position: new Transform(new Vector2D(194, 231)),
-        width: 184,
-        height: 33,
-        canvasWidth: 187 * 1.3,
-        canvasHeight: 33 * 1.3,
-        speed: 0,
-        dY: 50,
+    GAME_OVER_MESSAGE_INFO: {
+        PATH: '../../assets/images/sprite.png',
+        POSITION: new Transform(new Vector2D(194, 231)),
+        WIDTH: 184,
+        HEIGHT: 33,
+        CANVAS_WIDTH: 187 * 1.3,
+        CANVAS_HEIGHT: 33 * 1.3,
+        SPEED: 0,
+        DY: 50,
     },
 
-    boardInfo: {
-        path: '../../assets/images/sprite.png',
-        position: new Transform(new Vector2D(175, 272)),
-        width: 225,
-        height: 116,
-        canvasWidth: 225 * 1.3,
-        canvasHeight: 116 * 1.3,
-        speed: 0,
-        dY: -3,
+    BOARD_INFO: {
+        PATH: '../../assets/images/sprite.png',
+        POSITION: new Transform(new Vector2D(175, 272)),
+        WIDTH: 225,
+        HEIGHT: 116,
+        CANVAS_WIDTH: 225 * 1.3,
+        CANVAS_HEIGHT: 116 * 1.3,
+        SPEED: 0,
+        DY: -3,
     },
 
-    buttonInfo: {
-        path: '../../assets/images/sprite.png',
-        position: new Transform(new Vector2D(246, 400)),
-        width: 82,
-        height: 28,
-        canvasWidth: 82 * 1.5,
-        canvasHeight: 30 * 1.5,
-        speed: 0,
-        dY: 70,
+    BUTTON_INFO: {
+        PATH: '../../assets/images/sprite.png',
+        POSITION: new Transform(new Vector2D(246, 400)),
+        WIDTH: 82,
+        HEIGHT: 28,
+        CANVAS_WIDTH: 82 * 1.5,
+        CANVAS_HEIGHT: 30 * 1.5,
+        SPEED: 0,
+        DY: 70,
     },
 
-    scoreInfo: {
-        path: '',
-        position: new Transform(),
-        width: 0,
-        height: 0,
-        canvasPosition: new Transform(),
-        canvasWidth: 24,
-        canvasHeight: 36,
+    SCORE_INFO: {
+        PATH: '',
+        POSITION: new Transform(),
+        WIDTH: 0,
+        HEIGHT: 0,
+        CANVAS_POSITION: new Transform(),
+        CANVAS_WIDTH: 24,
+        CANVAS_HEIGHT: 36,
     },
 }
 

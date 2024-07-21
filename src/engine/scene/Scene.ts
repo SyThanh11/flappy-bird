@@ -1,7 +1,7 @@
 import GameObject from '../gameObject/GameObject'
 
 class Scene {
-    public listOfGameObjects: GameObject[]
+    private listOfGameObjects: GameObject[]
     private isActive = false
 
     constructor() {
@@ -30,6 +30,10 @@ class Scene {
 
     public getIsActive() {
         return this.isActive
+    }
+
+    public getListOfGameObjects(): Array<GameObject> {
+        return this.listOfGameObjects
     }
 
     public addListOfGameObjects(listOfGameObjects: GameObject[]) {
@@ -74,7 +78,7 @@ class Scene {
         this.listOfGameObjects = []
     }
 
-    public handleInput(event: Event) {}
+    public handleInput(_event: Event) {}
 }
 
 export default Scene

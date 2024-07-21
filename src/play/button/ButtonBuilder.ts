@@ -12,18 +12,20 @@ class ButtonBuilder implements ObjectBuilder {
     constructor() {
         this.button = new Button(
             ResourceManager.getInstance().getImage(17),
-            listOfInputs.buttonInfo.position,
-            listOfInputs.buttonInfo.width,
-            listOfInputs.buttonInfo.height,
+            listOfInputs.BUTTON_INFO.POSITION,
+            listOfInputs.BUTTON_INFO.WIDTH,
+            listOfInputs.BUTTON_INFO.HEIGHT,
             new Transform(
                 new Vector2D(
-                    (800 - listOfInputs.buttonInfo.canvasWidth) / 2,
-                    (510 + listOfInputs.buttonInfo.canvasHeight + listOfInputs.buttonInfo.dY) / 2
+                    (800 - listOfInputs.BUTTON_INFO.CANVAS_WIDTH) / 2,
+                    (510 + listOfInputs.BUTTON_INFO.CANVAS_HEIGHT + listOfInputs.BUTTON_INFO.DY) / 2
                 )
             ),
-            listOfInputs.buttonInfo.canvasWidth,
-            listOfInputs.buttonInfo.canvasHeight
+            listOfInputs.BUTTON_INFO.CANVAS_WIDTH,
+            listOfInputs.BUTTON_INFO.CANVAS_HEIGHT
         )
+
+        this.button.setActive(false)
     }
 
     public build(): Button {

@@ -10,23 +10,23 @@ class PipeManagerBuilder implements ObjectManagerBuilder<Pipe> {
 
     constructor() {
         this.listOfPipes = new PipeManager(
-            listOfInputs.listOfPipesInfo.numberOfPipes,
+            listOfInputs.LIST_OF_PIPES_INFO.NUMBER_OF_PIPES,
             new Pipe(
                 ResourceManager.getInstance().getImage(15),
-                listOfInputs.listOfPipesInfo.pipeInfo.position,
-                listOfInputs.listOfPipesInfo.pipeInfo.width,
-                listOfInputs.listOfPipesInfo.pipeInfo.height,
-                listOfInputs.listOfPipesInfo.pipeInfo.canvasPosition,
-                listOfInputs.listOfPipesInfo.pipeInfo.canvasWidth,
-                listOfInputs.listOfPipesInfo.pipeInfo.canvasHeight
+                listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.POSITION,
+                listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.WIDTH,
+                listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.HEIGHT,
+                listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.CANVAS_POSITION,
+                listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.CANVAS_WIDTH,
+                listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.CANVAS_HEIGHT
             ),
-            listOfInputs.listOfPipesInfo.indexStart,
+            listOfInputs.LIST_OF_PIPES_INFO.INDEX_START,
             Pipe,
-            listOfInputs.listOfPipesInfo.pipeInfo.canvasPosition.getPosition(),
-            listOfInputs.listOfPipesInfo.pipeInfo.space,
+            listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.CANVAS_POSITION.getPosition(),
+            listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.SPACE,
             ResourceManager.getInstance().getImage(16)
         )
-        this.listOfPipes.setAllSpeed(listOfInputs.listOfPipesInfo.pipeInfo.speed)
+        this.listOfPipes.setAllSpeed(listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.SPEED)
     }
 
     public build(): PipeManager {

@@ -11,24 +11,24 @@ class GroundManagerBuilder implements ObjectManagerBuilder<Ground> {
 
     constructor() {
         this.listOfGrounds = new GroundManager(
-            listOfInputs.listOfGroundsInfo.numberOfGrounds,
+            listOfInputs.LIST_OF_GROUNDS_INFO.NUMBER_OF_GROUNDS,
             new Ground(
                 ResourceManager.getInstance().getImage(12),
-                listOfInputs.listOfGroundsInfo.groundInfo.position,
-                listOfInputs.listOfGroundsInfo.groundInfo.width,
-                listOfInputs.listOfGroundsInfo.groundInfo.height,
-                listOfInputs.listOfGroundsInfo.groundInfo.canvasPosition,
-                listOfInputs.listOfGroundsInfo.groundInfo.canvasWidth,
-                listOfInputs.listOfGroundsInfo.groundInfo.canvasHeight
+                listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.POSITION,
+                listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.WIDTH,
+                listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.HEIGHT,
+                listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.CANVAS_POSITION,
+                listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.CANVAS_WIDTH,
+                listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.CANVAS_HEIGHT
             ),
-            listOfInputs.listOfGroundsInfo.indexStart,
+            listOfInputs.LIST_OF_GROUNDS_INFO.INDEX_START,
             Ground,
             new Vector2D(
-                listOfInputs.listOfGroundsInfo.groundInfo.canvasWidth,
-                listOfInputs.listOfGroundsInfo.groundInfo.canvasPosition.getPosition().getY()
+                listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.CANVAS_WIDTH,
+                listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.CANVAS_POSITION.getPosition().getY()
             )
         )
-        this.listOfGrounds.setAllSpeed(listOfInputs.listOfGroundsInfo.groundInfo.speed)
+        this.listOfGrounds.setAllSpeed(listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.SPEED)
     }
 
     public build(): GroundManager {

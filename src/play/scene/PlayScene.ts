@@ -1,10 +1,11 @@
 import MouseEventHandler from '../../engine/controller/MouseEventHandler'
 import Scene from '../../engine/scene/Scene'
 import SceneManager from '../../engine/scene/SceneManager'
-import Bird from '../Bird/Bird'
-import BirdBuilder from '../Bird/BirdBuilder'
+import Bird from '../bird/Bird'
+import BirdBuilder from '../bird/BirdBuilder'
 import BackgroundManagerBuilder from '../background/BackgroundManagerBuilder'
-import MiddleGameObject from '../game-manager-handler/MiddleGameObject'
+import ObjectManager from '../gameContainer/ObjectManager'
+import MiddleGameObject from '../gameContainer/ObjectManager'
 import Ground from '../ground/Ground'
 import GroundManagerBuilder from '../ground/GroundManagerBuilder'
 import Pipe from '../obstacles/Pipe'
@@ -30,15 +31,15 @@ class PlayScene extends Scene {
         const listOfPipesBuilder = new PipeManagerBuilder()
         this.scoreBuilder = new ScoreBuilder()
 
-        const middleGameObject = new MiddleGameObject()
-        middleGameObject.setGameManager(listOfGroundsBuilder.build(), listOfPipesBuilder.build())
+        const objectContainer = new ObjectManager()
+        objectContainer.setGameManager(listOfGroundsBuilder.build(), listOfPipesBuilder.build())
 
         // Add to scene
         birdBuilder.addToScene(this)
         this.listOfBackgroundsBuilder.addToScene(this)
         listOfGroundsBuilder.addToScene(this)
         listOfPipesBuilder.addToScene(this)
-        middleGameObject.addToScene(this)
+        objectContainer.addToScene(this)
         this.scoreBuilder.addToScene(this)
 
         // Set Layer
@@ -64,22 +65,22 @@ class PlayScene extends Scene {
     }
 
     private checkCollision(): boolean {
-        for (let i = 0; i < this.listOfGameObjects.length - 1; i++) {
-            const obj1 = this.listOfGameObjects[i]
+        for (let i = 0; i < this.getListOfGameObjects().length - 1; i++) {
+            const obj1 = this.getListOfGameObjects()[i]
 
-            for (let j = i + 1; j < this.listOfGameObjects.length; j++) {
-                const obj2 = this.listOfGameObjects[j]
+            for (let j = i + 1; j < this.getListOfGameObjects().length; j++) {
+                const obj2 = this.getListOfGameObjects()[j]
 
                 if (obj1 instanceof Bird && obj2 instanceof Ground) {
-                    if (obj1.getCollider().isCollidingWithCircle(obj2.getCollider())) return true
+                    if (obj1.getCollider().isColliding(obj2.getCollider())) return true
                 } else if (obj1 instanceof Ground && obj2 instanceof Bird) {
-                    if (obj2.getCollider().isCollidingWithCircle(obj1.getCollider())) return true
+                    if (obj2.getCollider().isColliding(obj1.getCollider())) return true
                 }
 
                 if (obj1 instanceof Bird && obj2 instanceof Pipe) {
-                    if (obj1.getCollider().isCollidingWithCircle(obj2.getCollider())) return true
+                    if (obj1.getCollider().isColliding(obj2.getCollider())) return true
                 } else if (obj1 instanceof Pipe && obj2 instanceof Bird) {
-                    if (obj2.getCollider().isCollidingWithCircle(obj1.getCollider())) return true
+                    if (obj2.getCollider().isColliding(obj1.getCollider())) return true
                 }
 
                 if (obj1 instanceof Bird) {
@@ -96,8 +97,8 @@ class PlayScene extends Scene {
         let score: Score | undefined
         let bird: Bird | undefined
 
-        for (let i = 0; i < this.listOfGameObjects.length; i++) {
-            const obj = this.listOfGameObjects[i]
+        for (let i = 0; i < this.getListOfGameObjects().length; i++) {
+            const obj = this.getListOfGameObjects()[i]
             if (obj instanceof MiddleGameObject) {
                 middleGameObject = obj as MiddleGameObject
             } else if (obj instanceof Score) {
@@ -113,7 +114,7 @@ class PlayScene extends Scene {
             }
 
             const firstGroundObject =
-                this.listOfGameObjects[middleGameObject.getListOfPipes().findFirstPipes(this)]
+                this.getListOfGameObjects()[middleGameObject.getListOfPipes().findFirstPipes(this)]
 
             if (
                 score &&
@@ -131,10 +132,10 @@ class PlayScene extends Scene {
     }
 
     private removeScore() {
-        for (let i = 0; i < this.listOfGameObjects.length; i++) {
-            const obj = this.listOfGameObjects[i]
+        for (let i = 0; i < this.getListOfGameObjects().length; i++) {
+            const obj = this.getListOfGameObjects()[i]
             if (obj instanceof Score) {
-                this.listOfGameObjects.splice(i, 1)
+                this.getListOfGameObjects().splice(i, 1)
             }
         }
     }

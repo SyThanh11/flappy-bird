@@ -7,12 +7,12 @@ import SceneManager from '../../engine/scene/SceneManager'
 
 class GroundManager extends GameObjectManager<Ground> {
     public setAllSpeed(speed: number): void {
-        this.listOfGameObjects.forEach((gameObject) => gameObject.setSpeed(speed))
+        this.getListOfGameObjects().forEach((gameObject) => gameObject.setSpeed(speed))
     }
 
     public findLastGround(scene: Scene): number {
-        for (let i = scene.listOfGameObjects.length - 1; i >= 0; i--) {
-            if (scene.listOfGameObjects[i] instanceof Ground) {
+        for (let i = scene.getListOfGameObjects().length - 1; i >= 0; i--) {
+            if (scene.getListOfGameObjects()[i] instanceof Ground) {
                 return i
             }
         }
@@ -20,28 +20,30 @@ class GroundManager extends GameObjectManager<Ground> {
     }
 
     public findFirstGround(scene: Scene): number {
-        for (let i = 0; i < scene.listOfGameObjects.length; i++) {
-            if (scene.listOfGameObjects[i] instanceof Ground) {
+        for (let i = 0; i < scene.getListOfGameObjects().length; i++) {
+            if (scene.getListOfGameObjects()[i] instanceof Ground) {
                 return i
             }
         }
         return 0
     }
 
-    public update(deltaTime: number): void {
+    public update(_deltaTime: number): void {
         const lastIndex = this.findLastGround(SceneManager.getInstance().getScene('gamePlay'))
         const firstIndex = this.findFirstGround(SceneManager.getInstance().getScene('gamePlay'))
 
-        const firstGroundObject: Ground = SceneManager.getInstance().getScene('gamePlay')
-            .listOfGameObjects[firstIndex] as Ground
-        const lastGroundObject: Ground = SceneManager.getInstance().getScene('gamePlay')
-            .listOfGameObjects[lastIndex] as Ground
+        const firstGroundObject: Ground = SceneManager.getInstance()
+            .getScene('gamePlay')
+            .getListOfGameObjects()[firstIndex] as Ground
+        const lastGroundObject: Ground = SceneManager.getInstance()
+            .getScene('gamePlay')
+            .getListOfGameObjects()[lastIndex] as Ground
 
         if (
             firstGroundObject.getCanvasPosition().getX() + firstGroundObject.getCanvasWidth() <=
             0
         ) {
-            this.listOfGameObjects.splice(0, 1)
+            this.getListOfGameObjects().splice(0, 1)
             const newGround = new Ground(
                 firstGroundObject.getImage(),
                 firstGroundObject.getTransform(),
@@ -60,14 +62,14 @@ class GroundManager extends GameObjectManager<Ground> {
             newGround.setSpeed(firstGroundObject.getSpeed())
             newGround.setLayer(firstGroundObject.getLayer())
 
-            this.listOfGameObjects.push(newGround)
+            this.getListOfGameObjects().push(newGround)
             SceneManager.getInstance().getScene('gamePlay').addGameObject(newGround)
             SceneManager.getInstance().getScene('gamePlay').removeGameObject(firstGroundObject)
         }
     }
 
     public destroy(): void {
-        this.listOfGameObjects.forEach((ground) => ground.destroy())
+        this.getListOfGameObjects().forEach((ground) => ground.destroy())
     }
 }
 

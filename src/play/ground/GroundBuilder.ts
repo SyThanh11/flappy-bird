@@ -10,12 +10,12 @@ class GroundBuilder implements ObjectBuilder {
     constructor() {
         this.ground = new Ground(
             ResourceManager.getInstance().getImage(12),
-            listOfInputs.listOfGroundsInfo.groundInfo.position,
-            listOfInputs.listOfGroundsInfo.groundInfo.width,
-            listOfInputs.listOfGroundsInfo.groundInfo.height,
-            listOfInputs.listOfGroundsInfo.groundInfo.canvasPosition,
-            listOfInputs.listOfGroundsInfo.groundInfo.canvasWidth,
-            listOfInputs.listOfGroundsInfo.groundInfo.canvasHeight
+            listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.POSITION,
+            listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.WIDTH,
+            listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.HEIGHT,
+            listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.CANVAS_POSITION,
+            listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.CANVAS_WIDTH,
+            listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.CANVAS_HEIGHT
         )
     }
 

@@ -1,6 +1,6 @@
 import Scene from '../../engine/scene/Scene'
 import SceneManager from '../../engine/scene/SceneManager'
-import BirdBuilder from '../Bird/BirdBuilder'
+import BirdBuilder from '../bird/BirdBuilder'
 import BackgroundManagerBuilder from '../background/BackgroundManagerBuilder'
 import GroundManagerBuilder from '../ground/GroundManagerBuilder'
 import MessageBuilder from '../message/MessageBuilder'

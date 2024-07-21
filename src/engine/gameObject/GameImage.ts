@@ -2,9 +2,10 @@ import CanvasView from '../view/CanvasView'
 import GameObject from './GameObject'
 
 class GameImage extends GameObject {
-    public view: CanvasView = new CanvasView('canvas')
+    private view: CanvasView = new CanvasView('canvas')
 
     public draw(): void {
+        super.draw(this.view.getCtx(), this.view.getCanvas())
         this.view
             .getCtx()
             .drawImage(
@@ -18,6 +19,10 @@ class GameImage extends GameObject {
                 this.getCanvasWidth(),
                 this.getCanvasHeight()
             )
+    }
+
+    public getView(): CanvasView {
+        return this.view
     }
 }
 
