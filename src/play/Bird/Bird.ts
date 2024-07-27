@@ -51,7 +51,7 @@ class Bird extends GameImage {
     }
 
     public update(deltaTime: number): void {
-        this.sprite.playAnimation()
+        this.sprite.update(deltaTime)
         this.setImage(this.sprite.getImage())
 
         if (this.rigid) {

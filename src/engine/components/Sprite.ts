@@ -2,7 +2,6 @@ class Sprite {
     private fps = 60
     private currentFrameIndex = 0
     private lastFrameTime = 0
-
     private listOfImages: HTMLImageElement[] = []
 
     constructor() {}
@@ -23,16 +22,15 @@ class Sprite {
         return this.listOfImages[this.currentFrameIndex]
     }
 
-    public playAnimation(): void {
-        const interval = 1000 / this.fps
+    public update(deltaTime: number): void {
+        const frameInterval = 1000 / this.fps
 
-        const animate = (timestamp: number) => {
-            if (timestamp - this.lastFrameTime >= interval) {
-                this.currentFrameIndex = (this.currentFrameIndex + 1) % this.listOfImages.length
-                this.lastFrameTime = timestamp
-            }
+        this.lastFrameTime += deltaTime * 1000
+
+        if (this.lastFrameTime >= frameInterval) {
+            this.currentFrameIndex = (this.currentFrameIndex + 1) % this.listOfImages.length
+            this.lastFrameTime = 0
         }
-        requestAnimationFrame(animate)
     }
 }
 
