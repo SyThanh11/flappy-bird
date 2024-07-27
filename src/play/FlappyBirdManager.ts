@@ -15,16 +15,17 @@ class FlappyBirdManager extends Engine {
         const playScene = new PlayScene()
         const readyScene = new ReadyScene()
         const gameOverScene = new OverScene()
-        SceneManager.getInstance().addScene('gamePlay', playScene)
+
+        SceneManager.getInstance().addScene('preload', preloadScene)
         SceneManager.getInstance().addScene('ready', readyScene)
+        SceneManager.getInstance().addScene('gamePlay', playScene)
         SceneManager.getInstance().addScene('gameOver', gameOverScene)
-        SceneManager.getInstance().getScene('preload').setIsActive(true)
 
         MouseEventHandler.getInstance().addScene(playScene)
         MouseEventHandler.getInstance().addScene(readyScene)
         MouseEventHandler.getInstance().addScene(gameOverScene)
-        MouseEventHandler.getInstance().addScene(preloadScene)
 
+        SceneManager.getInstance().getScene('preload').setIsActive(true)
         SceneManager.getInstance().getScene('ready').setIsActive(true)
     }
 }

@@ -1,12 +1,11 @@
 import Transform from '../components/Transform'
 import Vector2D from '../components/Vector2D'
-import ResourceManager from '../controller/ResourceManager'
 import GameObject from './GameObject'
 
 class Text extends GameObject {
-    private resultImages: Map<string, HTMLImageElement>
-    private content: string
-    private positionOffset: Vector2D
+    protected resultImages: Map<string, HTMLImageElement>
+    protected content: string
+    protected positionOffset: Vector2D
 
     constructor(
         image: HTMLImageElement,
@@ -21,33 +20,6 @@ class Text extends GameObject {
         super(image, transform, width, height, canvasTransform, canvasWidth, canvasHeight)
         this.resultImages = new Map()
         this.positionOffset = positionOffset
-    }
-
-    public setContent(content: string): void {
-        this.content = content
-        this.loadImage()
-    }
-
-    public loadImage() {
-        if (!this.content || this.content.length === 0) return
-
-        for (let i = 0; i < this.content.length; i++) {
-            const char = this.content.charAt(i)
-
-            if (
-                !this.resultImages.has(char) &&
-                ResourceManager.getInstance().getNumberImage().has(char)
-            ) {
-                const image = ResourceManager.getInstance().getNumberImage().get(char)
-                if (image instanceof HTMLImageElement) {
-                    this.resultImages.set(char, image)
-                } else {
-                    console.warn(
-                        `Image for character '${char}' is not an instance of HTMLImageElement.`
-                    )
-                }
-            }
-        }
     }
 
     public addImage(name: string, image: HTMLImageElement): void {

@@ -9,7 +9,7 @@ class PipeBuilder implements ObjectBuilder {
 
     constructor() {
         new Pipe(
-            ResourceManager.getInstance().getImage(15),
+            ResourceManager.getInstance().getImageByKey('pipe-green-down'),
             listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.POSITION,
             listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.WIDTH,
             listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.HEIGHT,

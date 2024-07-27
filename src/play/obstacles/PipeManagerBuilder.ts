@@ -12,7 +12,7 @@ class PipeManagerBuilder implements ObjectManagerBuilder<Pipe> {
         this.listOfPipes = new PipeManager(
             listOfInputs.LIST_OF_PIPES_INFO.NUMBER_OF_PIPES,
             new Pipe(
-                ResourceManager.getInstance().getImage(15),
+                ResourceManager.getInstance().getImageByKey('pipe-green-down'),
                 listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.POSITION,
                 listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.WIDTH,
                 listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.HEIGHT,
@@ -24,7 +24,7 @@ class PipeManagerBuilder implements ObjectManagerBuilder<Pipe> {
             Pipe,
             listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.CANVAS_POSITION.getPosition(),
             listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.SPACE,
-            ResourceManager.getInstance().getImage(16)
+            ResourceManager.getInstance().getImageByKey('pipe-green')
         )
         this.listOfPipes.setAllSpeed(listOfInputs.LIST_OF_PIPES_INFO.PIPE_INFO.SPEED)
     }

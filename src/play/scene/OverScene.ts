@@ -17,11 +17,9 @@ class OverScene extends Scene {
 
     constructor() {
         super()
-
-        this.createObjects()
     }
 
-    public createObjects(): void {
+    public create(): void {
         const gameOverMessageBuilder = new GameOverMessageBuilder()
         const boardBuilder = new BoardBuilder()
         const buttonBuilder = new ButtonBuilder()

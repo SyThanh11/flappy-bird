@@ -13,7 +13,7 @@ class GroundManagerBuilder implements ObjectManagerBuilder<Ground> {
         this.listOfGrounds = new GroundManager(
             listOfInputs.LIST_OF_GROUNDS_INFO.NUMBER_OF_GROUNDS,
             new Ground(
-                ResourceManager.getInstance().getImage(12),
+                ResourceManager.getInstance().getImageByKey('ground'),
                 listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.POSITION,
                 listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.WIDTH,
                 listOfInputs.LIST_OF_GROUNDS_INFO.GROUND_INFO.HEIGHT,

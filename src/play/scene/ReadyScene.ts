@@ -8,11 +8,9 @@ import MessageBuilder from '../message/MessageBuilder'
 class ReadyScene extends Scene {
     constructor() {
         super()
-
-        this.createObjects()
     }
 
-    public createObjects(): void {
+    public create(): void {
         // Constructor
         const birdBuilder = new BirdBuilder()
         const listOfBackgroundsBuilder = new BackgroundManagerBuilder()

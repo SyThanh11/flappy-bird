@@ -11,7 +11,7 @@ class MessageBuilder implements ObjectBuilder {
 
     constructor() {
         this.message = new GameImage(
-            ResourceManager.getInstance().getImage(14),
+            ResourceManager.getInstance().getImageByKey('message'),
             listOfInputs.MESSAGE_INFO.POSITION,
             listOfInputs.MESSAGE_INFO.WIDTH,
             listOfInputs.MESSAGE_INFO.HEIGHT,

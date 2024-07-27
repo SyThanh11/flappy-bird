@@ -39,9 +39,9 @@ class Bird extends GameImage {
 
     private initSpriteAnimation(): void {
         const listOfImages: HTMLImageElement[] = [
-            ResourceManager.getInstance().getImage(18),
-            ResourceManager.getInstance().getImage(19),
-            ResourceManager.getInstance().getImage(20),
+            ResourceManager.getInstance().getImageByKey('yellowbird-downflap'),
+            ResourceManager.getInstance().getImageByKey('yellowbird-midflap'),
+            ResourceManager.getInstance().getImageByKey('yellowbird-upflap'),
         ]
 
         listOfImages.forEach((image) => {

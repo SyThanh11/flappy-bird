@@ -1,5 +1,6 @@
 import Transform from '../../engine/components/Transform'
 import Vector2D from '../../engine/components/Vector2D'
+import ResourceManager from '../../engine/controller/ResourceManager'
 import Text from '../../engine/gameObject/Text'
 import Scene from '../../engine/scene/Scene'
 
@@ -51,6 +52,33 @@ class Score extends Text {
 
     public addToScene(scene: Scene): void {
         scene.addGameObject(this)
+    }
+
+    public setContent(content: string): void {
+        this.content = content
+        this.loadImage()
+    }
+
+    public loadImage() {
+        if (!this.content || this.content.length === 0) return
+
+        for (let i = 0; i < this.content.length; i++) {
+            const char = this.content.charAt(i)
+
+            if (
+                !this.resultImages.has(char) &&
+                ResourceManager.getInstance().getMapImage().has(char)
+            ) {
+                const image = ResourceManager.getInstance().getMapImage().get(char)
+                if (image instanceof HTMLImageElement) {
+                    this.resultImages.set(char, image)
+                } else {
+                    console.warn(
+                        `Image for character '${char}' is not an instance of HTMLImageElement.`
+                    )
+                }
+            }
+        }
     }
 }
 

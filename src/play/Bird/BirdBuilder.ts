@@ -11,7 +11,7 @@ class BirdBuilder implements ObjectBuilder {
 
     constructor() {
         this.bird = new Bird(
-            ResourceManager.getInstance().getImage(18),
+            ResourceManager.getInstance().getImageByKey('yellowbird-downflap'),
             listOfInputs.BIRD_INFO.POSITION,
             listOfInputs.BIRD_INFO.WIDTH,
             listOfInputs.BIRD_INFO.HEIGHT,

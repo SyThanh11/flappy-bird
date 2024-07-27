@@ -6,7 +6,12 @@ class Scene {
 
     constructor() {
         this.listOfGameObjects = []
+        this.init()
+        this.create()
     }
+
+    public init() {}
+    public create() {}
 
     public addGameObject(gameObject: GameObject) {
         gameObject.start()

@@ -19,11 +19,9 @@ class PlayScene extends Scene {
 
     constructor() {
         super()
-
-        this.createObjects()
     }
 
-    public createObjects(): void {
+    public create(): void {
         // Constructor
         const birdBuilder = new BirdBuilder()
         this.listOfBackgroundsBuilder = new BackgroundManagerBuilder()

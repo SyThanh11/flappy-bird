@@ -11,7 +11,7 @@ class BoardBuilder implements ObjectBuilder {
 
     constructor() {
         this.board = new GameImage(
-            ResourceManager.getInstance().getImage(17),
+            ResourceManager.getInstance().getImageByKey('sprite'),
             listOfInputs.BOARD_INFO.POSITION,
             listOfInputs.BOARD_INFO.WIDTH,
             listOfInputs.BOARD_INFO.HEIGHT,

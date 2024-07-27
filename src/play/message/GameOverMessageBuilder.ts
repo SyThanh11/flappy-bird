@@ -11,7 +11,7 @@ class GameOverMessageBuilder implements ObjectBuilder {
 
     constructor() {
         this.gameOverMessage = new GameImage(
-            ResourceManager.getInstance().getImage(17),
+            ResourceManager.getInstance().getImageByKey('sprite'),
             listOfInputs.GAME_OVER_MESSAGE_INFO.POSITION,
             listOfInputs.GAME_OVER_MESSAGE_INFO.WIDTH,
             listOfInputs.GAME_OVER_MESSAGE_INFO.HEIGHT,

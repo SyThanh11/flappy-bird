@@ -11,7 +11,7 @@ class ButtonBuilder implements ObjectBuilder {
 
     constructor() {
         this.button = new Button(
-            ResourceManager.getInstance().getImage(17),
+            ResourceManager.getInstance().getImageByKey('sprite'),
             listOfInputs.BUTTON_INFO.POSITION,
             listOfInputs.BUTTON_INFO.WIDTH,
             listOfInputs.BUTTON_INFO.HEIGHT,
